@@ -424,7 +424,7 @@ body:hover .pip-top-bar, .pip-top-bar:focus-within { opacity:1; }
         <span class="aot-badge">Instant · Always on Top</span>
       </button>
       <div class="widget-action-grid">
-        <button class="primary-btn" data-action="download-native-aot-launcher" title="Downloads a native desktop widget launcher (.bat for Windows / .command for Mac) that runs frameless, transparent, and Always-On-Top">↓ Download Frameless Desktop App (No BG + Always on Top)</button>
+        <button class="primary-btn" data-action="download-native-aot-launcher" title="Get the Bloom Studio desktop widget installer">↓ Download Frameless Desktop App (No BG + Always on Top)</button>
         <button class="outline-btn" data-action="download-desktop-widget" title="Downloads the self-contained 3D widget HTML with built-in Always-On-Top pinning">↓ Download 3D Widget File (.html)</button>
         <button class="outline-btn" data-action="toggle-widget-mode">◌ Preview No-Background Mode Here</button>
         <button class="outline-btn" data-action="snapshot-transparent">◎ Save Transparent 3D PNG</button>
@@ -3140,83 +3140,11 @@ async function launchAlwaysOnTopWidget(){
   popoutDesktopWidget();
 }
 
-/**
- * Generates and downloads a zero-install Native Frameless Transparent Always-On-Top Desktop Widget Launcher.
- * - On Windows: generates a `.bat` + PowerShell/WebView/Edge-App/Electron-compatible transparent frameless widget runner
- *   that sets the native Win32 TOPMOST flag (`SetWindowPos(..., HWND_TOPMOST, ...)`) so it floats above all windows.
- * - On macOS: generates a `.command` script that launches a frameless Always-On-Top desktop widget window.
- */
+// Pass the current bouquet from the studio's private state into the installer dialog.
 function downloadNativeAlwaysOnTopLauncher(){
-  try {
-    const htmlContent = buildStandaloneWidgetHTML();
-    const htmlBase64 = btoa(unescape(encodeURIComponent(htmlContent)));
-    const slug = String(state.gift.recipient || 'loved-one').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'loved-one';
-    const isMac = /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
-
-    if (isMac) {
-      // macOS .command launcher: extracts the 3D widget and opens it in a dedicated frameless app window + activates Always-on-Top PiP
-      const macScript = [
-        '#!/bin/bash',
-        '# Bloom Studio — Interactive 3D Bouquet Desktop Widget (No Background + Always On Top)',
-        'WIDGET_DIR="$HOME/.bloom-studio-widget"',
-        'mkdir -p "$WIDGET_DIR"',
-        `WIDGET_FILE="$WIDGET_DIR/3d-bouquet-${slug}.html"`,
-        `echo "${htmlBase64}" | base64 --decode > "$WIDGET_FILE"`,
-        'if [ -d "/Applications/Google Chrome.app" ]; then',
-        '  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --app="file://$WIDGET_FILE" --window-size=400,520 --new-window >/dev/null 2>&1 &',
-        'elif [ -d "/Applications/Brave Browser.app" ]; then',
-        '  "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --app="file://$WIDGET_FILE" --window-size=400,520 --new-window >/dev/null 2>&1 &',
-        'else',
-        '  open "$WIDGET_FILE"',
-        'fi',
-        'echo "Launched 3D Bouquet Desktop Widget! Click [Pin On Top] inside the widget to float above all windows."'
-      ].join('\n');
-
-      const blob = new Blob([macScript], { type: 'application/x-sh;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Launch-3D-Bouquet-Widget-${slug}.command`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1500);
-      toast('Downloaded macOS 3D Desktop Widget Launcher (.command)!');
-    } else {
-      // Windows .bat launcher: writes the self-contained 3D widget HTML, launches it in frameless app mode,
-      // and uses native Win32 SetWindowPos(HWND_TOPMOST) via built-in PowerShell so the window sits ABOVE ALL WINDOWS!
-      const winBatch = [
-        '@echo off',
-        'title Bloom Studio 3D Desktop Widget',
-        'set "WIDGET_HTML=%TEMP%\\bloom-3d-bouquet-' + slug + '.html"',
-        'powershell -NoProfile -ExecutionPolicy Bypass -Command ^',
-        '  "$b64 = \'' + htmlBase64 + '\'; ^',
-        '   [IO.File]::WriteAllBytes($env:WIDGET_HTML, [Convert]::FromBase64String($b64)); ^',
-        '   $edge = (Get-Command msedge.exe -ErrorAction SilentlyContinue).Source; ^',
-        '   if (-not $edge) { $edge = \'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\' }; ^',
-        '   $p = Start-Process -FilePath $edge -ArgumentList (\'--app=file:///\' + ($env:WIDGET_HTML -replace \'\\\\\',\'/\') + \' --window-size=410,530\') -PassThru; ^',
-        '   Start-Sleep -Milliseconds 1400; ^',
-        '   Add-Type -TypeDefinition \'using System; using System.Runtime.InteropServices; public class Win32 { [DllImport(\\\"user32.dll\\\")] public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags); }\'; ^',
-        '   $procs = Get-Process msedge -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -like \'*3D Bouquet*\' }; ^',
-        '   foreach ($pr in $procs) { [Win32]::SetWindowPos($pr.MainWindowHandle, [IntPtr](-1), 0, 0, 0, 0, 0x0001 -bor 0x0002) | Out-Null }"',
-        'exit'
-      ].join('\r\n');
-
-      const blob = new Blob([winBatch], { type: 'application/bat;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `3D-Bouquet-Desktop-Widget-${slug}.bat`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1500);
-      toast('Downloaded Windows Always-On-Top 3D Desktop Widget (.bat)!');
-    }
-  } catch (e) {
-    console.warn(e);
-    downloadDesktopWidget();
-  }
+  const payload = encodeGiftPayload({widgetMode:true,transparentBg:true,turntable:true,previewGift:true});
+  if (window.bloomDesktop) { window.bloomDesktop.openWidget(payload); return; }
+  if (typeof window.openBloomDesktopDialog === 'function') window.openBloomDesktopDialog(payload);
 }
 
 function downloadDesktopWidget(){
@@ -3429,11 +3357,10 @@ window.addEventListener('resize',resizeCanvas,{passive:true});document.addEventL
 /* Where recipients download the one-click desktop widget installer.
    Point these at your published installers (see desktop-widget/README.md). */
 window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
-  windows: "https://github.com/YOUR-GITHUB-NAME/YOUR-REPO/releases/latest/download/BloomStudio-Widget-Setup.exe",
-  mac: "https://github.com/YOUR-GITHUB-NAME/YOUR-REPO/releases/latest/download/BloomStudio-Widget.dmg"
+  windows: "",
+  mac: ""
 };
 (function(){
-  const isDesktopApp = !!window.bloomDesktop;
   const style = document.createElement('style');
   style.textContent = `
     [data-action="download-desktop-widget"]{display:none!important}
@@ -3453,21 +3380,26 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
 
   function relabel(){
     document.querySelectorAll('[data-action="download-native-aot-launcher"]').forEach(b=>{
-      if(b.classList.contains('widget-dock-btn')) b.textContent='↓ Keep on desktop';
-      else b.textContent='♡ Keep this bouquet on my desktop';
+      const label = b.classList.contains('widget-dock-btn') ? '↓ Keep on desktop' : '♡ Keep this bouquet on my desktop';
+      if (b.textContent !== label) b.textContent = label;
       b.title='Install the Bloom Studio widget: a see-through bouquet that stays above every window';
     });
   }
   relabel();
   new MutationObserver(relabel).observe(document.body,{childList:true,subtree:true});
 
-  window.downloadNativeAlwaysOnTopLauncher = function(){
-    if (isDesktopApp) { window.bloomDesktop.openWidget(encodeGiftPayload({widgetMode:true,transparentBg:true,turntable:true,previewGift:true})); return; }
-    const payload = encodeGiftPayload({widgetMode:true,transparentBg:true,turntable:true,previewGift:true});
+  window.openBloomDesktopDialog = function(payload){
+    document.querySelectorAll(".bw-backdrop").forEach(dialog => dialog.remove());
     const deepLink = 'bloomstudio://open#widget=' + payload;
     const isMac = /Mac/i.test(navigator.platform || navigator.userAgent);
     const dl = isMac ? window.BLOOM_DOWNLOADS.mac : window.BLOOM_DOWNLOADS.windows;
     const other = isMac ? window.BLOOM_DOWNLOADS.windows : window.BLOOM_DOWNLOADS.mac;
+    const installerUrl = value => {
+      try { const url = new URL(value); return url.protocol === 'https:' && !url.pathname.includes('YOUR-') ? url.href : ''; }
+      catch { return ''; }
+    };
+    const downloadUrl = installerUrl(dl);
+    const otherUrl = installerUrl(other);
     const el = document.createElement('div');
     el.className='bw-backdrop';
     el.innerHTML = `<div class="bw-card" role="dialog" aria-modal="true">
@@ -3475,8 +3407,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
       <h3>Keep it on your desktop</h3>
       <p>Your bouquet will float on your screen with no background, above every window. Spin it, zoom in, and watch it bloom anytime.</p>
       <div class="bw-step"><div class="bw-num">1</div><div><strong>Get the Bloom Studio widget</strong>
-        <a class="bw-btn" href="${dl}" download>↓ Download for ${isMac?'Mac':'Windows'}</a>
-        <div class="bw-small">Open the file once to install. <a href="${other}" style="color:#A9636E">${isMac?'Windows':'Mac'} version</a></div></div></div>
+        ${downloadUrl ? `<a class="bw-btn" href="${downloadUrl}" download>↓ Download for ${isMac?'Mac':'Windows'}</a><div class="bw-small">Open the installer once.${otherUrl ? ` <a href="${otherUrl}">${isMac?'Windows':'Mac'} version</a>` : ''}</div>` : `<p role="status">The ${isMac?'Mac':'Windows'} installer is not available yet. Your bouquet is still available in your browser.</p>`}</div></div>
       <div class="bw-step"><div class="bw-num">2</div><div><strong>Place your bouquet on the desktop</strong>
         <a class="bw-btn" href="${deepLink}">✿ Open my bouquet in the widget</a>
         <div class="bw-small">Already installed? Just tap this button. Your browser may ask to open Bloom Studio — choose Open.</div></div></div>
