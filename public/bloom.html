@@ -3424,5 +3424,67 @@ window.addEventListener('resize',resizeCanvas,{passive:true});document.addEventL
 <style data-sites-preview-theme>:root{--site-background:#ede5fc !important;--site-on-background:#000000 !important;--site-font-body:system-ui,sans-serif !important;--site-font-heading:Georgia,serif !important}</style>
 <script type="application/json" data-sites-preview-theme>{"appearance":"custom","primary":null,"secondary":null,"background":"#ede5fc","typography":"editorial","spacing":null,"roundness":null,"headingScale":1,"decorationOpacity":null}</script>
 <!--sites-preview-theme:end-->
+<!-- Bloom Studio gift + desktop widget integration -->
+<script>
+/* Where recipients download the one-click desktop widget installer.
+   Point these at your published installers (see desktop-widget/README.md). */
+window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
+  windows: "https://github.com/YOUR-GITHUB-NAME/YOUR-REPO/releases/latest/download/BloomStudio-Widget-Setup.exe",
+  mac: "https://github.com/YOUR-GITHUB-NAME/YOUR-REPO/releases/latest/download/BloomStudio-Widget.dmg"
+};
+(function(){
+  const isDesktopApp = !!window.bloomDesktop;
+  const style = document.createElement('style');
+  style.textContent = `
+    [data-action="download-desktop-widget"]{display:none!important}
+    .bw-backdrop{position:fixed;inset:0;z-index:120;background:rgba(30,27,24,.5);backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px}
+    .bw-card{width:min(460px,100%);background:#FFFEFC;color:#292925;border-radius:20px;padding:26px;box-shadow:0 30px 80px #0004;font-family:var(--site-font-body)}
+    .bw-card h3{font-family:var(--site-font-heading);font-size:26px;margin:0 0 6px;letter-spacing:-.4px}
+    .bw-card p{font-size:13px;line-height:1.55;color:#5F5A53;margin:0 0 16px}
+    .bw-step{display:flex;gap:12px;align-items:flex-start;border:1px solid #E5DED5;border-radius:14px;padding:14px;margin-bottom:10px}
+    .bw-num{flex:0 0 26px;height:26px;border-radius:50%;background:#C88791;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+    .bw-step strong{display:block;font-size:13px;margin-bottom:8px}
+    .bw-btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;background:linear-gradient(135deg,#C47D88,#A9636E);color:#fff}
+    .bw-btn.ghost{background:transparent;color:#292925;border:1px solid #E5DED5}
+    .bw-small{font-size:11px;color:#817B73;margin-top:6px}
+    .bw-close{float:right;border:1px solid #E5DED5;background:transparent;border-radius:10px;width:32px;height:32px;cursor:pointer}
+  `;
+  document.head.appendChild(style);
+
+  function relabel(){
+    document.querySelectorAll('[data-action="download-native-aot-launcher"]').forEach(b=>{
+      if(b.classList.contains('widget-dock-btn')) b.textContent='↓ Keep on desktop';
+      else b.textContent='♡ Keep this bouquet on my desktop';
+      b.title='Install the Bloom Studio widget: a see-through bouquet that stays above every window';
+    });
+  }
+  relabel();
+  new MutationObserver(relabel).observe(document.body,{childList:true,subtree:true});
+
+  window.downloadNativeAlwaysOnTopLauncher = function(){
+    if (isDesktopApp) { window.bloomDesktop.openWidget(encodeGiftPayload({widgetMode:true,transparentBg:true,turntable:true,previewGift:true})); return; }
+    const payload = encodeGiftPayload({widgetMode:true,transparentBg:true,turntable:true,previewGift:true});
+    const deepLink = 'bloomstudio://open#widget=' + payload;
+    const isMac = /Mac/i.test(navigator.platform || navigator.userAgent);
+    const dl = isMac ? window.BLOOM_DOWNLOADS.mac : window.BLOOM_DOWNLOADS.windows;
+    const other = isMac ? window.BLOOM_DOWNLOADS.windows : window.BLOOM_DOWNLOADS.mac;
+    const el = document.createElement('div');
+    el.className='bw-backdrop';
+    el.innerHTML = `<div class="bw-card" role="dialog" aria-modal="true">
+      <button class="bw-close" aria-label="Close">✕</button>
+      <h3>Keep it on your desktop</h3>
+      <p>Your bouquet will float on your screen with no background, above every window. Spin it, zoom in, and watch it bloom anytime.</p>
+      <div class="bw-step"><div class="bw-num">1</div><div><strong>Get the Bloom Studio widget</strong>
+        <a class="bw-btn" href="${dl}" download>↓ Download for ${isMac?'Mac':'Windows'}</a>
+        <div class="bw-small">Open the file once to install. <a href="${other}" style="color:#A9636E">${isMac?'Windows':'Mac'} version</a></div></div></div>
+      <div class="bw-step"><div class="bw-num">2</div><div><strong>Place your bouquet on the desktop</strong>
+        <a class="bw-btn" href="${deepLink}">✿ Open my bouquet in the widget</a>
+        <div class="bw-small">Already installed? Just tap this button. Your browser may ask to open Bloom Studio — choose Open.</div></div></div>
+    </div>`;
+    el.addEventListener('click', e=>{ if(e.target===el || e.target.classList.contains('bw-close')) el.remove(); });
+    document.body.appendChild(el);
+  };
+})();
+</script>
 </body>
 </html>
