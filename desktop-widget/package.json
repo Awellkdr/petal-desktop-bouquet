@@ -1,0 +1,26 @@
+{
+  "name": "bloom-studio-widget",
+  "productName": "Bloom Studio",
+  "version": "1.0.0",
+  "description": "Your Bloom Studio bouquet, floating on your desktop.",
+  "main": "main.js",
+  "author": "Bloom Studio",
+  "scripts": {
+    "prepare-app": "node -e \"require('fs').mkdirSync('app',{recursive:true});require('fs').copyFileSync('../public/bloom.html','app/bloom.html')\"",
+    "start": "npm run prepare-app && electron .",
+    "dist": "npm run prepare-app && electron-builder --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "studio.bloom.widget",
+    "productName": "Bloom Studio",
+    "files": ["main.js", "preload.js", "app/**", "build/**"],
+    "protocols": [{ "name": "Bloom Studio", "schemes": ["bloomstudio"] }],
+    "win": { "target": "nsis", "artifactName": "BloomStudio-Widget-Setup.exe" },
+    "nsis": { "oneClick": true, "perMachine": false, "runAfterFinish": true },
+    "mac": { "target": "dmg", "category": "public.app-category.lifestyle", "artifactName": "BloomStudio-Widget.dmg" }
+  }
+}

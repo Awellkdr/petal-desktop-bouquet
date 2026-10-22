@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- The 3D studio lives as a self-contained static page (public/bloom.html); / redirects there. Why: preserves the original WebGL app untouched.
+- desktop-widget/ is an Electron app built by GitHub Actions into one-click installers; gifts reach it via the bloomstudio:// link. Why: browsers cannot create transparent always-on-top desktop windows.
