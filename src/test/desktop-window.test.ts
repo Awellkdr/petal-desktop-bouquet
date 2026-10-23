@@ -20,27 +20,29 @@ function startWindow() {
     require: (name: string) => name === "electron" ? electron : name === "path" ? { join: (...parts: string[]) => parts.join("/") } : {},
     __dirname: "desktop-widget",
   });
-  return { config: options[0], window };
+  const config = options[0];
+  if (!config) throw new Error("The native bouquet window was not created");
+  return { config, window };
 }
 
 describe("Native desktop bouquet window", () => {
   it("has no frame, shadow, or background", () => {
     const { config } = startWindow();
-    expect(config.transparent).toBe(true);
-    expect(config.frame).toBe(false);
-    expect(config.hasShadow).toBe(false);
-    expect(config.backgroundColor).toBe("#00000000");
+    expect(config['transparent']).toBe(true);
+    expect(config['frame']).toBe(false);
+    expect(config['hasShadow']).toBe(false);
+    expect(config['backgroundColor']).toBe("#00000000");
   });
 
   it("stays above other windows and appears across workspaces", () => {
     const { config, window } = startWindow();
-    expect(config.alwaysOnTop).toBe(true);
+    expect(config['alwaysOnTop']).toBe(true);
     expect(window.setAlwaysOnTop).toHaveBeenCalledWith(true, "screen-saver");
     expect(window.setVisibleOnAllWorkspaces).toHaveBeenCalledWith(true, { visibleOnFullScreen: true });
   });
 
   it("keeps the bouquet renderer isolated from Node", () => {
     const { config } = startWindow();
-    expect(config.webPreferences).toMatchObject({ contextIsolation: true, nodeIntegration: false });
+    expect(config['webPreferences']).toMatchObject({ contextIsolation: true, nodeIntegration: false });
   });
 });
