@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Petal Desktop Bouquet
+
+i want for Bloom Studio. ❤️ The recipient should receive a beautiful gift link, open it in their browser, discover the interactive 3D bouquet, and then choose to keep that interactive 3d bouquet on their desktop as a widget as a transparent with no backround and stay on top of every window  .
+
+They should never have to install Node.js, open a terminal, or run a .bat file themselves. Those are development steps, not part of the gift experience.
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/eaa539e1-10d0-4ec3-85ca-a046457d8073).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
