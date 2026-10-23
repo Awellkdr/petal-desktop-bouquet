@@ -3203,6 +3203,13 @@ function exportTransparentPNG(){
 }
 
 function maybeLoadHash(){
+  // The native app must never start as the full editor, even before its first gift arrives.
+  if (window.bloomDesktop) {
+    state.widgetMode = true;
+    state.transparentBg = true;
+    state.previewGift = true;
+    state.turntable = true;
+  }
   try{
     const preset = window.__BLOOM_WIDGET_PRESET__;
     const h = location.hash || (preset ? `#widget=${preset}` : '');

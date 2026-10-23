@@ -43,7 +43,11 @@ function createWindow() {
     alwaysOnTop: true,
     resizable: true,
     skipTaskbar: true,
-    webPreferences: { preload: path.join(__dirname, "preload.js") },
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
   });
   win.setAlwaysOnTop(true, "screen-saver");
   win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
@@ -51,7 +55,9 @@ function createWindow() {
     win.webContents.insertCSS(`
       html, body, #app, #stage-wrap { background: transparent !important; }
       [data-action="launch-aot-widget"], [data-action="download-native-aot-launcher"],
-      [data-action="exit-widget-mode"], [data-action="download-desktop-widget"] { display: none !important; }
+      [data-action="exit-widget-mode"], [data-action="download-desktop-widget"],
+      [data-action="toggle-transparent-bg"], .scene-toolbar, .rotation-tip { display: none !important; }
+      .widget-floating-dock { max-width: calc(100vw - 36px); flex-wrap: wrap; }
       .widget-floating-dock { opacity: 0; transition: opacity .2s; }
       body:hover .widget-floating-dock { opacity: 1; }
     `);
