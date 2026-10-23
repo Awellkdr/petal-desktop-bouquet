@@ -23,4 +23,28 @@ describe("Desktop bouquet handoff", () => {
     expect(openWidget).toHaveBeenCalledWith("current-bouquet");
     expect(openBloomDesktopDialog).not.toHaveBeenCalled();
   });
+
+  it("starts the installed widget with no background even without a gift link", () => {
+    const start = html.indexOf("function maybeLoadHash(){");
+    const end = html.indexOf("\nmaybeLoadHash();", start);
+    const state = { widgetMode: false, transparentBg: false, previewGift: false, turntable: false };
+    runInNewContext(html.slice(start, end) + "\nmaybeLoadHash();", {
+      window: { bloomDesktop: {} }, state, location: { hash: "" },
+    });
+    expect(state.widgetMode).toBe(true);
+    expect(state.transparentBg).toBe(true);
+    expect(state.previewGift).toBe(true);
+    expect(state.turntable).toBe(true);
+  });
+
+  it("keeps a normal browser launch in the studio", () => {
+    const start = html.indexOf("function maybeLoadHash(){");
+    const end = html.indexOf("\nmaybeLoadHash();", start);
+    const state = { widgetMode: false, transparentBg: false };
+    runInNewContext(html.slice(start, end) + "\nmaybeLoadHash();", {
+      window: {}, state, location: { hash: "" },
+    });
+    expect(state.widgetMode).toBe(false);
+    expect(state.transparentBg).toBe(false);
+  });
 });
