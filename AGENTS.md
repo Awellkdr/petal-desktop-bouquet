@@ -12,3 +12,4 @@
 - The 3D studio lives as a self-contained static page (public/bloom.html); / is a landing page linking to it via #new (empty vase) and #preset=<id> (ready-made bouquets). Why: preserves the original WebGL app untouched.
 - desktop-widget/ is an Electron app built by GitHub Actions into one-click installers; gifts reach it via the bloomstudio:// link. Why: browsers cannot create transparent always-on-top desktop windows.
 - The isolated preload bridge identifies native launches, which always enter transparent widget mode before scene initialization, even without a gift payload. Why: first installation must not show the full studio or an opaque floor.
+- Landing live scenes use bloom.html?embed=1 with existing gift/preset hashes; catalog previews are captured from that same renderer. Why: the featured bouquet and ready-made previews match the actual studio without duplicating its 3D engine.
