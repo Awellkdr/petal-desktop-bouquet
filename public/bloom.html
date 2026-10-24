@@ -507,6 +507,31 @@ function starterState(){
 let state;
 try { const saved=localStorage.getItem('bloom-studio-state-v1'); if(saved){const parsed=JSON.parse(saved); if(parsed && Array.isArray(parsed.flowers) && parsed.vase) {state=Object.assign(starterState(),parsed,{section:'flowers',previewGift:false,widgetMode:false,transparentBg:false}); nextId=Math.max(1,...state.flowers.map(f=>parseInt(String(f.id).replace(/\D/g,''),10)||0))+1;}} } catch(e) {}
 if(!state) state=starterState();
+// Landing-page entry points: #new starts with an empty vase, #preset=<id> loads a ready-made bouquet.
+const BLOOM_PRESETS = {
+  'blush-romance': {vase:{shape:'round',color:'#D7A0A5',finish:'frosted'},palette:'romance',arrangement:'Soft and Romantic',density:'Balanced',studio:'daylight',stems:[['Rose','#D9909D',4],['Peony','#F1C7CF',3],['Rose','#F3E7D8',2]]},
+  'sunny-meadow': {vase:{shape:'cylinder',color:'#E9E0D2',finish:'matte'},palette:'spring',arrangement:'Garden Meadow',density:'Lush',studio:'daylight',stems:[['Sunflower','#E8B83F',3],['Daisy','#F5EEDF',5],['Tulip','#E8BD48',3]]},
+  'lavender-dream': {vase:{shape:'sculptural',color:'#B6A6C9',finish:'glossy'},palette:'neutral',arrangement:'Modern Sculptural',density:'Balanced',studio:'daylight',stems:[['Orchid','#BC89B8',3],['Tulip','#9C86BC',4],['Daisy','#B4A2CD',3]]},
+  'midnight-velvet': {vase:{shape:'tapered',color:'#477D7B',finish:'glossy'},palette:'velvet',arrangement:'Classic Round',density:'Lush',studio:'daylight',stems:[['Rose','#702A40',4],['Rose','#C94451',3],['Peony','#D68191',2]]},
+  'white-elegance': {vase:{shape:'tapered',color:'#D8DDD8',finish:'glass'},palette:'neutral',arrangement:'Tall and Elegant',density:'Minimal',studio:'daylight',stems:[['Lily','#F2DFE6',4],['Lily','#F4E9CB',2],['Tulip','#F3E7D8',2]]},
+  'tuscan-sunset': {vase:{shape:'ribbed',color:'#C88A4A',finish:'matte'},palette:'sunset',arrangement:'Classic Round',density:'Balanced',studio:'daylight',stems:[['Orchid','#F1E5D4',2],['Rose','#E8A17F',4],['Tulip','#E7785A',3]]}
+};
+const bloomEntry = location.hash;
+if(bloomEntry==='#new' || bloomEntry.startsWith('#preset=')){
+  state = starterState();
+  state.flowers = [];
+  if(bloomEntry.startsWith('#preset=')){
+    const p = BLOOM_PRESETS[bloomEntry.slice(8)];
+    if(p){
+      Object.assign(state,{vase:{...state.vase,...p.vase},palette:p.palette,arrangement:p.arrangement,studio:p.studio});
+      p.stems.forEach(([sp,color,n])=>{for(let k=0;k<n;k++){state.catalogColors[sp]=color;addFlower(sp);}});
+      arrange(p.arrangement);
+      setDensity(p.density);
+      state.selectedId=null;state.selectedGreenId=null;state.section='flowers';
+    }
+  }
+  history.replaceState(null,'',location.pathname+location.search);
+}
 let bloomAnim = { active: false, start: 0, factor: 1.0 };
 function triggerBloomAnimation(){
   bloomAnim.active = true;
