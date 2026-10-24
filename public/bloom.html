@@ -101,6 +101,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .flower-name { font-size:11px; font-weight:650; display:block; color:var(--ink); }
 .flower-desc { margin-top:4px; color:var(--muted); font-size:9px; display:block; }
 .add-button { width:29px; height:29px; flex:0 0 29px; border:1px solid var(--border); border-radius:9px; background:var(--surface); color:#A76F78; font-size:19px; font-weight:300; cursor:pointer; display:grid; place-items:center; line-height:1; }
+.qty{display:flex;align-items:center;gap:6px;}.qty-count{min-width:16px;text-align:center;font-size:12px;color:var(--muted);}.add-button:disabled{opacity:.35;cursor:default;}
 .add-button:hover { border-color:#C88791; background:#F6EBE8; }
 .swatch-row { display:flex; gap:7px; flex-wrap:wrap; align-items:center; }
 .swatch { width:21px; height:21px; border-radius:50%; background:var(--swatch); border:2px solid var(--surface); box-shadow:0 0 0 1px var(--border); cursor:pointer; padding:0; position:relative; }
@@ -507,6 +508,31 @@ function starterState(){
 let state;
 try { const saved=localStorage.getItem('bloom-studio-state-v1'); if(saved){const parsed=JSON.parse(saved); if(parsed && Array.isArray(parsed.flowers) && parsed.vase) {state=Object.assign(starterState(),parsed,{section:'flowers',previewGift:false,widgetMode:false,transparentBg:false}); nextId=Math.max(1,...state.flowers.map(f=>parseInt(String(f.id).replace(/\D/g,''),10)||0))+1;}} } catch(e) {}
 if(!state) state=starterState();
+// Landing-page entry points: #new starts with an empty vase, #preset=<id> loads a ready-made bouquet.
+const BLOOM_PRESETS = {
+  'blush-romance': {vase:{shape:'round',color:'#D7A0A5',finish:'frosted'},palette:'romance',arrangement:'Soft and Romantic',density:'Balanced',studio:'daylight',stems:[['Rose','#D9909D',4],['Peony','#F1C7CF',3],['Rose','#F3E7D8',2]]},
+  'sunny-meadow': {vase:{shape:'cylinder',color:'#E9E0D2',finish:'satin'},palette:'spring',arrangement:'Garden Meadow',density:'Lush',studio:'daylight',stems:[['Sunflower','#E8B83F',3],['Daisy','#F5EEDF',5],['Tulip','#E8BD48',3]]},
+  'lavender-dream': {vase:{shape:'sculptural',color:'#B6A6C9',finish:'satin'},palette:'neutral',arrangement:'Modern Sculptural',density:'Balanced',studio:'daylight',stems:[['Orchid','#BC89B8',3],['Tulip','#9C86BC',4],['Daisy','#B4A2CD',3]]},
+  'midnight-velvet': {vase:{shape:'tapered',color:'#477D7B',finish:'satin'},palette:'romance',arrangement:'Classic Round',density:'Lush',studio:'daylight',stems:[['Rose','#702A40',4],['Rose','#C94451',3],['Peony','#D68191',2]]},
+  'white-elegance': {vase:{shape:'tapered',color:'#D8DDD8',finish:'clear'},palette:'neutral',arrangement:'Tall and Elegant',density:'Minimal',studio:'daylight',stems:[['Lily','#F2DFE6',4],['Lily','#F4E9CB',2],['Tulip','#F3E7D8',2]]},
+  'tuscan-sunset': {vase:{shape:'ribbed',color:'#C88A4A',finish:'satin'},palette:'sunset',arrangement:'Classic Round',density:'Balanced',studio:'daylight',stems:[['Orchid','#F1E5D4',2],['Rose','#E8A17F',4],['Tulip','#E7785A',3]]}
+};
+const bloomEntry = location.hash;
+if(bloomEntry==='#new' || bloomEntry.startsWith('#preset=')){
+  state = starterState();
+  state.flowers = [];
+  if(bloomEntry.startsWith('#preset=')){
+    const p = BLOOM_PRESETS[bloomEntry.slice(8)];
+    if(p){
+      Object.assign(state,{vase:{...state.vase,...p.vase},palette:p.palette,arrangement:p.arrangement,studio:p.studio});
+      p.stems.forEach(([sp,color,n])=>{for(let k=0;k<n;k++){state.catalogColors[sp]=color;addFlower(sp);}});
+      arrange(p.arrangement);
+      setDensity(p.density);
+      state.selectedId=null;state.selectedGreenId=null;state.section='flowers';
+    }
+  }
+  history.replaceState(null,'',location.pathname+location.search);
+}
 let bloomAnim = { active: false, start: 0, factor: 1.0 };
 function triggerBloomAnimation(){
   bloomAnim.active = true;
@@ -555,7 +581,7 @@ function flowerPanel(){
   return `${sectionHeader('Build your bouquet','Choose your blooms','Start with a stem, then make the arrangement your own.')}
   <div class="panel-scroll"><div class="section-row"><span class="section-title">Flower library</span><span class="section-caption">${SPECIES.length} varieties</span></div>
   <div class="category-pills">${categories.map(c=>`<button class="pill ${state.flowerFilter===c?'active':''}" data-action="filter" data-value="${esc(c)}">${c}</button>`).join('')}</div>
-  <div class="flower-list">${list.map(s=>{const c=state.catalogColors[s.name]||s.colors[0][1];return `<div class="flower-row"><div class="bloom-icon" style="--bloom:${c};--center:${s.center}"><span></span></div><div class="flower-meta"><span class="flower-name">${s.name}</span><span class="flower-desc">${s.desc}</span></div><button class="add-button" data-action="add-flower" data-species="${s.name}" aria-label="Add ${s.name}" title="Add ${s.name}">+</button></div>`;}).join('')}</div>
+  <div class="flower-list">${list.map(s=>{const c=state.catalogColors[s.name]||s.colors[0][1];return `<div class="flower-row"><div class="bloom-icon" style="--bloom:${c};--center:${s.center}"><span></span></div><div class="flower-meta"><span class="flower-name">${s.name}</span><span class="flower-desc">${s.desc}</span></div><div class="qty">${(()=>{const n=state.flowers.filter(f=>f.species===s.name).length;return `<button class="add-button" data-action="remove-species" data-species="${s.name}" aria-label="Remove one ${s.name}" title="Remove one ${s.name}" ${n?'':'disabled'}>−</button><span class="qty-count">${n}</span>`;})()}<button class="add-button" data-action="add-flower" data-species="${s.name}" aria-label="Add ${s.name}" title="Add ${s.name}">+</button></div></div>`;}).join('')}</div>
   <div class="divider"></div><div class="section-row"><span class="section-title">Choose a color for new stems</span></div>
   ${SPECIES.map(s=>`<div class="control-block"><div class="range-top"><span>${s.name}</span><output>${esc((s.colors.find(c=>c[1]===state.catalogColors[s.name])||s.colors[0])[0])}</output></div>${htmlColorSwatches(s.colors,state.catalogColors[s.name],'catalog-color',s.name)}</div>`).join('')}
   <div class="divider"></div><div class="section-row"><span class="section-title">Color story</span><span class="section-caption">Whole bouquet</span></div>
@@ -2880,7 +2906,7 @@ function arrange(mode){state.arrangement=mode;const n=state.flowers.length;state
  else {r=.20+phase*.19;h=1.05+((i*7)%6)*.075;}
  f.spreadX=Math.cos(a)*r;f.spreadZ=Math.sin(a)*r*.72;f.spread=1;f.height=h;f.rotation=Math.sin(i*1.7)*.19;});
 }
-function addFlower(name){const s=species(name),i=state.flowers.length,a=i*2.39996+.25;const f={id:'f'+(nextId++),species:name,color:state.catalogColors[name]||s.colors[0][1],x:Math.cos(a)*.07,z:Math.sin(a)*.06,spreadX:Math.cos(a)*(.24+(i%4)*.055),spreadZ:Math.sin(a)*(.19+(i%4)*.045),spread:1,height:1.12+(i%5)*.085,rotation:Math.sin(i*1.7)*.16,scale:.88,phase:i*1.41};state.flowers.push(f);state.selectedId=f.id;state.selectedGreenId=null;state.section='arrange';}
+function addFlower(name){const s=species(name),i=state.flowers.length,a=i*2.39996+.25;const f={id:'f'+(nextId++),species:name,color:state.catalogColors[name]||s.colors[0][1],x:Math.cos(a)*.07,z:Math.sin(a)*.06,spreadX:Math.cos(a)*(.24+(i%4)*.055),spreadZ:Math.sin(a)*(.19+(i%4)*.045),spread:1,height:1.12+(i%5)*.085,rotation:Math.sin(i*1.7)*.16,scale:.88,phase:i*1.41};state.flowers.push(f);state.selectedId=f.id;state.selectedGreenId=null;}
 function addGreenery(type){const i=state.greens.length,a=i*2.4+.8,rad=.28+(i%3)*.09;state.greens.push({id:'g'+(nextId++),type,x:Math.cos(a)*.09,z:Math.sin(a)*.07,spreadX:Math.cos(a)*rad,spreadZ:Math.sin(a)*rad*.7,height:1.02+(i%4)*.14,scale:.9,rotation:Math.sin(i*2)*.18,phase:i*1.2});state.selectedGreenId=state.greens[state.greens.length-1].id;state.selectedId=null;}
 function setDensity(d){state.density=d;const target=d==='Minimal'?1:d==='Balanced'?3:6;while(state.greens.length<target){const t=state.greens.length%3===0?'eucalyptus':state.greens.length%3===1?'fern':'ornamental';addGreenery(t);}while(state.greens.length>target)state.greens.pop();}
 function applyPalette(id){state.palette=id;const p=PALETTES.find(x=>x.id===id);if(!p)return;state.flowers.forEach((f,i)=>{const s=species(f.species);if(id==='romance'){const opts=['#D9909D','#F3E7D8','#C96B7F','#E8A17F'];f.color=opts[i%opts.length];}else if(id==='sunset'){const opts=['#E8A17F','#E7785A','#E4B05A','#D9909D'];f.color=opts[(i*3)%opts.length];}else if(id==='spring'){const opts=['#EFC34E','#DE8FA6','#9C86BC','#E8A17F'];f.color=opts[(i*7)%opts.length];}else if(id==='meadow'){f.color=s.colors[(i*3+Math.floor(i/2))%s.colors.length][1];}else if(id==='neutral'){const opts=['#F3E7D8','#E6A1AC','#D8C8B4','#F1C7CF'];f.color=opts[i%opts.length];}else{const opts=['#702A40','#C96B7F','#D9909D','#F1C7CF'];f.color=opts[i%opts.length];}});}
@@ -3241,6 +3267,7 @@ function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.c
   case 'redo': if(future.length){past.push(clone(state));state=future.pop();renderPanel();rebuildScene();updateStats();}break;
   case 'section': changeSection(value);break;
   case 'filter':state.flowerFilter=value;renderPanel();break;
+  case 'remove-species':{const list=state.flowers.filter(f=>f.species===name);const f=list[list.length-1];if(f){checkpoint();state.flowers=state.flowers.filter(x=>x.id!==f.id);if(state.selectedId===f.id)state.selectedId=null;renderPanel();rebuildScene();}break;}
   case 'add-flower':checkpoint();addFlower(name||'Rose');renderPanel();rebuildScene();break;
   case 'catalog-color':checkpoint();state.catalogColors[el.dataset.species]=color;renderPanel();break;
   case 'selected-color':{const f=selectedFlower();if(f){checkpoint();f.color=color;renderPanel();rebuildScene();}break;}
