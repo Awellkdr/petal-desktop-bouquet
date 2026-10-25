@@ -78,10 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Bloom Studio — 3D Bouquet Gifts" },
+      { title: "Adey Digital — 3D Bouquet Gifts" },
       { name: "description", content: "Design an interactive 3D bouquet and send it as a gift link." },
-      { name: "author", content: "Bloom Studio" },
-      { property: "og:title", content: "Bloom Studio — 3D Bouquet Gifts" },
+      { name: "author", content: "Adey Digital" },
+      { property: "og:title", content: "Adey Digital — 3D Bouquet Gifts" },
       { property: "og:description", content: "Design an interactive 3D bouquet and send it as a gift link." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

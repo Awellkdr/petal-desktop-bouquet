@@ -1,4 +1,4 @@
-// Bloom Studio desktop widget: a transparent, frameless, always-on-top bouquet window.
+// Adey Digital desktop widget: a transparent, frameless, always-on-top bouquet window.
 const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -79,7 +79,7 @@ function createWindow() {
 function createTray() {
   const icon = nativeImage.createFromPath(path.join(__dirname, "build", "tray.png"));
   tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon.resize({ width: 18, height: 18 }));
-  tray.setToolTip("Bloom Studio");
+  tray.setToolTip("Adey Digital");
   tray.setContextMenu(Menu.buildFromTemplate([
     { label: "Show bouquet", click: () => showBouquet(null) },
     { label: "Hide bouquet", click: () => win && win.hide() },

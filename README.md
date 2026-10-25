@@ -1,6 +1,6 @@
 # Petal Desktop Bouquet
 
-i want for Bloom Studio. ❤️ The recipient should receive a beautiful gift link, open it in their browser, discover the interactive 3D bouquet, and then choose to keep that interactive 3d bouquet on their desktop as a widget as a transparent with no backround and stay on top of every window  .
+i want for Adey Digital. ❤️ The recipient should receive a beautiful gift link, open it in their browser, discover the interactive 3D bouquet, and then choose to keep that interactive 3d bouquet on their desktop as a widget as a transparent with no backround and stay on top of every window  .
 
 They should never have to install Node.js, open a terminal, or run a .bat file themselves. Those are development steps, not part of the gift experience.
 

@@ -1,4 +1,4 @@
-name: Build Bloom Studio desktop widget
+name: Build Adey Digital desktop widget
 
 on:
   push:
