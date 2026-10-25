@@ -12,9 +12,9 @@ import tuscan from "@/assets/tuscan-sunset.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
-    { title: "Bloom Studio — A Little Beauty, Just for You" },
-    { name: "description", content: "Discover living 3D bouquets. Choose a ready-made arrangement or create your own thoughtful digital flower gift with Bloom Studio." },
-    { property: "og:title", content: "Bloom Studio — A Little Beauty, Just for You" },
+    { title: "Adey Digital — A Little Beauty, Just for You" },
+    { name: "description", content: "Discover living 3D bouquets. Choose a ready-made arrangement or create your own thoughtful digital flower gift with Adey Digital." },
+    { property: "og:title", content: "Adey Digital — A Little Beauty, Just for You" },
     { property: "og:description", content: "Flowers for every feeling. Explore interactive 3D bouquets and make something lovely for someone you love." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -37,7 +37,7 @@ function Landing() {
   return (
     <main className="bloom-landing bg-background text-foreground">
       <header className="landing-header landing-width">
-        <a href="/" className="landing-brand" aria-label="Bloom Studio home"><Flower2 aria-hidden="true" /> Bloom Studio<span className="brand-dot">®</span></a>
+        <a href="/" className="landing-brand" aria-label="Adey Digital home"><Flower2 aria-hidden="true" /> Adey Digital<span className="brand-dot">®</span></a>
         <nav aria-label="Main navigation" className="landing-nav">
           <Button variant="ghost" asChild><a href="#bouquets">The collection</a></Button>
           <Button variant="ghost" asChild><a href="/bloom.html#new">The atelier <ArrowUpRight /></a></Button>
@@ -53,7 +53,7 @@ function Landing() {
         </div>
         <div className="hero-copy">
           <p className="small-label"><span /> A digital flower atelier</p>
-          <h1 id="hero-title">Bloom Studio<span>Flowers for<br />every feeling.</span></h1>
+          <h1 id="hero-title">Adey Digital<span>Flowers for<br />every feeling.</span></h1>
           <p className="hero-description">A little love. A thank you. A just-because.<br className="desktop-break" /> Make something beautiful that stays.</p>
           <Button size="lg" asChild className="build-bouquet"><a href="/bloom.html#new">Build your bouquet <ArrowUpRight /></a></Button>
           <a className="hero-collection-link" href="#bouquets">Or find your favourite below <ArrowDown size={14} /></a>
@@ -74,7 +74,7 @@ function Landing() {
         </article>)}</div>
       </section>
       <section className="landing-note"><div className="landing-width"><Flower2 aria-hidden="true" /><p>Not just flowers.<br />A feeling, <span>beautifully kept.</span></p><Button asChild variant="outline"><a href="/bloom.html#new">Make it personal <Sparkles /></a></Button></div></section>
-      <footer className="landing-footer landing-width"><a href="/" className="landing-brand"><Flower2 /> Bloom Studio</a><span>A little beauty, just for you.</span><Button variant="ghost" asChild><a href="/bloom.html#new">Enter the atelier <ArrowUpRight /></a></Button></footer>
+      <footer className="landing-footer landing-width"><a href="/" className="landing-brand"><Flower2 /> Adey Digital</a><span>A little beauty, just for you.</span><Button variant="ghost" asChild><a href="/bloom.html#new">Enter the atelier <ArrowUpRight /></a></Button></footer>
     </main>
   );
 }

@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F4EF">
-<title>Bloom Studio — 3D Bouquet Atelier</title>
+<title>Adey Digital — 3D Bouquet Atelier</title>
+<meta name="description" content="Create a personal interactive 3D bouquet with Adey Digital and share it with someone special.">
+<meta property="og:title" content="Adey Digital — 3D Bouquet Atelier">
+<meta property="og:description" content="Create a personal interactive 3D bouquet and send a thoughtful digital flower gift.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root {
   --site-primary: #C88791;
@@ -204,7 +209,7 @@ body.widget-checker #stage-wrap {
 /* Share 3D Bouquet Modal */
 .share-modal-backdrop { position:fixed; inset:0; z-index:90; background:rgba(30,27,24,0.48); backdrop-filter:blur(8px); display:grid; place-items:center; padding:18px; animation:rise .2s ease both; }
 .share-modal-backdrop[hidden] { display:none !important; }
-.share-modal { width:min(620px, 100%); max-height:calc(100vh - 36px); overflow:auto; background:var(--surface, #FFFEFC); color:var(--ink, #292925); border:1px solid var(--border, #E5DED5); border-radius:20px; box-shadow:0 26px 70px rgba(25,20,15,0.28); padding:26px 28px; }
+.share-modal { width:min(520px, 100%); max-height:calc(100vh - 36px); overflow:auto; background:var(--surface, #FFFEFC); color:var(--ink, #292925); border:1px solid var(--border, #E5DED5); border-radius:8px; box-shadow:0 26px 70px rgba(25,20,15,0.28); padding:26px 28px; }
 .share-modal-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:16px; }
 .share-modal-title { font-family:var(--site-font-heading); font-size:28px; margin:6px 0 4px; letter-spacing:-.5px; line-height:1.15; }
 .share-modal-sub { color:var(--muted); font-size:12px; line-height:1.55; margin:0; }
@@ -224,6 +229,22 @@ body.widget-checker #stage-wrap {
 .aot-hero-btn { width:100%; margin-top:10px; padding:12px 15px; border-radius:11px; border:1px solid #4A6B53; background:linear-gradient(135deg,#2D3A30,#1F2821); color:#F5F2EB; font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; box-shadow:0 8px 22px rgba(31,40,33,0.22); transition:transform .18s ease, box-shadow .18s ease; }
 .aot-hero-btn:hover { transform:translateY(-1px); box-shadow:0 10px 26px rgba(31,40,33,0.32); background:linear-gradient(135deg,#37473B,#253028); }
 .aot-badge { font-size:9px; padding:3px 7px; border-radius:20px; background:#82978438; color:#B8D4BA; letter-spacing:.8px; text-transform:uppercase; }
+.share-note-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.share-modal-title { letter-spacing:0; }
+.share-modal .textarea-field { min-height:68px; }
+.payment-heading { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:20px; margin:12px 0 20px; font-size:15px; }
+.payment-heading > span { color:var(--soft-ink); font-weight:600; }
+.payment-step { display:grid; grid-template-columns:28px minmax(0,1fr); gap:12px; margin:18px 0; }
+.payment-step-number { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:var(--surface-2); color:var(--ink); font-size:12px; font-weight:700; }
+.payment-step strong { font-size:13px; }
+.payment-step p, .payment-notice { color:var(--muted); font-size:11px; line-height:1.6; margin:6px 0; }
+.payment-number-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin-top:10px; }
+.payment-number-row > span { font-size:18px; font-weight:600; }
+.payment-error { color:var(--site-primary); font-size:12px; }
+#share-result { border-top:1px solid var(--border); padding-top:16px; margin-top:16px; }
+.color-story summary { cursor:pointer; list-style:none; }
+.color-story summary::-webkit-details-marker { display:none; }
+.share-modal-backdrop [hidden] { display:none !important; }
 /* Always-on-Top Picture-in-Picture & Frameless Widget Host Styling */
 body.pip-widget-body { margin:0; width:100vw; height:100vh; overflow:hidden; background:transparent !important; user-select:none; font-family:var(--site-font-body); }
 .pip-Hud { position:fixed; z-index:20; inset:0; pointer-events:none; display:flex; flex-direction:column; justify-content:space-between; padding:10px; }
@@ -293,20 +314,17 @@ html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage
 </style>
 <div id="app" data-sites-preview-theme>
   <header class="topbar">
-    <div class="brand" aria-label="Bloom Studio home">
+    <div class="brand" aria-label="Adey Digital home">
       <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><g fill="currentColor"><ellipse cx="20" cy="10" rx="5.1" ry="8.2"/><ellipse cx="20" cy="30" rx="5.1" ry="8.2"/><ellipse cx="10" cy="20" rx="8.2" ry="5.1"/><ellipse cx="30" cy="20" rx="8.2" ry="5.1"/><ellipse cx="13" cy="13" rx="5.4" ry="7.2" transform="rotate(-45 13 13)"/><ellipse cx="27" cy="13" rx="5.4" ry="7.2" transform="rotate(45 27 13)"/><ellipse cx="13" cy="27" rx="5.4" ry="7.2" transform="rotate(45 13 27)"/><ellipse cx="27" cy="27" rx="5.4" ry="7.2" transform="rotate(-45 27 27)"/></g><circle cx="20" cy="20" r="4.5" fill="#E5C99D"/></svg>
-      <div><div class="brand-name">Bloom Studio</div><span class="brand-sub">Your digital flower atelier</span></div>
+      <div><div class="brand-name">Adey Digital</div><span class="brand-sub">Your digital flower atelier</span></div>
     </div>
-    <a class="studio-home" href="/" aria-label="Back to Bloom Studio home">← Home</a>
+    <a class="studio-home" href="/" aria-label="Back to Adey Digital home">← Home</a>
     <div class="draft-state"><span class="state-dot"></span><span id="save-state">Your creation</span></div>
     <div class="top-actions">
       <button class="icon-btn" data-action="undo" aria-label="Undo" title="Undo" disabled>↶</button>
       <button class="icon-btn" data-action="redo" aria-label="Redo" title="Redo" disabled>↷</button>
       <div class="top-divider"></div>
       <button class="quiet-btn" data-action="reset" title="Start over"><span aria-hidden="true">↺</span><span class="button-word"> Reset</span></button>
-      <button class="widget-pill-btn" id="top-aot-toggle" data-action="launch-aot-widget" title="Float interactive 3D bouquet above all desktop windows (Always on Top)"><span aria-hidden="true">⧉</span> <span class="button-word">Pin Above Windows</span></button>
-      <button class="widget-pill-btn" id="top-widget-toggle" data-action="toggle-widget-mode" title="Preview as interactive 3D desktop widget with no background"><span aria-hidden="true">◌</span> <span class="button-word">3D Widget (No BG)</span></button>
-      <button class="outline-btn" data-action="preview"><span aria-hidden="true">♡</span> <span class="button-word">Gift preview</span></button>
       <button class="share-hero-btn" data-action="open-share-modal"><span aria-hidden="true">↗</span> <span>Share 3D Bouquet</span></button>
     </div>
   </header>
@@ -322,7 +340,7 @@ html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage
         <button class="widget-dock-btn" data-action="toggle-turntable" id="dock-spin-btn" title="Auto-rotate 360°">↻ 360° Spin</button>
         <button class="widget-dock-btn" data-action="toggle-transparent-bg" id="dock-bg-btn" title="Toggle transparent background">◌ No BG</button>
         <button class="widget-dock-btn" data-action="download-native-aot-launcher" title="Download frameless Always-On-Top desktop widget app">↓ Desktop App</button>
-        <button class="widget-dock-btn" data-action="exit-widget-mode" title="Open in full Bloom Studio editor">✎ Customize</button>
+        <button class="widget-dock-btn" data-action="exit-widget-mode" title="Open in full Adey Digital editor">✎ Customize</button>
       </div>
       <div class="scene-toolbar">
         <button class="scene-tool" data-action="bloom-now" aria-label="Watch bouquet bloom" title="Watch bouquet bloom">✿</button>
@@ -359,89 +377,19 @@ html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage
 <!-- Share an Interactive 3D Bouquet Modal -->
 <div class="share-modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title" hidden>
   <div class="share-modal">
-    <div class="share-modal-top">
-      <div>
-        <span class="most-memorable-tag">✦ Most memorable</span>
-        <h2 class="share-modal-title" id="share-modal-title">Share an interactive 3D bouquet</h2>
-        <p class="share-modal-sub">Send a private link that opens your exact bouquet in any browser—or let your loved one download it to sit on their desktop as a living 3D widget with no background.</p>
-      </div>
-      <button class="share-Close" data-action="close-share-modal" aria-label="Close share dialog">✕</button>
+    <div class="share-modal-top"><div><span class="eyebrow">Adey Digital</span><h2 class="share-modal-title" id="share-modal-title">Share your bouquet</h2><p class="share-modal-sub" id="modal-bouquet-summary"></p></div><button class="share-Close" data-action="close-share-modal" aria-label="Close share dialog">✕</button></div>
+    <div class="share-note-fields">
+      <div><label class="form-label" for="modal-gift-recipient">To</label><input class="input-field" id="modal-gift-recipient" data-gift="recipient" maxlength="80" placeholder="Someone lovely"></div>
+      <div><label class="form-label" for="modal-gift-sender">From</label><input class="input-field" id="modal-gift-sender" data-gift="sender" maxlength="80" placeholder="Your name"></div>
     </div>
-
-    <div class="share-Highlight-grid">
-      <div class="share-pill-card">
-        <strong>✓ No app installation</strong>
-        <span>Opens instantaneously in any mobile or desktop browser.</span>
-      </div>
-      <div class="share-pill-card">
-        <strong>✿ Exact 3D bouquet</strong>
-        <span>Every flower, petal color, stem height, and vase is preserved.</span>
-      </div>
-      <div class="share-pill-card">
-        <strong>♡ Personal note alongside</strong>
-        <span>Displays your heartfelt message beside the rotatable 3D blooms.</span>
-      </div>
-    </div>
-
-    <!-- Personal Note Quick Editor inside Modal -->
-    <div class="share-option-box">
-      <div class="share-option-head">
-        <strong>1. Personal note displayed alongside the bouquet</strong>
-        <span class="section-caption" id="modal-bouquet-summary">14 blooms</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-        <div>
-          <label class="form-label" for="modal-gift-recipient">To (Loved one's name)</label>
-          <input class="input-field" style="margin-bottom:8px" id="modal-gift-recipient" data-gift="recipient" maxlength="80" placeholder="Someone lovely">
-        </div>
-        <div>
-          <label class="form-label" for="modal-gift-sender">From</label>
-          <input class="input-field" style="margin-bottom:8px" id="modal-gift-sender" data-gift="sender" maxlength="80" placeholder="With love">
-        </div>
-      </div>
-      <label class="form-label" for="modal-gift-message">Personal message</label>
-      <textarea class="textarea-field" style="min-height:64px;margin-bottom:4px" id="modal-gift-message" data-gift="message" maxlength="420" placeholder="Write a personal note to appear alongside your 3D bouquet..."></textarea>
-    </div>
-
-    <!-- Option A: Private Browser Link -->
-    <div class="share-option-box featured">
-      <div class="share-option-head">
-        <strong>2. Send a private interactive 3D link</strong>
-        <span class="count-badge">Opens in browser · No install</span>
-      </div>
-      <div style="font-size:11px;color:var(--soft-ink);line-height:1.5">
-        Your loved one can rotate the bouquet 360°, zoom in on individual petals, trigger the bloom animation, and read your personal note.
-      </div>
-      <div class="share-url-row">
-        <input class="share-url-input" id="share-link-input" type="text" readonly value="" aria-label="Private interactive 3D bouquet link">
-        <button class="primary-btn rose" data-action="share">↗ Copy private link</button>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-        <button class="outline-btn" style="flex:1" data-action="open-recipient-preview">♡ Preview as recipient</button>
-        <button class="outline-btn" style="flex:1" data-action="bloom-now">✿ Trigger bloom animation</button>
-      </div>
-    </div>
-
-    <!-- Option B: Desktop 3D Widget with No Background & Always-On-Top -->
-    <div class="share-option-box">
-      <div class="share-option-head">
-        <strong>3. Always-On-Top Interactive 3D Desktop Widget (No Background)</strong>
-        <span class="count-badge" style="background:#E6EFE8;color:#4E7356">Sits Above All Windows</span>
-      </div>
-      <div style="font-size:11px;color:var(--soft-ink);line-height:1.5">
-        Pin the living 3D bouquet <b>above all other desktop windows</b> immediately with zero installation, or download the <b>Native Frameless Transparent Desktop Widget Launcher</b> so it floats directly on your desktop with no background or browser bars.
-      </div>
-      <button class="aot-hero-btn" data-action="launch-aot-widget">
-        <span>⧉ Float Interactive 3D Widget Above All Windows Now</span>
-        <span class="aot-badge">Instant · Always on Top</span>
-      </button>
-      <div class="widget-action-grid">
-        <button class="primary-btn" data-action="download-native-aot-launcher" title="Get the Bloom Studio desktop widget installer">↓ Download Frameless Desktop App (No BG + Always on Top)</button>
-        <button class="outline-btn" data-action="download-desktop-widget" title="Downloads the self-contained 3D widget HTML with built-in Always-On-Top pinning">↓ Download 3D Widget File (.html)</button>
-        <button class="outline-btn" data-action="toggle-widget-mode">◌ Preview No-Background Mode Here</button>
-        <button class="outline-btn" data-action="snapshot-transparent">◎ Save Transparent 3D PNG</button>
-      </div>
-    </div>
+    <label class="form-label" for="modal-gift-message">Personal note</label><textarea class="textarea-field" id="modal-gift-message" data-gift="message" maxlength="420" placeholder="A little message, just for them…"></textarea>
+    <div class="payment-heading"><strong>Pay with Telebirr</strong><span>100 ETB</span></div>
+    <div class="payment-step"><span class="payment-step-number">1</span><div><strong>Send 100 ETB</strong><p>To Awel Kedir</p><div class="payment-number-row"><span id="telebirr-number">0921603875</span><button class="outline-btn" data-action="copy-telebirr-number" aria-label="Copy Telebirr number">⧉ Copy number</button></div></div></div>
+    <div class="payment-step"><span class="payment-step-number">2</span><div><label class="form-label" for="telebirr-confirmation">Paste your Telebirr confirmation SMS or transaction number</label><textarea class="textarea-field" id="telebirr-confirmation" maxlength="1500" placeholder="Confirmation SMS or transaction number" aria-describedby="telebirr-notice payment-error"></textarea></div></div>
+    <p class="payment-notice" id="telebirr-notice">Manual Telebirr transfer. Payment is not automatically verified.</p>
+    <p class="payment-error" id="payment-error" role="alert" hidden></p>
+    <button class="primary-btn rose wide-button" id="pay-share-button" data-action="pay-and-share">Pay and share Bouquet ↗</button>
+    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share">⧉ Copy link</button></div><p class="payment-notice" role="status">Your link is ready. Payment has not been verified.</p></div>
   </div>
 </div>
 
@@ -593,11 +541,9 @@ function flowerPanel(){
   <div class="panel-scroll"><div class="section-row"><span class="section-title">Flower library</span><span class="section-caption">${SPECIES.length} varieties</span></div>
   <div class="category-pills">${categories.map(c=>`<button class="pill ${state.flowerFilter===c?'active':''}" data-action="filter" data-value="${esc(c)}">${c}</button>`).join('')}</div>
   <div class="flower-list">${list.map(s=>{const c=state.catalogColors[s.name]||s.colors[0][1];return `<div class="flower-row"><div class="bloom-icon" style="--bloom:${c};--center:${s.center}"><span></span></div><div class="flower-meta"><span class="flower-name">${s.name}</span><span class="flower-desc">${s.desc}</span></div><div class="qty">${(()=>{const n=state.flowers.filter(f=>f.species===s.name).length;return `<button class="add-button" data-action="remove-species" data-species="${s.name}" aria-label="Remove one ${s.name}" title="Remove one ${s.name}" ${n?'':'disabled'}>−</button><span class="qty-count">${n}</span>`;})()}<button class="add-button" data-action="add-flower" data-species="${s.name}" aria-label="Add ${s.name}" title="Add ${s.name}">+</button></div></div>`;}).join('')}</div>
-  <div class="divider"></div><div class="section-row"><span class="section-title">Choose a color for new stems</span></div>
-  ${SPECIES.map(s=>`<div class="control-block"><div class="range-top"><span>${s.name}</span><output>${esc((s.colors.find(c=>c[1]===state.catalogColors[s.name])||s.colors[0])[0])}</output></div>${htmlColorSwatches(s.colors,state.catalogColors[s.name],'catalog-color',s.name)}</div>`).join('')}
-  <div class="divider"></div><div class="section-row"><span class="section-title">Color story</span><span class="section-caption">Whole bouquet</span></div>
+  <div class="divider"></div><details class="color-story"><summary class="section-row"><span class="section-title">Color story</span><span class="section-caption">Whole bouquet ▾</span></summary>
   <div class="palette-grid">${PALETTES.map(p=>`<button class="palette-card ${state.palette===p.id?'active':''}" data-action="palette" data-value="${p.id}"><span class="palette-dots">${p.dots.map(d=>`<i style="--dot:${d}"></i>`).join('')}</span><span class="palette-name">${p.name}</span><small>${p.desc}</small></button>`).join('')}</div>
-  <p class="footer-note">Tip: select any bloom in the 3D scene to edit that stem on its own. Drag the empty space to see your bouquet from every angle.</p></div>`;
+  </details><p class="footer-note">Tip: select any bloom in the 3D scene to edit that stem on its own. Drag the empty space to see your bouquet from every angle.</p></div>`;
 }
 function arrangePanel(){
  const presets=[['Classic Round','Balanced and timeless','◌'],['Garden Meadow','Airy, loose, and natural','❀'],['Tall and Elegant','Long stems, sculptural height','♧'],['Modern Sculptural','Asymmetric with clear rhythm','⌁'],['Soft and Romantic','Gentle layers and flowing lines','✿']];
@@ -1119,7 +1065,7 @@ function initGL(){
     return true;
   }catch(e){
     $('#webgl-error').style.display='block';
-    console.warn('Bloom Studio could not initialize WebGL:',e);
+    console.warn('Adey Digital could not initialize WebGL:',e);
     return false;
   }
 }
@@ -1657,7 +1603,7 @@ function addStamens(g, headFrame, count, opts={}){
 
 /**
  * 4. SPECIES-SPECIFIC FLOWER ARCHITECTURES
- * Every species in Bloom Studio has its own botanical structure, silhouette, receptacle, and center.
+ * Every species in Adey Digital has its own botanical structure, silhouette, receptacle, and center.
  */
 function addBloom(g, f, headOrigin, stemTangent){
   const s = f.species;
@@ -2923,8 +2869,8 @@ function setDensity(d){state.density=d;const target=d==='Minimal'?1:d==='Balance
 function applyPalette(id){state.palette=id;const p=PALETTES.find(x=>x.id===id);if(!p)return;state.flowers.forEach((f,i)=>{const s=species(f.species);if(id==='romance'){const opts=['#D9909D','#F3E7D8','#C96B7F','#E8A17F'];f.color=opts[i%opts.length];}else if(id==='sunset'){const opts=['#E8A17F','#E7785A','#E4B05A','#D9909D'];f.color=opts[(i*3)%opts.length];}else if(id==='spring'){const opts=['#EFC34E','#DE8FA6','#9C86BC','#E8A17F'];f.color=opts[(i*7)%opts.length];}else if(id==='meadow'){f.color=s.colors[(i*3+Math.floor(i/2))%s.colors.length][1];}else if(id==='neutral'){const opts=['#F3E7D8','#E6A1AC','#D8C8B4','#F1C7CF'];f.color=opts[i%opts.length];}else{const opts=['#702A40','#C96B7F','#D9909D','#F1C7CF'];f.color=opts[i%opts.length];}});}
 function resetStarter(){const start=starterState();state=start;past=[];future=[];setCamera('three');renderPanel();rebuildScene();updateStats();}
 function saveLocal(){try{localStorage.setItem('bloom-studio-state-v1',JSON.stringify(state));$('#save-state').textContent='Saved on this device';toast('Arrangement saved on this device.');}catch(e){toast('Local saving is unavailable in this preview. Use Export instead.');}}
-function exportJSON(){const payload={app:'Bloom Studio',version:1,exportedAt:new Date().toISOString(),state:{...clone(state),previewGift:false,section:'flowers',selectedId:null,selectedGreenId:null}};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='bloom-studio-arrangement.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Your arrangement export is ready.');}
-function safeImported(obj){const s=obj&&obj.state?obj.state:obj;if(!s||!Array.isArray(s.flowers)||!s.vase)throw new Error('This file does not look like a Bloom Studio arrangement.');if(s.flowers.length>150||!s.flowers.every(f=>f&&SPECIES.some(sp=>sp.name===f.species)&&typeof f.color==='string'))throw new Error('The arrangement contains unsupported flower data.');const base=starterState();const merged={...base,...s,previewGift:false,section:'flowers',selectedId:null,selectedGreenId:null};merged.flowers=merged.flowers.map(f=>({...f,id:String(f.id||('f'+nextId++))}));merged.greens=Array.isArray(merged.greens)?merged.greens.map(g=>({...g,id:String(g.id||('g'+nextId++))})):[];merged.vase={...base.vase,...s.vase};merged.gift={...base.gift,...s.gift};return merged;}
+function exportJSON(){const payload={app:'Adey Digital',version:1,exportedAt:new Date().toISOString(),state:{...clone(state),previewGift:false,section:'flowers',selectedId:null,selectedGreenId:null}};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='adey-digital-arrangement.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Your arrangement export is ready.');}
+function safeImported(obj){const s=obj&&obj.state?obj.state:obj;if(!s||!Array.isArray(s.flowers)||!s.vase)throw new Error('This file does not look like a Adey Digital arrangement.');if(s.flowers.length>150||!s.flowers.every(f=>f&&SPECIES.some(sp=>sp.name===f.species)&&typeof f.color==='string'))throw new Error('The arrangement contains unsupported flower data.');const base=starterState();const merged={...base,...s,previewGift:false,section:'flowers',selectedId:null,selectedGreenId:null};merged.flowers=merged.flowers.map(f=>({...f,id:String(f.id||('f'+nextId++))}));merged.greens=Array.isArray(merged.greens)?merged.greens.map(g=>({...g,id:String(g.id||('g'+nextId++))})):[];merged.vase={...base.vase,...s.vase};merged.gift={...base.gift,...s.gift};return merged;}
 function importJSONFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(String(reader.result));checkpoint();state=safeImported(parsed);nextId=Math.max(nextId,...state.flowers.concat(state.greens).map(o=>parseInt(String(o.id).replace(/\D/g,''),10)||0),0)+1;renderPanel();rebuildScene();updateStats();toast('Arrangement imported.');}catch(e){toast(e.message||'Could not import that file.');}};reader.readAsText(file);}
 
 function encodeGiftPayload(extraFlags={}){
@@ -2961,23 +2907,48 @@ function syncShareModalInputs(){
   if (snd) snd.value = state.gift.sender || '';
   if (msg) msg.value = state.gift.message || '';
   if (sum) sum.textContent = `${state.flowers.length} blooms · ${VASES.find(v=>v.id===state.vase.shape)?.name || 'Sculptural'} vase`;
-  if (urlIn) urlIn.value = buildShareUrl('gift');
+  if (urlIn && hasTelebirrReference($('#telebirr-confirmation')?.value)) urlIn.value = buildShareUrl('gift');
 }
 
 function openShareModal(){
-  state.previewGift = true;
   syncShareModalInputs();
   const modal = $('#share-modal');
   if (modal) modal.hidden = false;
+  requestAnimationFrame(() => $('#modal-gift-recipient')?.focus());
   updateStats();
 }
 
 function closeShareModal(){
   const modal = $('#share-modal');
   if (modal) modal.hidden = true;
+  $('.top-actions [data-action="open-share-modal"]')?.focus();
+}
+
+const TELEBIRR_PAYMENT = Object.freeze({ amount: 100, currency: 'ETB', phone: '0921603875', recipient: 'Awel Kedir' });
+function hasTelebirrReference(value){ return typeof value === 'string' && value.trim().length > 0; }
+function requireTelebirrReference(){
+  if(hasTelebirrReference($('#telebirr-confirmation')?.value)) return true;
+  openShareModal();
+  const error = $('#payment-error');
+  error.textContent = 'Paste your Telebirr confirmation SMS or transaction number first.';
+  error.hidden = false;
+  $('#telebirr-confirmation')?.focus();
+  return false;
+}
+async function copyTelebirrNumber(){
+  try { await navigator.clipboard.writeText(TELEBIRR_PAYMENT.phone); toast('Telebirr number copied.'); }
+  catch { toast('Copy this number: ' + TELEBIRR_PAYMENT.phone); }
+}
+async function payAndShare(){
+  if(!requireTelebirrReference()) return;
+  $('#payment-error').hidden = true;
+  $('#share-result').hidden = false;
+  await shareLink();
 }
 
 async function shareLink(){
+  if(!requireTelebirrReference()) return;
+  $('#share-result').hidden = false;
   try{
     const shareUrl = buildShareUrl('gift');
     const urlIn = $('#share-link-input');
@@ -2996,7 +2967,6 @@ async function shareLink(){
       copied = document.execCommand('copy');
       t.remove();
     }
-    history.replaceState(null, '', shareUrl);
     toast('Private interactive 3D bouquet link copied to clipboard!');
   }catch(e){
     toast('Copy was blocked by the browser. Select and copy the link in the Share box.');
@@ -3069,7 +3039,7 @@ async function launchAlwaysOnTopWidget(){
       });
       aotPipWindow = pipWin;
 
-      // Copy stylesheets so typography and buttons match Bloom Studio
+      // Copy stylesheets so typography and buttons match Adey Digital
       $$('style, link[rel="stylesheet"]').forEach(node => {
         pipWin.document.head.appendChild(node.cloneNode(true));
       });
@@ -3359,6 +3329,8 @@ function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.c
   case 'save':saveLocal();break;
   case 'export':exportJSON();break;
   case 'import':$('#import-file').click();break;
+  case 'copy-telebirr-number':copyTelebirrNumber();break;
+  case 'pay-and-share':payAndShare();break;
   case 'share':shareLink();break;
  }
  updateHistoryButtons();updateStats();
@@ -3372,7 +3344,13 @@ document.addEventListener('click',e=>{
 let rangeCheckpoint=false;
 panel.addEventListener('pointerdown',e=>{if(e.target.matches('[data-range]')){checkpoint();rangeCheckpoint=true;}});
 panel.addEventListener('keydown',e=>{if(e.target.matches('[data-range]')&&(e.key==='ArrowLeft'||e.key==='ArrowRight'||e.key==='ArrowUp'||e.key==='ArrowDown')&&!rangeCheckpoint){checkpoint();rangeCheckpoint=true;}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape' && !$('#share-modal').hidden) closeShareModal();});
 document.addEventListener('input',e=>{
+  if(e.target.id==='telebirr-confirmation'){
+    $('#payment-error').hidden = true;
+    if(!hasTelebirrReference(e.target.value)){ $('#share-result').hidden = true; $('#share-link-input').value = ''; }
+    return;
+  }
   const range=e.target.dataset.range;
   if(range){
     const f=selectedFlower();if(!f)return;
@@ -3386,7 +3364,7 @@ document.addEventListener('input',e=>{
     state.gift[key]=e.target.value;
     updateStats();
     const urlIn = $('#share-link-input');
-    if (urlIn && !$('#share-modal')?.hidden) urlIn.value = buildShareUrl('gift');
+    if (urlIn && !$('#share-result')?.hidden && hasTelebirrReference($('#telebirr-confirmation')?.value)) urlIn.value = buildShareUrl('gift');
     if (e.target.id.startsWith('modal-')) {
       const panelInput = panel.querySelector(`[data-gift="${key}"]`);
       if (panelInput && panelInput !== e.target) panelInput.value = e.target.value;
@@ -3407,7 +3385,7 @@ window.addEventListener('resize',resizeCanvas,{passive:true});document.addEventL
 <style data-sites-preview-theme>:root{--site-background:#ede5fc !important;--site-on-background:#000000 !important;--site-font-body:system-ui,sans-serif !important;--site-font-heading:Georgia,serif !important}</style>
 <script type="application/json" data-sites-preview-theme>{"appearance":"custom","primary":null,"secondary":null,"background":"#ede5fc","typography":"editorial","spacing":null,"roundness":null,"headingScale":1,"decorationOpacity":null}</script>
 <!--sites-preview-theme:end-->
-<!-- Bloom Studio gift + desktop widget integration -->
+<!-- Adey Digital gift + desktop widget integration -->
 <script>
 /* Where recipients download the one-click desktop widget installer.
    Point these at your published installers (see desktop-widget/README.md). */
@@ -3437,7 +3415,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
     document.querySelectorAll('[data-action="download-native-aot-launcher"]').forEach(b=>{
       const label = b.classList.contains('widget-dock-btn') ? '↓ Keep on desktop' : '♡ Keep this bouquet on my desktop';
       if (b.textContent !== label) b.textContent = label;
-      b.title='Install the Bloom Studio widget: a see-through bouquet that stays above every window';
+      b.title='Install the Adey Digital widget: a see-through bouquet that stays above every window';
     });
   }
   relabel();
@@ -3461,11 +3439,11 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
       <button class="bw-close" aria-label="Close">✕</button>
       <h3>Keep it on your desktop</h3>
       <p>Your bouquet will float on your screen with no background, above every window. Spin it, zoom in, and watch it bloom anytime.</p>
-      <div class="bw-step"><div class="bw-num">1</div><div><strong>Get the Bloom Studio widget</strong>
+      <div class="bw-step"><div class="bw-num">1</div><div><strong>Get the Adey Digital widget</strong>
         ${downloadUrl ? `<a class="bw-btn" href="${downloadUrl}" download>↓ Download for ${isMac?'Mac':'Windows'}</a><div class="bw-small">Open the installer once.${otherUrl ? ` <a href="${otherUrl}">${isMac?'Windows':'Mac'} version</a>` : ''}</div>` : `<p role="status">The ${isMac?'Mac':'Windows'} installer is not available yet. Your bouquet is still available in your browser.</p>`}</div></div>
       <div class="bw-step"><div class="bw-num">2</div><div><strong>Place your bouquet on the desktop</strong>
         <a class="bw-btn" href="${deepLink}">✿ Open my bouquet in the widget</a>
-        <div class="bw-small">Already installed? Just tap this button. Your browser may ask to open Bloom Studio — choose Open.</div></div></div>
+        <div class="bw-small">Already installed? Just tap this button. Your browser may ask to open Adey Digital — choose Open.</div></div></div>
     </div>`;
     el.addEventListener('click', e=>{ if(e.target===el || e.target.classList.contains('bw-close')) el.remove(); });
     document.body.appendChild(el);
