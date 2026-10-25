@@ -1,83 +1,80 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { ArrowDown, ArrowUpRight, Flower2, Heart, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { featuredGiftHash } from "@/data/featured-bouquet";
+import blush from "@/assets/blush-romance.png.asset.json";
+import sunny from "@/assets/sunny-meadow.png.asset.json";
+import lavender from "@/assets/lavender-dream.png.asset.json";
+import midnight from "@/assets/midnight-velvet.png.asset.json";
+import white from "@/assets/white-elegance.png.asset.json";
+import tuscan from "@/assets/tuscan-sunset.png.asset.json";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Bloom Studio — 3D Bouquet Gifts" },
-      { name: "description", content: "Pick a ready-made 3D bouquet or build your own, then send it as a gift link." },
-      { property: "og:title", content: "Bloom Studio — 3D Bouquet Gifts" },
-      { property: "og:description", content: "Pick a ready-made 3D bouquet or build your own, then send it as a gift link." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => ({ meta: [
+    { title: "Bloom Studio — A Little Beauty, Just for You" },
+    { name: "description", content: "Discover living 3D bouquets. Choose a ready-made arrangement or create your own thoughtful digital flower gift with Bloom Studio." },
+    { property: "og:title", content: "Bloom Studio — A Little Beauty, Just for You" },
+    { property: "og:description", content: "Flowers for every feeling. Explore interactive 3D bouquets and make something lovely for someone you love." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: Landing,
 });
 
-type Bouquet = { id: string; name: string; note: string; vase: string; blooms: string[] };
-
-export const BOUQUETS: Bouquet[] = [
-  { id: "blush-romance", name: "Blush Romance", note: "Blush roses and soft peonies", vase: "#D7A0A5", blooms: ["#D9909D", "#F1C7CF", "#F3E7D8", "#D9909D", "#F1C7CF"] },
-  { id: "sunny-meadow", name: "Sunny Meadow", note: "Sunflowers, daisies and golden tulips", vase: "#E9E0D2", blooms: ["#E8B83F", "#F5EEDF", "#E8BD48", "#F5EEDF", "#E8B83F"] },
-  { id: "lavender-dream", name: "Lavender Dream", note: "Orchids and lilac tulips, sculpted", vase: "#B6A6C9", blooms: ["#BC89B8", "#9C86BC", "#B4A2CD", "#BC89B8", "#9C86BC"] },
-  { id: "midnight-velvet", name: "Midnight Velvet", note: "Deep burgundy and red roses", vase: "#477D7B", blooms: ["#702A40", "#C94451", "#D68191", "#702A40", "#C94451"] },
-  { id: "white-elegance", name: "White Elegance", note: "Tall lilies in clear glass", vase: "#D8DDD8", blooms: ["#F2DFE6", "#F4E9CB", "#F3E7D8", "#F2DFE6", "#F4E9CB"] },
-  { id: "tuscan-sunset", name: "Tuscan Sunset", note: "Peach roses, coral tulips, orchids", vase: "#C88A4A", blooms: ["#E8A17F", "#E7785A", "#F1E5D4", "#E8A17F", "#E7785A"] },
+export const BOUQUETS = [
+  { id: "blush-romance", name: "Blush Romance", note: "Blush roses · soft peonies", image: blush.url, mood: "Soft & romantic", tone: "rose" },
+  { id: "sunny-meadow", name: "Sunny Meadow", note: "Sunflowers · daisies · golden tulips", image: sunny.url, mood: "Bright & joyful", tone: "sunny" },
+  { id: "lavender-dream", name: "Lavender Dream", note: "Orchids · lilac tulips", image: lavender.url, mood: "Quiet & elegant", tone: "lilac" },
+  { id: "midnight-velvet", name: "Midnight Velvet", note: "Burgundy roses · deep red peonies", image: midnight.url, mood: "Soft & romantic", tone: "mint" },
+  { id: "white-elegance", name: "White Elegance", note: "White lilies · a clear glass vase", image: white.url, mood: "Quiet & elegant", tone: "neutral" },
+  { id: "tuscan-sunset", name: "Tuscan Sunset", note: "Peach roses · coral tulips · orchids", image: tuscan.url, mood: "Bright & joyful", tone: "peach" },
 ];
-
-const SPOTS = [
-  [50, 18], [30, 30], [70, 30], [40, 44], [62, 46],
-];
-
-function BouquetArt({ b }: { b: Bouquet }) {
-  return (
-    <div className="relative mx-auto h-48 w-40">
-      {SPOTS.map(([x, y], i) => (
-        <span
-          key={i}
-          className="absolute h-14 w-14 -translate-x-1/2 rounded-full shadow-md"
-          style={{ left: `${x}%`, top: `${y}%`, background: `radial-gradient(circle at 40% 35%, ${b.blooms[i]}, color-mix(in oklab, ${b.blooms[i]} 70%, black))` }}
-        />
-      ))}
-      <span
-        className="absolute bottom-0 left-1/2 h-20 w-20 -translate-x-1/2 rounded-b-[2.5rem] rounded-t-xl opacity-90"
-        style={{ background: `linear-gradient(160deg, ${b.vase}, color-mix(in oklab, ${b.vase} 65%, black))` }}
-      />
-    </div>
-  );
-}
-
+const moods = ["All bouquets", "Soft & romantic", "Bright & joyful", "Quiet & elegant"];
 function Landing() {
+  const [mood, setMood] = useState("All bouquets");
+  const collection = BOUQUETS.filter(b => mood === "All bouquets" || b.mood === mood);
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="mx-auto max-w-5xl px-6 pb-12 pt-20 text-center">
-        <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Bloom Studio</p>
-        <h1 className="mt-4 font-serif text-5xl leading-tight md:text-6xl">A bouquet that never wilts</h1>
-        <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Choose a ready-made 3D bouquet or arrange your own, then send it as a gift they can keep on their desktop.
-        </p>
-        <a
-          href="/bloom.html#new"
-          className="mt-8 inline-flex items-center rounded-full bg-primary px-8 py-3 font-medium text-primary-foreground transition hover:opacity-90"
-        >
-          Build your bouquet
-        </a>
+    <main className="bloom-landing bg-background text-foreground">
+      <header className="landing-header landing-width">
+        <a href="/" className="landing-brand" aria-label="Bloom Studio home"><Flower2 aria-hidden="true" /> Bloom Studio<span className="brand-dot">®</span></a>
+        <nav aria-label="Main navigation" className="landing-nav">
+          <Button variant="ghost" asChild><a href="#bouquets">The collection</a></Button>
+          <Button variant="ghost" asChild><a href="/bloom.html#new">The atelier <ArrowUpRight /></a></Button>
+        </nav>
+        <Button asChild variant="outline" className="header-create"><a href="/bloom.html#new">Create a bouquet <Flower2 /></a></Button>
+      </header>
+
+      <section className="landing-hero landing-width" aria-labelledby="hero-title">
+        <div className="hero-scene">
+          <div className="hero-arch" aria-hidden="true" />
+          <iframe src={`/bloom.html?embed=1${featuredGiftHash}`} title="Live interactive orchid bouquet" className="hero-bouquet" />
+          <span className="scene-caption"><span className="live-dot" /> Orchid reverie <span>01 / 06</span></span>
+        </div>
+        <div className="hero-copy">
+          <p className="small-label"><span /> A digital flower atelier</p>
+          <h1 id="hero-title">Bloom Studio<span>Flowers for<br />every feeling.</span></h1>
+          <p className="hero-description">A little love. A thank you. A just-because.<br className="desktop-break" /> Make something beautiful that stays.</p>
+          <Button size="lg" asChild className="build-bouquet"><a href="/bloom.html#new">Build your bouquet <ArrowUpRight /></a></Button>
+          <a className="hero-collection-link" href="#bouquets">Or find your favourite below <ArrowDown size={14} /></a>
+        </div>
+        <div className="hero-footnote"><Heart size={14} /><span>Made with feeling.<br />Given with love.</span></div>
       </section>
-      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-24 sm:grid-cols-2 lg:grid-cols-3">
-        {BOUQUETS.map((b) => (
-          <article key={b.id} className="rounded-3xl border border-border bg-card p-6 text-center shadow-sm">
-            <BouquetArt b={b} />
-            <h2 className="mt-5 font-serif text-2xl">{b.name}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{b.note}</p>
-            <a
-              href={`/bloom.html#preset=${b.id}`}
-              className="mt-5 inline-flex rounded-full border border-border px-5 py-2 text-sm transition hover:bg-accent"
-            >
-              Open in 3D
-            </a>
-          </article>
-        ))}
+
+      <section id="bouquets" className="collection-section landing-width" aria-labelledby="collection-title">
+        <div className="collection-heading"><div><p className="small-label">The collection</p><h2 id="collection-title">Pick a little happiness.</h2></div><span className="collection-count">Six bouquets. Endless reasons.</span></div>
+        <div className="mood-filters" aria-label="Bouquet moods">{moods.map(item => <Button key={item} variant={mood === item ? "secondary" : "ghost"} onClick={() => setMood(item)} aria-pressed={mood === item}>{item}</Button>)}</div>
+        <div className="bouquet-grid">{collection.map((b, i) => <article key={b.id} className="bouquet-item">
+          <a href={`/bloom.html#preset=${b.id}`} className={`bouquet-image bouquet-tone-${b.tone}`} aria-label={`Open ${b.name} in 3D`}>
+            <span className="bouquet-number">0{BOUQUETS.indexOf(b) + 1}</span>
+            <img src={b.image} alt={`${b.name} 3D bouquet in its vase`} loading={i < 3 ? "eager" : "lazy"} />
+            <span className="bouquet-image-icon"><ArrowUpRight size={18} /></span>
+          </a>
+          <div className="bouquet-details"><div><h3>{b.name}</h3><p>{b.note}</p></div><Button variant="ghost" size="icon" asChild><a href={`/bloom.html#preset=${b.id}`} aria-label={`Customize ${b.name}`} title={`Customize ${b.name}`}><ArrowUpRight /></a></Button></div>
+        </article>)}</div>
       </section>
+      <section className="landing-note"><div className="landing-width"><Flower2 aria-hidden="true" /><p>Not just flowers.<br />A feeling, <span>beautifully kept.</span></p><Button asChild variant="outline"><a href="/bloom.html#new">Make it personal <Sparkles /></a></Button></div></section>
+      <footer className="landing-footer landing-width"><a href="/" className="landing-brand"><Flower2 /> Bloom Studio</a><span>A little beauty, just for you.</span><Button variant="ghost" asChild><a href="/bloom.html#new">Enter the atelier <ArrowUpRight /></a></Button></footer>
     </main>
   );
 }
