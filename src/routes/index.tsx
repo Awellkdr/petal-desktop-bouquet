@@ -45,20 +45,18 @@ function Landing() {
         <Button asChild variant="outline" className="header-create"><a href="/bloom.html#new">Create a bouquet <Flower2 /></a></Button>
       </header>
 
-      <section className="landing-hero landing-width" aria-labelledby="hero-title">
-        <div className="hero-scene">
-          <div className="hero-arch" aria-hidden="true" />
-          <iframe src={`/bloom.html?embed=1${featuredGiftHash}`} title="Live interactive orchid bouquet" className="hero-bouquet" />
-          <span className="scene-caption"><span className="live-dot" /> Orchid reverie <span>01 / 06</span></span>
+      <section className="center-hero landing-width" aria-labelledby="hero-title">
+        <iframe src={`/bloom.html?embed=1${featuredGiftHash}`} title="Live interactive orchid bouquet" className="center-bouquet" />
+        <p className="center-kicker">Digital flower atelier</p>
+        <h1 id="hero-title" className="center-title">
+          <span className="ct-l">Digital</span><span className="ct-r accent">flowers</span>
+          <span className="ct-l">Real</span><span className="ct-r">feelings<em>.</em></span>
+        </h1>
+        <div className="center-copy">
+          <p>Create an interactive 3D bouquet, add your personal message, and send someone a digital flower gift they'll never expect.</p>
+          <Button size="lg" asChild className="build-bouquet"><a href="/bloom.html#new">Create a digital bouquet <ArrowUpRight /></a></Button>
+          <span className="center-foot"><Heart size={12} /> Digitally arranged. Personally sent. Always in bloom.</span>
         </div>
-        <div className="hero-copy">
-          <p className="small-label"><span /> A digital flower atelier</p>
-          <h1 id="hero-title">Adey Digital<span>Flowers for<br />every feeling.</span></h1>
-          <p className="hero-description">A little love. A thank you. A just-because.<br className="desktop-break" /> Make something beautiful that stays.</p>
-          <Button size="lg" asChild className="build-bouquet"><a href="/bloom.html#new">Build your bouquet <ArrowUpRight /></a></Button>
-          <a className="hero-collection-link" href="#bouquets">Or find your favourite below <ArrowDown size={14} /></a>
-        </div>
-        <div className="hero-footnote"><Heart size={14} /><span>Made with feeling.<br />Given with love.</span></div>
       </section>
 
       <section id="bouquets" className="collection-section landing-width" aria-labelledby="collection-title">
