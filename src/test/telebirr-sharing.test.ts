@@ -28,8 +28,8 @@ describe('Manual Telebirr sharing', () => {
     };
     await runInNewContext(paymentCode + '\npayAndShare();', { $: (key: string) => elements[key], shareLink, openShareModal: vi.fn() });
     expect(shareLink).not.toHaveBeenCalled();
-    expect(elements['#payment-error'].hidden).toBe(false);
-    expect(elements['#share-result'].hidden).toBe(true);
+    expect(elements['#payment-error']?.hidden).toBe(false);
+    expect(elements['#share-result']?.hidden).toBe(true);
   });
 
   it.each(['TX123456789', 'Telebirr: You have sent ETB 100. Transaction No TX123456789.'])(
@@ -40,7 +40,7 @@ describe('Manual Telebirr sharing', () => {
       };
       await runInNewContext(paymentCode + '\npayAndShare();', { $: (key: string) => elements[key], shareLink });
       expect(shareLink).toHaveBeenCalledOnce();
-      expect(elements['#share-result'].hidden).toBe(false);
+      expect(elements['#share-result']?.hidden).toBe(false);
     },
   );
 });

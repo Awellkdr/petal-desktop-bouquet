@@ -18,6 +18,10 @@
   --site-on-primary: #FFFFFF;
   --site-on-secondary: #FFFFFF;
   --site-on-background: #292925;
+  --gift-background: #FFFFFF;
+  --gift-ink: #292925;
+  --gift-muted: #6D655B;
+  --gift-accent: #A96773;
   --site-font-body: Inter, "Aptos", "Segoe UI", sans-serif;
   --site-font-heading: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --site-heading-scale: 1;
@@ -310,6 +314,26 @@ body:hover .pip-top-bar, .pip-top-bar:focus-within { opacity:1; }
 html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage-wrap { background:transparent !important; }
 .bloom-embed #workspace, .bloom-embed #stage-wrap { height:100vh !important; min-height:0 !important; }
 .bloom-embed { overflow:hidden; }
+/* Read-only gift presentation, separate from the native transparent widget. */
+body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap { background:var(--gift-background) !important; color:var(--gift-ink); }
+#app.recipient-mode .topbar, #app.recipient-mode #panel, #app.recipient-mode .stage-topline,
+#app.recipient-mode .scene-toolbar, #app.recipient-mode .rotation-tip, #app.recipient-mode .view-controls,
+#app.recipient-mode #widget-floating-dock, #app.recipient-mode .gift-min-btn,
+#app.recipient-mode .gift-card-actions > :not([data-action="download-native-aot-launcher"]) { display:none !important; }
+#app.recipient-mode #workspace { height:auto !important; }
+#app.recipient-mode #stage-wrap { display:grid; grid-template-rows:minmax(320px,1fr) auto; min-height:100svh; height:auto !important; }
+#app.recipient-mode #bouquet-canvas { position:relative; inset:auto; grid-row:1; min-height:320px; height:100%; }
+#app.recipient-mode .gift-overlay { position:relative; grid-row:2; justify-self:center; top:auto; left:auto; width:min(560px,100%); padding:12px 24px 36px; border:0; border-radius:0; box-shadow:none; background:transparent; backdrop-filter:none; text-align:center; }
+#app.recipient-mode .gift-kicker { color:var(--gift-accent); letter-spacing:0; }
+#app.recipient-mode .gift-to { color:var(--gift-ink); font-size:30px; overflow-wrap:anywhere; }
+#app.recipient-mode .gift-message { color:var(--gift-muted); font-size:14px; line-height:1.65; }
+#app.recipient-mode .gift-from { color:var(--gift-muted); border:0; font-size:12px; overflow-wrap:anywhere; }
+#app.recipient-mode .gift-card-actions { justify-content:center; border:0; margin-top:16px; padding:0; }
+#app.recipient-mode .gift-mini-action { background:var(--gift-ink); color:var(--gift-background); border:0; border-radius:8px; padding:12px 18px; font-size:13px; white-space:normal; }
+.recipient-create { display:none; position:absolute; z-index:4; top:22px; right:24px; font-size:12px; color:var(--gift-muted); text-decoration:none; }
+#app.recipient-mode .recipient-create { display:block; }
+.recipient-create:hover { color:var(--gift-ink); text-decoration:underline; }
+@media(max-width:700px) { #app.recipient-mode .gift-overlay { padding-bottom:26px; } .recipient-create { top:16px; right:16px; } }
 @media(max-width:700px) { .topbar { flex-wrap:wrap; height:auto; flex-basis:auto; padding:10px 12px; gap:10px; } .top-actions { width:100%; justify-content:space-between; } .studio-home { margin-left:auto; } }
 </style>
 <div id="app" data-sites-preview-theme>
@@ -331,6 +355,7 @@ html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage
   <main id="workspace">
     <section id="stage-wrap" aria-label="Interactive 3D bouquet workspace">
       <canvas id="bouquet-canvas" aria-label="Interactive 3D bouquet. Drag to rotate, scroll or pinch to zoom." tabindex="0"></canvas>
+      <a class="recipient-create" href="/bloom.html?create=1#new">Create your own bouquet ↗</a>
       <div class="stage-topline"><div class="eyebrow">The studio · 3D workspace</div><div class="scene-pill"><b></b><span id="flower-count">14 flowers</span></div></div>
       <!-- Floating control bar when viewing in No-Background Desktop Widget or Recipient Gift Mode -->
       <div class="widget-floating-dock" id="widget-floating-dock" aria-label="3D Widget controls" style="-webkit-app-region:no-drag">
@@ -454,6 +479,7 @@ function starterState(){
     turntable:false,
     transparentBg:false,
     widgetMode:false,
+    recipientMode:false,
     cardMinimized:false,
     section:'flowers',
     flowerFilter:'All flowers',
@@ -2553,11 +2579,14 @@ function updateStats(){
   }
   const appEl = $('#app');
   if(appEl){
+    appEl.classList.toggle('recipient-mode', !!state.recipientMode);
     appEl.classList.toggle('widget-mode', !!state.widgetMode);
     appEl.classList.toggle('widget-transparent', !!state.transparentBg);
   }
   document.body.classList.toggle('widget-checker', !!(state.transparentBg && !state.widgetMode));
   document.body.classList.toggle('widget-transparent', !!(state.transparentBg && state.widgetMode));
+  document.body.classList.toggle('recipient-mode', !!state.recipientMode);
+  if(state.recipientMode) document.title='Adey Digital — A Bouquet for You';
   const topWidgetBtn = $('#top-widget-toggle');
   if(topWidgetBtn) topWidgetBtn.classList.toggle('active', !!(state.widgetMode || state.transparentBg));
   const dockBgBtn = $('#dock-bg-btn');
@@ -2836,7 +2865,7 @@ function finishPointer(e){
   const p=pointers.get(e.pointerId);if(!p)return;
   pointers.delete(e.pointerId);
   if(dragStart&&pointers.size===0){
-    if(!dragStart.moved&&Math.hypot(e.clientX-p.startX,e.clientY-p.startY)<6){
+    if(!state.recipientMode&&!dragStart.moved&&Math.hypot(e.clientX-p.startX,e.clientY-p.startY)<6){
       const picked=pickFlower(e.clientX,e.clientY);
       if(picked){state.selectedId=picked.id;state.selectedGreenId=null;state.section='arrange';renderPanel();rebuildScene();}
       else{state.selectedId=null;state.selectedGreenId=null;rebuildScene();}
@@ -3228,10 +3257,19 @@ function maybeLoadHash(){
     const loaded = safeImported(JSON.parse(json));
     loaded.previewGift = true;
     loaded.section = 'gift';
-    if (isWidget) {
+    loaded.recipientMode = isGift && !window.bloomDesktop;
+    loaded.selectedId = null;
+    loaded.selectedGreenId = null;
+    loaded.cardMinimized = false;
+    if (isWidget || window.bloomDesktop) {
+      loaded.recipientMode = false;
       loaded.widgetMode = true;
       loaded.transparentBg = true;
       loaded.turntable = true;
+    } else {
+      loaded.widgetMode = false;
+      loaded.transparentBg = true;
+      loaded.turntable = false;
     }
     state = loaded;
     nextId = Math.max(nextId, ...state.flowers.concat(state.greens).map(o=>parseInt(String(o.id).replace(/\D/g,''),10)||0), 0) + 1;
@@ -3243,6 +3281,7 @@ function maybeLoadHash(){
 maybeLoadHash();
 // Landing embeds reuse the real bouquet renderer without editor or desktop controls.
 if(new URLSearchParams(location.search).has('embed')) {
+  state.recipientMode=false;
   state.widgetMode=true;
   state.transparentBg=true;
   state.previewGift=false;
@@ -3301,7 +3340,7 @@ function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.c
     break;
   case 'open-recipient-preview':
     closeShareModal();
-    state.widgetMode=true;state.transparentBg=false;state.previewGift=true;state.turntable=true;
+    state.recipientMode=true;state.widgetMode=false;state.transparentBg=true;state.previewGift=true;state.cardMinimized=false;state.selectedId=null;state.selectedGreenId=null;
     updateStats();setTimeout(()=>{resizeCanvas();triggerBloomAnimation();},40);
     toast('Recipient 3D Gift View — rotate, zoom in, and read your personal note.');
     break;
@@ -3413,7 +3452,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
 
   function relabel(){
     document.querySelectorAll('[data-action="download-native-aot-launcher"]').forEach(b=>{
-      const label = b.classList.contains('widget-dock-btn') ? '↓ Keep on desktop' : '♡ Keep this bouquet on my desktop';
+      const label = b.closest('#app.recipient-mode') ? '↓ Get the desktop widget' : b.classList.contains('widget-dock-btn') ? '↓ Keep on desktop' : '♡ Keep this bouquet on my desktop';
       if (b.textContent !== label) b.textContent = label;
       b.title='Install the Adey Digital widget: a see-through bouquet that stays above every window';
     });
