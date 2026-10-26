@@ -16,3 +16,4 @@
 
 - The static studio sharing dialog collects a manual transfer reference only in memory and gates link copying on its presence; it does not verify or store payments. Why: the requested payment instructions are manual, with no payment-service integration.
 - Keep legacy desktop protocol and installer artifact names stable when rebranding display names. Why: existing installations and release download links must keep working.
+- Gift hashes activate a read-only recipient presentation independently of native widget mode; embeds override it and new/preset launches remain editable. Why: recipients see their gift without editor controls, while the same renderer supports the landing page and transparent desktop app.
