@@ -321,9 +321,9 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
 #app.recipient-mode #widget-floating-dock, #app.recipient-mode .gift-min-btn,
 #app.recipient-mode .gift-card-actions > :not([data-action="download-native-aot-launcher"]) { display:none !important; }
 #app.recipient-mode #workspace { height:auto !important; }
-#app.recipient-mode #stage-wrap { display:grid; grid-template-rows:minmax(320px,1fr) auto; min-height:100svh; height:auto !important; }
-#app.recipient-mode #bouquet-canvas { position:relative; inset:auto; grid-row:1; min-height:320px; height:100%; }
-#app.recipient-mode .gift-overlay { position:relative; grid-row:2; justify-self:center; top:auto; left:auto; width:min(560px,100%); padding:12px 24px 36px; border:0; border-radius:0; box-shadow:none; background:transparent; backdrop-filter:none; text-align:center; }
+#app.recipient-mode #stage-wrap { display:grid; grid-template-rows:minmax(0,1fr) auto; height:100svh !important; min-height:0; overflow:hidden; }
+#app.recipient-mode #bouquet-canvas { position:relative; inset:auto; grid-row:1; min-height:0; height:100% !important; width:100% !important; }
+#app.recipient-mode .gift-overlay { position:relative; grid-row:2; justify-self:center; top:auto; left:auto; width:min(560px,100%); padding:4px 24px 22px; max-height:46svh; overflow:auto; border:0; border-radius:0; box-shadow:none; background:transparent; backdrop-filter:none; text-align:center; }
 #app.recipient-mode .gift-kicker { color:var(--gift-accent); letter-spacing:0; }
 #app.recipient-mode .gift-to { color:var(--gift-ink); font-size:30px; overflow-wrap:anywhere; }
 #app.recipient-mode .gift-message { color:var(--gift-muted); font-size:14px; line-height:1.65; }
@@ -355,7 +355,7 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
   <main id="workspace">
     <section id="stage-wrap" aria-label="Interactive 3D bouquet workspace">
       <canvas id="bouquet-canvas" aria-label="Interactive 3D bouquet. Drag to rotate, scroll or pinch to zoom." tabindex="0"></canvas>
-      <a class="recipient-create" href="/bloom.html?create=1#new">Create your own bouquet ↗</a>
+      <a class="recipient-create" href="/">Create your own bouquet ↗</a>
       <div class="stage-topline"><div class="eyebrow">The studio · 3D workspace</div><div class="scene-pill"><b></b><span id="flower-count">14 flowers</span></div></div>
       <!-- Floating control bar when viewing in No-Background Desktop Widget or Recipient Gift Mode -->
       <div class="widget-floating-dock" id="widget-floating-dock" aria-label="3D Widget controls" style="-webkit-app-region:no-drag">
