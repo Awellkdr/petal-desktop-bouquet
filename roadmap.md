@@ -9,4 +9,4 @@
 - [x] Connect Windows/Mac installer links to the repository releases; owner confirmed both release jobs completed.
 - [x] Apply Adey Digital branding, white orchid background, and simplified studio controls.
 - [x] Add and verify manual Telebirr transfer steps and reference-required sharing.
-- [ ] Streamline gift recipients to bouquet, personal note, desktop installer, and discreet create link; verify interactions and studio isolation.
+- [x] Streamline gift recipients to bouquet, personal note, desktop installer, and discreet create link; verified live rotation, mobile layout, transparent widget handoff, and return to the empty-vase editor.
