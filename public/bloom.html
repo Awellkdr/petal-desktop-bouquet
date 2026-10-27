@@ -417,10 +417,14 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
     <button class="primary-btn rose wide-button" id="pay-share-button" data-action="confirm-payment">Confirm payment</button>
     <p class="payment-notice" id="order-status" role="status" hidden></p>
     <button class="outline-btn wide-button" id="share-bouquet-button" data-action="share-approved" disabled style="margin-top:8px">Share bouquet ↗ (waits for confirmation)</button>
-    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share">⧉ Copy link</button></div><p class="payment-notice" role="status">Payment confirmed. Your short link is ready.</p></div>
+    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share-approved">⧉ Copy link</button></div><p class="payment-notice" role="status">Payment confirmed. Your short link is ready.</p></div>
   </div>
 </div>
 
+<script>
+(function(){var m=location.hash.match(/^#g=([a-z0-9]{6,16})$/);if(!m)return;document.documentElement.style.visibility='hidden';
+fetch('https://c--eaa539e1-10d0-4ec3-85ca-a046457d8073-prod.lovable.cloud/rest/v1/rpc/get_gift',{method:'POST',headers:{apikey:'sb_publishable_lxt-DJLVi4ltcrm4ATDZlA_capVSJyL','Content-Type':'application/json'},body:JSON.stringify({_code:m[1]})}).then(function(r){return r.json()}).then(function(p){if(typeof p==='string'&&p){history.replaceState(null,'',location.pathname+'#gift='+p);location.reload();}else{document.documentElement.style.visibility='';document.body.innerHTML='<p style="font:16px Manrope,sans-serif;text-align:center;margin-top:30vh">This bouquet is not available yet. <a href="/">Visit Adey Digital</a></p>';}}).catch(function(){document.documentElement.style.visibility='';});})();
+</script>
 <div id="toast" role="status" aria-live="polite"></div>
 <input id="import-file" type="file" accept="application/json,.json" hidden>
 <script>
