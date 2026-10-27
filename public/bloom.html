@@ -10,20 +10,21 @@
 <meta property="og:description" content="Create a personal interactive 3D bouquet and send a thoughtful digital flower gift.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 :root {
-  --site-primary: #C88791;
+  --site-primary: #8C6BB1;
   --site-secondary: #829784;
-  --site-background: #F7F4EF;
+  --site-background: #FBFAFD;
   --site-on-primary: #FFFFFF;
   --site-on-secondary: #FFFFFF;
   --site-on-background: #292925;
   --gift-background: #FFFFFF;
   --gift-ink: #292925;
   --gift-muted: #6D655B;
-  --gift-accent: #A96773;
-  --site-font-body: Inter, "Aptos", "Segoe UI", sans-serif;
-  --site-font-heading: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --gift-accent: #8C6BB1;
+  --site-font-body: "Manrope", "Segoe UI", sans-serif;
+  --site-font-heading: "Manrope", "Segoe UI", sans-serif;
   --site-heading-scale: 1;
   --site-spacing-scale: 1;
   --site-radius-scale: 1;
@@ -39,7 +40,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 #app { background-color: light-dark(var(--site-background), #20201E); color: light-dark(var(--site-on-background), #F4F0E9); min-height: 100vh; width: 100%; border-radius: 0; display: flex; flex-direction: column; overflow: hidden; --surface: light-dark(#FFFEFC, #292927); --surface-2: light-dark(#F2EEE8, #343431); --border: light-dark(#E5DED5, #494742); --muted: light-dark(#817B73, #B9B2A8); --ink: light-dark(#292925, #F5F0E9); --soft-ink: light-dark(#5F5A53, #D4CEC5); }
 .topbar { height: 70px; flex: 0 0 70px; display: flex; align-items: center; gap: 24px; padding: 0 26px; background: var(--surface); border-bottom: 1px solid var(--border); position: relative; z-index: 5; }
 .brand { display:flex; align-items:center; gap:10px; min-width: 228px; }
-.brand-mark { width: 31px; height:31px; color:#C88791; flex:0 0 auto; }
+.brand-mark { width: 31px; height:31px; color:#8C6BB1; flex:0 0 auto; }
 .brand-name { font-family: var(--site-font-heading); font-size: calc(22px * var(--site-heading-scale)); letter-spacing:-.7px; line-height:1; }
 .brand-sub { display:block; margin-top:4px; color:var(--muted); font-size:9px; text-transform:uppercase; letter-spacing:1.7px; }
 .draft-state { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:11px; letter-spacing:.2px; white-space:nowrap; }
@@ -111,7 +112,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .flower-desc { margin-top:4px; color:var(--muted); font-size:9px; display:block; }
 .add-button { width:29px; height:29px; flex:0 0 29px; border:1px solid var(--border); border-radius:9px; background:var(--surface); color:#A76F78; font-size:19px; font-weight:300; cursor:pointer; display:grid; place-items:center; line-height:1; }
 .qty{display:flex;align-items:center;gap:6px;}.qty-count{min-width:16px;text-align:center;font-size:12px;color:var(--muted);}.add-button:disabled{opacity:.35;cursor:default;}
-.add-button:hover { border-color:#C88791; background:#F6EBE8; }
+.add-button:hover { border-color:#8C6BB1; background:#F6EBE8; }
 .swatch-row { display:flex; gap:7px; flex-wrap:wrap; align-items:center; }
 .swatch { width:21px; height:21px; border-radius:50%; background:var(--swatch); border:2px solid var(--surface); box-shadow:0 0 0 1px var(--border); cursor:pointer; padding:0; position:relative; }
 .swatch.selected { box-shadow:0 0 0 2px #B97883; }
@@ -119,21 +120,21 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .divider { height:1px; background:var(--border); margin:18px 0; }
 .palette-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .palette-card { text-align:left; padding:10px; border:1px solid var(--border); border-radius:11px; background:transparent; cursor:pointer; color:var(--ink); }
-.palette-card:hover, .palette-card.active { border-color:#C88791; background:#FBF3F0; }
+.palette-card:hover, .palette-card.active { border-color:#8C6BB1; background:#F4EFFA; }
 .palette-dots { display:flex; gap:4px; margin-bottom:8px; }
 .palette-dots i { display:block; width:13px; height:13px; border-radius:50%; background:var(--dot); border:1px solid #00000008; }
 .palette-name { font-size:10px; font-weight:650; }
 .palette-card small { display:block; font-size:9px; color:var(--muted); margin-top:3px; }
 .preset-list { display:flex; flex-direction:column; gap:7px; }
 .preset-card { display:flex; align-items:center; gap:11px; padding:11px; border-radius:12px; border:1px solid var(--border); background:transparent; text-align:left; color:var(--ink); cursor:pointer; }
-.preset-card:hover, .preset-card.active { border-color:#C88791; background:#FBF3F0; }
+.preset-card:hover, .preset-card.active { border-color:#8C6BB1; background:#F4EFFA; }
 .preset-art { width:42px; height:42px; flex:0 0 42px; border-radius:10px; background:linear-gradient(145deg,#F4E4DE,#E8DED1); display:grid; place-items:center; font-size:20px; }
 .preset-card strong { display:block; font-size:10px; }
 .preset-card small { display:block; color:var(--muted); font-size:9px; margin-top:4px; line-height:1.3; }
 .wide-button { width:100%; justify-content:center; margin-top:10px; }
 .form-label { display:block; font-size:10px; font-weight:650; color:var(--soft-ink); margin:0 0 7px; }
 .input-field, .select-field, .textarea-field { display:block; width:100%; color:var(--ink); background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:10px 11px; font-size:11px; outline:none; margin:0 0 14px; }
-.input-field:focus, .textarea-field:focus, .select-field:focus { border-color:#C88791; }
+.input-field:focus, .textarea-field:focus, .select-field:focus { border-color:#8C6BB1; }
 .textarea-field { resize:vertical; min-height:85px; line-height:1.5; }
 .control-block { margin:0 0 18px; }
 .range-top { display:flex; justify-content:space-between; align-items:center; font-size:10px; margin-bottom:9px; color:var(--soft-ink); }
@@ -141,7 +142,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 input[type=range] { width:100%; accent-color:#B97883; cursor:pointer; }
 .shape-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
 .shape-card { min-height:92px; padding:10px 8px; border:1px solid var(--border); border-radius:12px; background:transparent; cursor:pointer; color:var(--ink); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; }
-.shape-card:hover, .shape-card.active { border-color:#C88791; background:#FBF3F0; }
+.shape-card:hover, .shape-card.active { border-color:#8C6BB1; background:#F4EFFA; }
 .shape-card svg { width:32px; height:36px; overflow:visible; }
 .shape-card span { font-size:10px; font-weight:600; }
 .color-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px 6px; }
@@ -207,7 +208,7 @@ body.widget-checker #stage-wrap {
 #app.widget-mode .widget-floating-dock { display:flex; }
 .widget-dock-btn { border:0; background:transparent; color:#F5F0E9; font-size:11px; padding:6px 10px; border-radius:9px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
 .widget-dock-btn:hover { background:#FFFFFF1F; }
-.widget-dock-btn.rose { background:#C88791; color:#fff; font-weight:600; }
+.widget-dock-btn.rose { background:#8C6BB1; color:#fff; font-weight:600; }
 .widget-dock-btn.rose:hover { background:#B6737E; }
 
 /* Share 3D Bouquet Modal */
@@ -411,13 +412,19 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
     <div class="payment-heading"><strong>Pay with Telebirr</strong><span>100 ETB</span></div>
     <div class="payment-step"><span class="payment-step-number">1</span><div><strong>Send 100 ETB</strong><p>To Awel Kedir</p><div class="payment-number-row"><span id="telebirr-number">0921603875</span><button class="outline-btn" data-action="copy-telebirr-number" aria-label="Copy Telebirr number">⧉ Copy number</button></div></div></div>
     <div class="payment-step"><span class="payment-step-number">2</span><div><label class="form-label" for="telebirr-confirmation">Paste your Telebirr confirmation SMS or transaction number</label><textarea class="textarea-field" id="telebirr-confirmation" maxlength="1500" placeholder="Confirmation SMS or transaction number" aria-describedby="telebirr-notice payment-error"></textarea></div></div>
-    <p class="payment-notice" id="telebirr-notice">Manual Telebirr transfer. Payment is not automatically verified.</p>
+    <p class="payment-notice" id="telebirr-notice">After you confirm, we check your payment and unlock sharing.</p>
     <p class="payment-error" id="payment-error" role="alert" hidden></p>
-    <button class="primary-btn rose wide-button" id="pay-share-button" data-action="pay-and-share">Pay and share Bouquet ↗</button>
-    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share">⧉ Copy link</button></div><p class="payment-notice" role="status">Your link is ready. Payment has not been verified.</p></div>
+    <button class="primary-btn rose wide-button" id="pay-share-button" data-action="confirm-payment">Confirm payment</button>
+    <p class="payment-notice" id="order-status" role="status" hidden></p>
+    <button class="outline-btn wide-button" id="share-bouquet-button" data-action="share-approved" disabled style="margin-top:8px">Share bouquet ↗ (waits for confirmation)</button>
+    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share-approved">⧉ Copy link</button></div><p class="payment-notice" role="status">Payment confirmed. Your short link is ready.</p></div>
   </div>
 </div>
 
+<script>
+(function(){var m=location.hash.match(/^#g=([a-z0-9]{6,16})$/);if(!m)return;document.documentElement.style.visibility='hidden';
+fetch('https://c--eaa539e1-10d0-4ec3-85ca-a046457d8073-prod.lovable.cloud/rest/v1/rpc/get_gift',{method:'POST',headers:{apikey:'sb_publishable_lxt-DJLVi4ltcrm4ATDZlA_capVSJyL','Content-Type':'application/json'},body:JSON.stringify({_code:m[1]})}).then(function(r){return r.json()}).then(function(p){if(typeof p==='string'&&p){history.replaceState(null,'',location.pathname+'#gift='+p);location.reload();}else{document.documentElement.style.visibility='';document.body.innerHTML='<p style="font:16px Manrope,sans-serif;text-align:center;margin-top:30vh">This bouquet is not available yet. <a href="/">Visit Adey Digital</a></p>';}}).catch(function(){document.documentElement.style.visibility='';});})();
+</script>
 <div id="toast" role="status" aria-live="polite"></div>
 <input id="import-file" type="file" accept="application/json,.json" hidden>
 <script>
@@ -558,7 +565,7 @@ function shapeIcon(id){
   let body=paths[id]||paths.round; let ribs=id==='ribbed'?'<path d="M14 7 L12 28 M19 7 L18 29 M24 7 L25 29 M28 7 L30 28" stroke="#B1A59A" stroke-width="1" fill="none"/>':'';
   return `<svg viewBox="0 0 40 36" fill="#D7A0A5" stroke="#A98D8E" stroke-width="1.2"><path d="${body}"/>${ribs}<path d="M13 5 L27 5" stroke="#817775" stroke-width="2.2" stroke-linecap="round"/></svg>`;
 }
-function tabBar(){const tabs=[['flowers','✿','Flowers'],['arrange','⌘','Arrange'],['vase','♧','Vase'],['greenery','❧','Greenery'],['studio','☼','Studio'],['gift','♡','Share 3D']];return `<div class="panel-tabs">${tabs.map(([id,icon,label])=>`<button class="panel-tab ${state.section===id?'active':''}" data-action="section" data-value="${id}" aria-pressed="${state.section===id}"><span class="tab-icon">${icon}</span><span>${label}</span></button>`).join('')}</div>`;}
+function tabBar(){const tabs=[['flowers','✿','Flowers'],['arrange','⌘','Arrange'],['vase','♧','Vase'],['greenery','❧','Greenery'],['gift','♡','Message']];return `<div class="panel-tabs">${tabs.map(([id,icon,label])=>`<button class="panel-tab ${state.section===id?'active':''}" data-action="section" data-value="${id}" aria-pressed="${state.section===id}"><span class="tab-icon">${icon}</span><span>${label}</span></button>`).join('')}</div>`;}
 function sectionHeader(kicker,title,subtitle){return `<div class="panel-heading"><div class="eyebrow">${kicker}</div><div class="panel-title">${title}</div><div class="panel-subtitle">${subtitle}</div></div>`;}
 function flowerPanel(){
   const categories=['All flowers','Roses','Seasonal','Statement','Filler'];
@@ -602,7 +609,7 @@ function greeneryPanel(){
  return `${sectionHeader('Natural finishing touches','Add a little green','Layer foliage to soften edges and give the bouquet more movement.')}
  <div class="panel-scroll"><div class="section-row"><span class="section-title">Foliage & accents</span><span class="count-badge">${state.greens.length} stems</span></div>${types.map(([name,desc,id,icon])=>`<div class="green-card"><span class="green-icon">${icon}</span><span style="min-width:0;flex:1"><strong>${name}</strong><small>${desc}</small></span><button class="add-button" data-action="add-greenery" data-value="${id}" aria-label="Add ${name}">+</button></div>`).join('')}
  <div class="divider"></div><div class="section-row"><span class="section-title">Foliage density</span></div><div class="finish-row">${['Minimal','Balanced','Lush'].map(d=>`<button class="finish-choice ${state.density===d?'active':''}" data-action="density" data-value="${d}">${d}</button>`).join('')}</div>
- ${state.greens.length?`<div class="divider"></div><div class="section-row"><span class="section-title">Added stems</span><span class="section-caption">Select to remove</span></div>${state.greens.map(g=>`<div class="green-card" style="${state.selectedGreenId===g.id?'border-color:#C88791;background:#FBF3F0':''}"><span class="green-icon">${g.type==='fern'?'❧':g.type==='filler'?'✿':'♧'}</span><span style="min-width:0;flex:1"><strong>${g.type==='ornamental'?'Ornamental leaves':g.type[0].toUpperCase()+g.type.slice(1)}</strong><small>Foliage stem</small></span><button class="add-button" data-action="remove-greenery" data-id="${g.id}" aria-label="Remove ${g.type}">×</button></div>`).join('')}`:''}
+ ${state.greens.length?`<div class="divider"></div><div class="section-row"><span class="section-title">Added stems</span><span class="section-caption">Select to remove</span></div>${state.greens.map(g=>`<div class="green-card" style="${state.selectedGreenId===g.id?'border-color:#8C6BB1;background:#F4EFFA':''}"><span class="green-icon">${g.type==='fern'?'❧':g.type==='filler'?'✿':'♧'}</span><span style="min-width:0;flex:1"><strong>${g.type==='ornamental'?'Ornamental leaves':g.type[0].toUpperCase()+g.type.slice(1)}</strong><small>Foliage stem</small></span><button class="add-button" data-action="remove-greenery" data-id="${g.id}" aria-label="Remove ${g.type}">×</button></div>`).join('')}`:''}
  <p class="footer-note">Foliage stems are separate 3D objects. Add or remove them without changing the flower count.</p></div>`;
 }
 function studioPanel(){
@@ -619,31 +626,13 @@ function studioPanel(){
 }
 function giftPanel(){
  const occasionList=['Birthday','Anniversary','Thank You','Congratulations','Get Well Soon','Just Because','Thinking of You','Love'];
- return `${sectionHeader('Most memorable','Share 3D bouquet','Send a private link that opens in any browser, or download an interactive 3D desktop widget with no background.')}
+ return `${sectionHeader('Your gift','Message','This note appears next to the 3D bouquet.')}
  <div class="panel-scroll">
- <div class="most-memorable-tag" style="margin-bottom:12px">✦ Interactive 3D Gift & Desktop Widget</div>
  <label class="form-label" for="gift-recipient">Recipient's name</label><input class="input-field" id="gift-recipient" data-gift="recipient" maxlength="80" placeholder="Who is this for?" value="${esc(state.gift.recipient)}">
  <label class="form-label" for="gift-occasion">Occasion</label><select class="select-field" id="gift-occasion" data-gift="occasion">${occasionList.map(o=>`<option ${state.gift.occasion===o?'selected':''}>${o}</option>`).join('')}</select>
  <label class="form-label" for="gift-message">Personal note (displayed alongside the 3D bouquet)</label><textarea class="textarea-field" id="gift-message" data-gift="message" maxlength="420" placeholder="Write something thoughtful...">${esc(state.gift.message)}</textarea>
  <label class="form-label" for="gift-sender">From</label><input class="input-field" id="gift-sender" data-gift="sender" maxlength="80" placeholder="Your name" value="${esc(state.gift.sender)}">
- <div class="divider"></div>
- <div class="section-row"><span class="section-title">1. Send a private browser link</span><span class="section-caption">No install needed</span></div>
- <button class="primary-btn rose wide-button" data-action="open-share-modal">↗ &nbsp; Share interactive 3D bouquet</button>
- <button class="outline-btn wide-button" data-action="share">🔗 &nbsp; Copy private 3D link</button>
- <button class="outline-btn wide-button" data-action="open-recipient-preview">♡ &nbsp; Preview as recipient</button>
- <div class="divider"></div>
- <div class="section-row"><span class="section-title">2. Always-On-Top 3D Desktop Widget</span><span class="section-caption">Floats above windows</span></div>
- <button class="aot-hero-btn" style="margin-top:4px;margin-bottom:8px" data-action="launch-aot-widget">⧉ &nbsp; Pin 3D Widget Above All Windows</button>
- <button class="primary-btn wide-button" data-action="download-native-aot-launcher">↓ &nbsp; Download Frameless Desktop App (No BG)</button>
- <button class="outline-btn wide-button" data-action="download-desktop-widget">↓ &nbsp; Download 3D Widget (.html)</button>
- <button class="outline-btn wide-button" data-action="toggle-widget-mode">◌ &nbsp; ${state.widgetMode?'Exit 3D widget preview':'Preview no-background 3D widget'}</button>
- <button class="outline-btn wide-button" data-action="snapshot-transparent">◎ &nbsp; Download transparent 3D PNG</button>
- <div class="divider"></div>
- <div class="section-row"><span class="section-title">Backup & device storage</span></div>
- <button class="outline-btn wide-button" data-action="save">⌑ &nbsp; Save on this device</button>
- <button class="outline-btn wide-button" data-action="export">↓ &nbsp; Export arrangement (.json)</button>
- <button class="outline-btn wide-button" data-action="import">↑ &nbsp; Import arrangement</button>
- <p class="footer-note">Your private link & downloaded 3D desktop widget contain the exact 3D bouquet and personal note with zero external dependencies.</p></div>`;
+ </div>`;
 }
 function renderPanel(){
  let content=''; if(state.section==='flowers')content=flowerPanel();else if(state.section==='arrange')content=arrangePanel();else if(state.section==='vase')content=vasePanel();else if(state.section==='greenery')content=greeneryPanel();else if(state.section==='studio')content=studioPanel();else content=giftPanel();
@@ -2150,7 +2139,7 @@ function makeFlowerGeo(f, selected=false){
       const a = (i / 44) * Math.PI * 2;
       ptsRing.push(localToWorld(ringFrame, Math.cos(a)*0.24, 0.02, Math.sin(a)*0.24));
     }
-    g.tube(ptsRing, 0.0058, '#C88791', 1, 6, 6.0);
+    g.tube(ptsRing, 0.0058, '#8C6BB1', 1, 6, 6.0);
   }
   return g;
 }
@@ -2294,7 +2283,7 @@ function makeGreenGeo(item, selected=false){
       const a = i / 36 * Math.PI * 2;
       r.push([dx + Math.cos(a)*0.16, height + Math.sin(a)*0.16, dz + 0.02]);
     }
-    g.tube(r, 0.006, '#C88791', 1, 5, 6.0);
+    g.tube(r, 0.006, '#8C6BB1', 1, 5, 6.0);
   }
   return g;
 }
@@ -2968,6 +2957,45 @@ async function copyTelebirrNumber(){
   try { await navigator.clipboard.writeText(TELEBIRR_PAYMENT.phone); toast('Telebirr number copied.'); }
   catch { toast('Copy this number: ' + TELEBIRR_PAYMENT.phone); }
 }
+
+const ADEY_API = Object.freeze({ url: 'https://c--eaa539e1-10d0-4ec3-85ca-a046457d8073-prod.lovable.cloud', key: 'sb_publishable_lxt-DJLVi4ltcrm4ATDZlA_capVSJyL' });
+async function adeyRpc(fn, body){
+  const r = await fetch(ADEY_API.url + '/rest/v1/rpc/' + fn, { method:'POST', headers:{ apikey: ADEY_API.key, 'Content-Type':'application/json' }, body: JSON.stringify(body) });
+  if(!r.ok) throw new Error('Request failed');
+  return r.json();
+}
+let orderCode = null, orderTimer = null;
+function shortGiftUrl(code){ return location.origin + '/g/' + code; }
+function setOrderUi(status){
+  const st = $('#order-status'), btn = $('#share-bouquet-button'), pay = $('#pay-share-button');
+  if(!st) return;
+  st.hidden = false;
+  if(status === 'approved'){ st.textContent = 'Payment confirmed. You can share your bouquet now.'; btn.disabled = false; btn.textContent = 'Share bouquet ↗'; pay.disabled = true; }
+  else if(status === 'rejected'){ st.textContent = 'We could not confirm this payment. Check the transaction number and try again.'; btn.disabled = true; pay.disabled = false; }
+  else { st.textContent = 'Payment sent for confirmation. This usually takes a few minutes — keep this window open.'; btn.disabled = true; pay.disabled = true; }
+}
+function watchOrder(code){
+  clearInterval(orderTimer);
+  const check = async () => { try { const s = await adeyRpc('gift_order_status', { _code: code }); setOrderUi(s); if(s !== 'pending') clearInterval(orderTimer); } catch {} };
+  check(); orderTimer = setInterval(check, 8000);
+}
+async function confirmPayment(){
+  if(!requireTelebirrReference()) return;
+  $('#payment-error').hidden = true;
+  const pay = $('#pay-share-button'); pay.disabled = true;
+  try{
+    const ref = $('#telebirr-confirmation').value.trim();
+    orderCode = await adeyRpc('submit_gift_order', { _payload: encodeGiftPayload({ widgetMode:false, previewGift:true }), _reference: ref, _recipient: state.gift.recipient || '', _sender: state.gift.sender || '' });
+    try { localStorage.setItem('adey-last-order', orderCode); } catch {}
+    setOrderUi('pending'); watchOrder(orderCode);
+  }catch(e){ pay.disabled = false; const er=$('#payment-error'); er.textContent='Could not send your payment details. Please try again.'; er.hidden=false; }
+}
+async function shareApproved(){
+  if(!orderCode) return;
+  const url = shortGiftUrl(orderCode);
+  $('#share-result').hidden = false; $('#share-link-input').value = url;
+  try { if(navigator.share) { await navigator.share({ title:'A bouquet for you', url }); return; } await navigator.clipboard.writeText(url); toast('Bouquet link copied.'); } catch { toast('Copy your link from the box.'); }
+}
 async function payAndShare(){
   if(!requireTelebirrReference()) return;
   $('#payment-error').hidden = true;
@@ -3369,7 +3397,8 @@ function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.c
   case 'export':exportJSON();break;
   case 'import':$('#import-file').click();break;
   case 'copy-telebirr-number':copyTelebirrNumber();break;
-  case 'pay-and-share':payAndShare();break;
+  case 'pay-and-share':case 'confirm-payment':confirmPayment();break;
+  case 'share-approved':shareApproved();break;
   case 'share':shareLink();break;
  }
  updateHistoryButtons();updateStats();
@@ -3441,7 +3470,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
     .bw-card h3{font-family:var(--site-font-heading);font-size:26px;margin:0 0 6px;letter-spacing:-.4px}
     .bw-card p{font-size:13px;line-height:1.55;color:#5F5A53;margin:0 0 16px}
     .bw-step{display:flex;gap:12px;align-items:flex-start;border:1px solid #E5DED5;border-radius:14px;padding:14px;margin-bottom:10px}
-    .bw-num{flex:0 0 26px;height:26px;border-radius:50%;background:#C88791;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+    .bw-num{flex:0 0 26px;height:26px;border-radius:50%;background:#8C6BB1;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
     .bw-step strong{display:block;font-size:13px;margin-bottom:8px}
     .bw-btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;background:linear-gradient(135deg,#C47D88,#A9636E);color:#fff}
     .bw-btn.ghost{background:transparent;color:#292925;border:1px solid #E5DED5}
