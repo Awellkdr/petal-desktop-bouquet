@@ -3306,6 +3306,7 @@ function maybeLoadHash(){
       loaded.widgetMode = false;
       loaded.transparentBg = true;
       loaded.turntable = !!loaded.recipientMode;
+      if (loaded.recipientMode) { camera.radius = 5.15; camera.yaw = .55; camera.pitch = .2; }
     }
     state = loaded;
     nextId = Math.max(nextId, ...state.flowers.concat(state.greens).map(o=>parseInt(String(o.id).replace(/\D/g,''),10)||0), 0) + 1;
