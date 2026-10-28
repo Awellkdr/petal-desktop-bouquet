@@ -147,7 +147,7 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-.bloom-landing { font-family: "Manrope", "Segoe UI", sans-serif; letter-spacing:0; }
+.bloom-landing { font-family: "Space Mono", monospace; letter-spacing:0; }
 .landing-width { width:calc(100% - 112px); max-width:1320px; margin-inline:auto; }
 .landing-header { height:94px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .landing-brand { display:inline-flex; align-items:center; gap:8px; font-size:18px; font-weight:750; text-decoration:none; white-space:nowrap; }
