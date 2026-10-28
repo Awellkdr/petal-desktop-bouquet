@@ -10,7 +10,7 @@
 <meta property="og:description" content="Create a personal interactive 3D bouquet and send a thoughtful digital flower gift.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
 <style>
 :root {
   --site-primary: #8C6BB1;
@@ -23,8 +23,8 @@
   --gift-ink: #292925;
   --gift-muted: #6D655B;
   --gift-accent: #8C6BB1;
-  --site-font-body: "Manrope", "Segoe UI", sans-serif;
-  --site-font-heading: "Manrope", "Segoe UI", sans-serif;
+  --site-font-body: "Space Mono", monospace, sans-serif;
+  --site-font-heading: "Space Mono", monospace, sans-serif;
   --site-heading-scale: 1;
   --site-spacing-scale: 1;
   --site-radius-scale: 1;
@@ -304,6 +304,13 @@ body:hover .pip-top-bar, .pip-top-bar:focus-within { opacity:1; }
   .panel-scroll { padding:16px 17px 28px; overflow:visible; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
+
+.share-message-card{display:grid;gap:6px;text-align:center;padding:18px;margin:6px 0 16px;border:1px solid var(--border);border-radius:14px;background:#FBF8FC}
+.share-message-card strong{font-size:15px}.share-message-card p{margin:0;font-size:15px;font-weight:700;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.share-message-card small{color:var(--muted)}
+#app.recipient-mode .gift-overlay{background:#fff;border:1px solid #EDE3EF;border-radius:20px;box-shadow:0 14px 40px #6B4A7A1A;padding:22px 26px;margin:0 16px 18px;width:min(520px,calc(100% - 32px))}
+#app.recipient-mode .gift-to{font-size:16px;font-weight:400;margin:6px 0 10px}
+#app.recipient-mode .gift-message{color:var(--gift-ink);font-size:21px;font-weight:700;line-height:1.45}
+#app.recipient-mode .gift-from{font-size:13px;margin-top:12px}
 </style>
 </head>
 <body>
@@ -377,7 +384,6 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
         <button class="scene-tool" data-action="top-view" aria-label="Top view" title="Top view">⌃</button>
       </div>
       <div class="rotation-tip"><span class="gesture">↔</span><span>Drag to rotate 360° · Scroll to zoom · Hover petals up close</span></div>
-      <div class="view-controls" aria-label="Camera views"><button class="view-icon" data-action="front-view" title="Front view">▣</button><button data-action="front-view">Front</button><button class="active" data-action="three-quarter-view">3/4 view</button><button data-action="top-view">Top</button></div>
       <div class="gift-overlay" id="gift-overlay" hidden>
         <div class="gift-header-bar">
           <div class="gift-kicker" id="gift-kicker-preview">A little something for you</div>
@@ -404,11 +410,7 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
 <div class="share-modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title" hidden>
   <div class="share-modal">
     <div class="share-modal-top"><div><span class="eyebrow">Adey Digital</span><h2 class="share-modal-title" id="share-modal-title">Share your bouquet</h2><p class="share-modal-sub" id="modal-bouquet-summary"></p></div><button class="share-Close" data-action="close-share-modal" aria-label="Close share dialog">✕</button></div>
-    <div class="share-note-fields">
-      <div><label class="form-label" for="modal-gift-recipient">To</label><input class="input-field" id="modal-gift-recipient" data-gift="recipient" maxlength="80" placeholder="Someone lovely"></div>
-      <div><label class="form-label" for="modal-gift-sender">From</label><input class="input-field" id="modal-gift-sender" data-gift="sender" maxlength="80" placeholder="Your name"></div>
-    </div>
-    <label class="form-label" for="modal-gift-message">Personal note</label><textarea class="textarea-field" id="modal-gift-message" data-gift="message" maxlength="420" placeholder="A little message, just for them…"></textarea>
+    <div class="share-message-card" id="share-message-card"><span class="eyebrow" id="smc-kicker"></span><strong id="smc-to"></strong><p id="smc-msg"></p><small id="smc-from"></small><button class="quiet-btn" data-action="section" data-value="gift" onclick="closeShareModal()">✎ Edit in Message tab</button></div>
     <div class="payment-heading"><strong>Pay with Telebirr</strong><span>100 ETB</span></div>
     <div class="payment-step"><span class="payment-step-number">1</span><div><strong>Send 100 ETB</strong><p>To Awel Kedir</p><div class="payment-number-row"><span id="telebirr-number">0921603875</span><button class="outline-btn" data-action="copy-telebirr-number" aria-label="Copy Telebirr number">⧉ Copy number</button></div></div></div>
     <div class="payment-step"><span class="payment-step-number">2</span><div><label class="form-label" for="telebirr-confirmation">Paste your Telebirr confirmation SMS or transaction number</label><textarea class="textarea-field" id="telebirr-confirmation" maxlength="1500" placeholder="Confirmation SMS or transaction number" aria-describedby="telebirr-notice payment-error"></textarea></div></div>
@@ -565,7 +567,7 @@ function shapeIcon(id){
   let body=paths[id]||paths.round; let ribs=id==='ribbed'?'<path d="M14 7 L12 28 M19 7 L18 29 M24 7 L25 29 M28 7 L30 28" stroke="#B1A59A" stroke-width="1" fill="none"/>':'';
   return `<svg viewBox="0 0 40 36" fill="#D7A0A5" stroke="#A98D8E" stroke-width="1.2"><path d="${body}"/>${ribs}<path d="M13 5 L27 5" stroke="#817775" stroke-width="2.2" stroke-linecap="round"/></svg>`;
 }
-function tabBar(){const tabs=[['flowers','✿','Flowers'],['arrange','⌘','Arrange'],['vase','♧','Vase'],['greenery','❧','Greenery'],['gift','♡','Message']];return `<div class="panel-tabs">${tabs.map(([id,icon,label])=>`<button class="panel-tab ${state.section===id?'active':''}" data-action="section" data-value="${id}" aria-pressed="${state.section===id}"><span class="tab-icon">${icon}</span><span>${label}</span></button>`).join('')}</div>`;}
+function tabBar(){const tabs=[['flowers','✿','Flowers'],['stems','⚘','Your stems'],['arrange','⌘','Arrange'],['vase','♧','Vase'],['greenery','❧','Greenery'],['gift','♡','Message']];return `<div class="panel-tabs">${tabs.map(([id,icon,label])=>`<button class="panel-tab ${state.section===id?'active':''}" data-action="section" data-value="${id}" aria-pressed="${state.section===id}"><span class="tab-icon">${icon}</span><span>${label}</span></button>`).join('')}</div>`;}
 function sectionHeader(kicker,title,subtitle){return `<div class="panel-heading"><div class="eyebrow">${kicker}</div><div class="panel-title">${title}</div><div class="panel-subtitle">${subtitle}</div></div>`;}
 function flowerPanel(){
   const categories=['All flowers','Roses','Seasonal','Statement','Filler'];
@@ -584,7 +586,12 @@ function arrangePanel(){
  return `${sectionHeader('Composition tools','Arrange the stems','Create a balanced silhouette, or fine-tune a single bloom.')}
  <div class="panel-scroll"><div class="section-row"><span class="section-title">Arrangement style</span><span class="section-caption">Presets</span></div><div class="preset-list">${presets.map(([name,desc,icon])=>`<button class="preset-card ${state.arrangement===name?'active':''}" data-action="preset" data-value="${name}"><span class="preset-art">${icon}</span><span><strong>${name}</strong><small>${desc}</small></span></button>`).join('')}</div>
  <button class="primary-btn rose wide-button" data-action="auto-arrange">✧ &nbsp; Arrange for me</button>
- <div class="divider"></div><div class="section-row"><span class="section-title">Your stems</span><span class="count-badge">${state.flowers.length} blooms</span></div>
+ <p class="footer-note">Auto-arrange changes positions and heights but keeps your chosen flower types and colors.</p></div>`;
+}
+function stemsPanel(){
+ const f=selectedFlower();
+ return `${sectionHeader('Fine-tune','Your stems','Select a bloom in the 3D scene to edit it on its own.')}
+ <div class="panel-scroll"><div class="section-row"><span class="section-title">Your stems</span><span class="count-badge">${state.flowers.length} blooms</span></div>
  ${f?`<div class="flower-row" style="margin-bottom:15px"><div class="bloom-icon" style="--bloom:${f.color};--center:${species(f.species).center}"><span></span></div><div class="flower-meta"><span class="flower-name">${f.species}</span><span class="flower-desc">Selected stem</span></div><button class="add-button" data-action="deselect" aria-label="Deselect flower" title="Deselect">×</button></div>
  <div class="section-row"><span class="section-title">Bloom color</span><span class="section-caption">This stem only</span></div>${htmlColorSwatches(species(f.species).colors,f.color,'selected-color',f.species)}
  <div class="divider"></div>
@@ -594,7 +601,7 @@ function arrangePanel(){
  <div class="control-block"><div class="range-top"><label for="flower-rotation">Stem rotation</label><output id="rotation-value">${Math.round(f.rotation*180/Math.PI)}°</output></div><input id="flower-rotation" type="range" min="-180" max="180" step="1" value="${Math.round(f.rotation*180/Math.PI)}" data-range="rotation" aria-label="Stem rotation"></div>
  <div class="row-actions" style="display:flex;gap:7px"><button class="outline-btn" style="flex:1" data-action="duplicate-flower">Duplicate</button><button class="outline-btn" style="flex:1;color:#A55D69" data-action="remove-flower">Remove stem</button></div>`
  :`<div class="empty-state"><div class="empty-icon">✿</div>Select a flower directly in the 3D scene to adjust its height, size, spread, rotation, and color.</div>`}
- <p class="footer-note">Auto-arrange changes positions and heights but keeps your chosen flower types and colors.</p></div>`;
+</div>`;
 }
 function vasePanel(){
  return `${sectionHeader('The finishing touch','Find the right vase','A sculptural vessel, made to complement the flowers.')}
@@ -635,7 +642,7 @@ function giftPanel(){
  </div>`;
 }
 function renderPanel(){
- let content=''; if(state.section==='flowers')content=flowerPanel();else if(state.section==='arrange')content=arrangePanel();else if(state.section==='vase')content=vasePanel();else if(state.section==='greenery')content=greeneryPanel();else if(state.section==='studio')content=studioPanel();else content=giftPanel();
+ let content=''; if(state.section==='flowers')content=flowerPanel();else if(state.section==='arrange')content=arrangePanel();else if(state.section==='stems')content=stemsPanel();else if(state.section==='vase')content=vasePanel();else if(state.section==='greenery')content=greeneryPanel();else if(state.section==='studio')content=studioPanel();else content=giftPanel();
  panel.innerHTML=content.replace('</div></div>','</div></div>')+tabBar();
  const tabs=panel.lastElementChild; panel.insertBefore(tabs,panel.children[1]||null);
  updateHistoryButtons();
@@ -2928,7 +2935,8 @@ function syncShareModalInputs(){
   if (urlIn && hasTelebirrReference($('#telebirr-confirmation')?.value)) urlIn.value = buildShareUrl('gift');
 }
 
-function openShareModal(){
+function fillShareCard(){const g=state.gift||{};const t=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};t('smc-kicker',g.occasion||'A little something for you');t('smc-to',g.recipient?('For '+g.recipient):'For someone lovely');t('smc-msg',g.message||'Add a personal note in the Message tab.');t('smc-from',g.sender?('— '+g.sender):'');}
+function openShareModal(){fillShareCard();
   syncShareModalInputs();
   const modal = $('#share-modal');
   if (modal) modal.hidden = false;
@@ -3297,7 +3305,7 @@ function maybeLoadHash(){
     } else {
       loaded.widgetMode = false;
       loaded.transparentBg = true;
-      loaded.turntable = false;
+      loaded.turntable = !!loaded.recipientMode;
     }
     state = loaded;
     nextId = Math.max(nextId, ...state.flowers.concat(state.greens).map(o=>parseInt(String(o.id).replace(/\D/g,''),10)||0), 0) + 1;
