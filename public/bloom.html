@@ -2695,7 +2695,6 @@ function renderFrame(now){
   // In transparent desktop widget mode, omit the studio floor so only the 3D bouquet & vase float on the desktop
   if (!state.transparentBg) {
     drawMesh(floorMesh,modelMatrix(0,0,0,0,1),pv,.0,true,0,0,0,0,[0,0,0],1.0);
-    drawMesh(shadowMesh,modelMatrix(0,0,0,0,1),pv,0,false,0,0,0,0,[0,0,0],1.0);
   }
 
   const t=now*.001;
