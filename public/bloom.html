@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F4EF">
 <title>Adey Digital — 3D Bouquet Atelier</title>
+<meta name="color-scheme" content="light only">
 <meta name="description" content="Create a personal interactive 3D bouquet with Adey Digital and share it with someone special.">
 <meta property="og:title" content="Adey Digital — 3D Bouquet Atelier">
 <meta property="og:description" content="Create a personal interactive 3D bouquet and send a thoughtful digital flower gift.">
@@ -394,8 +395,6 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
           <div class="gift-message" id="gift-message-preview">A little beauty, just for you.</div>
           <div class="gift-from" id="gift-from-preview">With love</div>
           <div class="gift-card-actions">
-            <button class="gift-mini-action rose" data-action="bloom-now">✿ Watch it bloom</button>
-            <button class="gift-mini-action" data-action="launch-aot-widget" title="Pin interactive 3D bouquet above all windows">⧉ Pin Above All Windows</button>
             <button class="gift-mini-action" data-action="download-native-aot-launcher" title="Download frameless Always-On-Top 3D desktop widget">↓ Always-on-Top Widget</button>
           </div>
         </div>
@@ -452,6 +451,7 @@ const VASES = [
   {id:'cylinder', name:'Cylindrical', icon:'cylinder', profile:[[.23,.03],[.26,.08],[.27,.15],[.27,.82],[.25,.9]]},
   {id:'tapered', name:'Tapered', icon:'tapered', profile:[[.15,.03],[.18,.09],[.21,.28],[.26,.6],[.29,.88]]},
   {id:'ribbed', name:'Ribbed', icon:'ribbed', profile:[[.16,.03],[.20,.1],[.22,.18],[.23,.66],[.29,.89]]},
+  {id:'none', name:'No vase', icon:'none', profile:[[.05,.02],[.14,.06],[.21,.15],[.29,.32],[.30,.46],[.24,.59],[.17,.72],[.17,.88]]},
   {id:'sculptural', name:'Sculptural', icon:'sculptural', profile:[[.17,.02],[.21,.08],[.28,.23],[.23,.38],[.19,.54],[.25,.72],[.23,.87]]}
 ];
 const VASE_COLORS = [
@@ -512,11 +512,12 @@ const BLOOM_PRESETS = {
   'tuscan-sunset': {vase:{shape:'ribbed',color:'#C88A4A',finish:'satin'},palette:'sunset',arrangement:'Classic Round',density:'Balanced',studio:'daylight',stems:[['Orchid','#F1E5D4',2],['Rose','#E8A17F',4],['Tulip','#E7785A',3]]}
 };
 const bloomEntry = location.hash;
-if(bloomEntry==='#new' || bloomEntry.startsWith('#preset=')){
+window.__bloomPreview=bloomEntry.startsWith('#view=')&&!new URLSearchParams(location.search).has('embed');
+if(bloomEntry==='#new' || bloomEntry.startsWith('#preset=') || bloomEntry.startsWith('#view=')){
   state = starterState();
   state.flowers = [];
-  if(bloomEntry.startsWith('#preset=')){
-    const p = BLOOM_PRESETS[bloomEntry.slice(8)];
+  if(bloomEntry.startsWith('#preset=')||bloomEntry.startsWith('#view=')){
+    const p = BLOOM_PRESETS[bloomEntry.slice(bloomEntry.indexOf('=')+1)];
     if(p){
       Object.assign(state,{vase:{...state.vase,...p.vase},palette:p.palette,arrangement:p.arrangement,studio:p.studio});
       p.stems.forEach(([sp,color,n])=>{for(let k=0;k<n;k++){state.catalogColors[sp]=color;addFlower(sp);}});
@@ -605,7 +606,7 @@ function stemsPanel(){
 }
 function vasePanel(){
  return `${sectionHeader('The finishing touch','Find the right vase','A sculptural vessel, made to complement the flowers.')}
- <div class="panel-scroll"><div class="section-row"><span class="section-title">Vase silhouette</span><span class="section-caption">5 profiles</span></div><div class="shape-grid">${VASES.map(v=>`<button class="shape-card ${state.vase.shape===v.id?'active':''}" data-action="vase-shape" data-value="${v.id}">${shapeIcon(v.id)}<span>${v.name}</span></button>`).join('')}</div>
+ <div class="panel-scroll"><div class="section-row"><span class="section-title">Vase silhouette</span><span class="section-caption">6 profiles</span></div><div class="shape-grid">${VASES.map(v=>`<button class="shape-card ${state.vase.shape===v.id?'active':''}" data-action="vase-shape" data-value="${v.id}">${shapeIcon(v.id)}<span>${v.name}</span></button>`).join('')}</div>
  <div class="divider"></div><div class="section-row"><span class="section-title">Glass color</span><span class="section-caption">8 finishes</span></div><div class="color-grid">${VASE_COLORS.map(c=>`<button class="color-choice ${state.vase.color===c.color?'active':''}" data-action="vase-color" data-color="${c.color}" title="${c.name}"><span class="color-circle" style="--swatch:${c.color}"></span><span>${c.name}</span></button>`).join('')}</div>
  <div class="divider"></div><div class="section-row"><span class="section-title">Surface finish</span></div><div class="finish-row">${[['frosted','Frosted'],['satin','Satin'],['clear','Soft clear']].map(([id,label])=>`<button class="finish-choice ${state.vase.finish===id?'active':''}" data-action="vase-finish" data-value="${id}">${label}</button>`).join('')}</div>
  <div class="divider"></div><div class="section-row"><span class="section-title">Vessel details</span></div><div class="toggle-row"><div class="toggle-copy"><strong>Keep the bouquet intact</strong><small>Changing the vase won't alter your flower choices.</small></div><span style="font-size:15px;color:#829784">✓</span></div>
@@ -2476,9 +2477,7 @@ function makeFloorGeo(){const g=new GeoBuilder();const a=[-100,.001,-100],b=[100
 function makeShadowGeo(){
   const g=new GeoBuilder();
   // Soft multi-layered ambient contact shadow + dark foot grounding shadow under the vase
-  g.ellipsoid([0,.010,0],[.92,.006,.64],'#6D6255',0,.07,12,6.0);
-  g.ellipsoid([0,.013,0],[.54,.006,.42],'#594F43',0,.11,12,6.0);
-  g.ellipsoid([0,.016,0],[.26,.006,.24],'#3E362D',0,.18,12,6.0);
+  [[1.10,.025],[.86,.035],[.66,.045],[.48,.06],[.34,.08],[.24,.11]].forEach(([r,a],i)=>g.ellipsoid([0,.008+i*.002,0],[r,.004,r*.78],'#4A4038',0,a,12,6.0));
   return g;
 }
 
@@ -2561,7 +2560,7 @@ function updateStats(){
   const saveEl = $('#save-state');
   if(saveEl) saveEl.textContent=localStorage.getItem('bloom-studio-state-v1')?'Saved on this device':'Your creation';
   const kickEl = $('#gift-kicker-preview');
-  if(kickEl) kickEl.textContent = state.gift.occasion ? `${state.gift.occasion} · Interactive 3D Bouquet` : 'A little something for you';
+  if(kickEl) kickEl.textContent = state.gift.occasion ? state.gift.occasion : 'A little something for you';
   const toEl = $('#gift-to-preview');
   if(toEl) toEl.textContent=state.gift.recipient||'Someone lovely';
   const msgEl = $('#gift-message-preview');
@@ -2719,7 +2718,7 @@ function renderFrame(now){
     );
   });
 
-  drawMesh(vaseMesh,modelMatrix(0,0,0,0,1),pv,state.vase.finish==='frosted'?.06:state.vase.finish==='satin'?.19:.28,false,0,t,0,0,[0,0,0],1.0);
+  if(state.vase.shape!=='none')drawMesh(vaseMesh,modelMatrix(0,0,0,0,1),pv,state.vase.finish==='frosted'?.06:state.vase.finish==='satin'?.19:.28,false,0,t,0,0,[0,0,0],1.0);
   gl.depthMask(true);
   requestAnimationFrame(renderFrame);
 }
@@ -2863,7 +2862,7 @@ function finishPointer(e){
   if(dragStart&&pointers.size===0){
     if(!state.recipientMode&&!dragStart.moved&&Math.hypot(e.clientX-p.startX,e.clientY-p.startY)<6){
       const picked=pickFlower(e.clientX,e.clientY);
-      if(picked){state.selectedId=picked.id;state.selectedGreenId=null;state.section='arrange';renderPanel();rebuildScene();}
+      if(picked){state.selectedId=picked.id;state.selectedGreenId=null;state.section='stems';renderPanel();rebuildScene();}
       else{state.selectedId=null;state.selectedGreenId=null;rebuildScene();}
     }
     dragStart=null;
@@ -3528,4 +3527,30 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
 })();
 </script>
 </body>
-</html>
+</html><style>#app:not(.recipient-mode) .gift-card-actions{display:none !important}
+html,body{color-scheme:light}
+body.preview-mode #app .topbar,body.preview-mode #panel,body.preview-mode .stage-topline,body.preview-mode .scene-toolbar,body.preview-mode .view-controls,body.preview-mode .gift-overlay,body.preview-mode #widget-floating-dock{display:none !important}
+body.preview-mode,body.preview-mode #app,body.preview-mode #stage-wrap{background:#fff !important}
+body.preview-mode #workspace,body.preview-mode #stage-wrap{height:100vh !important;min-height:0 !important}
+#preview-bar{display:none;position:fixed;z-index:50;left:50%;bottom:28px;transform:translateX(-50%);gap:10px;flex-wrap:wrap;justify-content:center}
+body.preview-mode #preview-bar{display:flex}
+#preview-bar button,#pv-msg button{font:600 13px var(--site-font-body,monospace);padding:13px 22px;border-radius:999px;cursor:pointer;border:1px solid #8E6BA8}
+#preview-bar .pv-primary,#pv-msg .pv-primary{background:#8E6BA8;color:#fff}#preview-bar .pv-ghost{background:#fff;color:#4A3A56}
+#preview-home{display:none;position:fixed;top:18px;left:18px;z-index:50;color:#4A3A56;text-decoration:none;font-size:13px}body.preview-mode #preview-home{display:block}
+#pv-msg{position:fixed;inset:0;z-index:120;background:#2a20304d;display:none;place-items:center;padding:16px}#pv-msg.open{display:grid}
+#pv-msg form{background:#fff;border-radius:18px;padding:24px;width:min(420px,100%);display:grid;gap:10px;color:#2E2433}
+#pv-msg input,#pv-msg textarea{border:1px solid #E3D8EA;border-radius:10px;padding:10px;font:inherit}
+</style>
+<a id="preview-home" href="/">← Home</a>
+<div id="preview-bar"><button class="pv-primary" id="pv-share">♡ Share to loved one</button><button class="pv-ghost" id="pv-edit">✎ Edit bouquet</button></div>
+<div id="pv-msg"><form id="pv-form"><strong style="font-size:18px">Add your message</strong>
+<input name="recipient" placeholder="Recipient's name" required><input name="occasion" placeholder="Occasion (e.g. Birthday)"><textarea name="message" rows="3" placeholder="Personal note" required></textarea><input name="sender" placeholder="From">
+<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="pv-ghost" id="pv-cancel" style="background:#fff">Cancel</button><button class="pv-primary">Continue to payment</button></div></form></div>
+<script>(function(){
+if(!window.__bloomPreview)return;document.body.classList.add('preview-mode');
+const m=document.getElementById('pv-msg'),f=document.getElementById('pv-form');
+document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');state.turntable=false;renderPanel();updateStats();};
+document.getElementById('pv-share').onclick=()=>{['recipient','occasion','message','sender'].forEach(k=>{const v=state.gift[k];f[k].value=(k==='recipient'&&v==='Someone lovely')||(k==='message'&&v==='A little beauty, just for you.')||(k==='sender'&&v==='With love')?'':v||''});m.classList.add('open');};
+document.getElementById('pv-cancel').onclick=()=>m.classList.remove('open');
+f.onsubmit=e=>{e.preventDefault();['recipient','occasion','message','sender'].forEach(k=>state.gift[k]=f[k].value.trim());m.classList.remove('open');updateStats();runAction('open-share-modal');};
+})();</script>
