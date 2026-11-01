@@ -270,3 +270,5 @@
 .bouquet-live { position:absolute; inset:0; width:100%; height:100%; border:0; pointer-events:none; color-scheme:light; background:var(--background); }
 .bouquet-price { position:absolute; z-index:2; right:14px; bottom:14px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; background:var(--background); color:var(--foreground); }
 .bouquet-price-line { font-weight:700; color:var(--primary); }
+
+:root { color-scheme: light; }
