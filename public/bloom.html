@@ -3454,6 +3454,7 @@ function pickPanelFlowerIfEmpty(){if(state.selectedId&&!state.flowers.some(f=>f.
 // A valid file can be used without optional packages or a network connection.
 renderPanel();pickPanelFlowerIfEmpty();
 if(initGL()){floorMesh=uploadGeo(makeFloorGeo());shadowMesh=uploadGeo(makeShadowGeo());rebuildScene();resizeCanvas();requestAnimationFrame(renderFrame);}else{$('#webgl-error').style.display='block';}
+window.__bloomApi={get state(){return state;},runAction,renderPanel,updateStats};
 window.addEventListener('resize',resizeCanvas,{passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){/* rendering resumes naturally on the next frame */}});
 })();
 </script>
@@ -3548,10 +3549,10 @@ body.preview-mode #preview-bar{display:flex}
 <input name="recipient" placeholder="Recipient's name" required><input name="occasion" placeholder="Occasion (e.g. Birthday)"><textarea name="message" rows="3" placeholder="Personal note" required></textarea><input name="sender" placeholder="From">
 <div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="pv-ghost" id="pv-cancel" style="background:#fff">Cancel</button><button class="pv-primary">Continue to payment</button></div></form></div>
 <script>(function(){
-if(!window.__bloomPreview)return;document.body.classList.add('preview-mode');
+if(!window.__bloomPreview||!window.__bloomApi)return;const B=window.__bloomApi;document.body.classList.add('preview-mode');
 const m=document.getElementById('pv-msg'),f=document.getElementById('pv-form');
-document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');state.turntable=false;renderPanel();updateStats();};
-document.getElementById('pv-share').onclick=()=>{['recipient','occasion','message','sender'].forEach(k=>{const v=state.gift[k];f[k].value=(k==='recipient'&&v==='Someone lovely')||(k==='message'&&v==='A little beauty, just for you.')||(k==='sender'&&v==='With love')?'':v||''});m.classList.add('open');};
+document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');B.state.turntable=false;B.renderPanel();B.updateStats();};
+document.getElementById('pv-share').onclick=()=>{['recipient','occasion','message','sender'].forEach(k=>{const v=B.state.gift[k];f[k].value=(k==='recipient'&&v==='Someone lovely')||(k==='message'&&v==='A little beauty, just for you.')||(k==='sender'&&v==='With love')?'':v||''});m.classList.add('open');};
 document.getElementById('pv-cancel').onclick=()=>m.classList.remove('open');
-f.onsubmit=e=>{e.preventDefault();['recipient','occasion','message','sender'].forEach(k=>state.gift[k]=f[k].value.trim());m.classList.remove('open');updateStats();runAction('open-share-modal');};
+f.onsubmit=e=>{e.preventDefault();['recipient','occasion','message','sender'].forEach(k=>B.state.gift[k]=f[k].value.trim());m.classList.remove('open');B.updateStats();B.runAction('open-share-modal');};
 })();</script>
