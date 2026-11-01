@@ -320,7 +320,7 @@ body:hover .pip-top-bar, .pip-top-bar:focus-within { opacity:1; }
 .studio-home { text-decoration:none; color:var(--soft-ink); display:inline-flex; align-items:center; gap:5px; font-size:12px; white-space:nowrap; }
 .studio-home:hover { color:var(--ink); }
 .bloom-embed #app .topbar, .bloom-embed #panel, .bloom-embed .stage-topline, .bloom-embed .scene-toolbar, .bloom-embed .rotation-tip, .bloom-embed .view-controls, .bloom-embed .gift-overlay, .bloom-embed #widget-floating-dock { display:none !important; }
-html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage-wrap { background:transparent !important; }
+html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage-wrap { background:#fff !important; }
 .bloom-embed #workspace, .bloom-embed #stage-wrap { height:100vh !important; min-height:0 !important; }
 .bloom-embed { overflow:hidden; }
 /* Read-only gift presentation, separate from the native transparent widget. */
@@ -2477,7 +2477,7 @@ function makeFloorGeo(){const g=new GeoBuilder();const a=[-100,.001,-100],b=[100
 function makeShadowGeo(){
   const g=new GeoBuilder();
   // Soft multi-layered ambient contact shadow + dark foot grounding shadow under the vase
-  [[1.10,.025],[.86,.035],[.66,.045],[.48,.06],[.34,.08],[.24,.11]].forEach(([r,a],i)=>g.ellipsoid([0,.008+i*.002,0],[r,.004,r*.78],'#4A4038',0,a,12,6.0));
+  Array.from({length:14},(_,i)=>[1.0-i*.058,.022+i*.004]).forEach(([r,a],i)=>g.ellipsoid([0,.008+i*.002,0],[r,.004,r*.78],'#4A4038',0,a,12,6.0));
   return g;
 }
 
@@ -3326,7 +3326,7 @@ if(new URLSearchParams(location.search).has('embed')) {
   camera.radius=4.4;
   camera.targetY=1.35;
 }
-if(window.__bloomPreview){state.motion=true;state.turntable=true;state.previewGift=false;camera.radius=4.4;camera.targetY=1.35;}
+if(window.__bloomPreview){state.transparentBg=true;state.motion=true;state.turntable=true;state.previewGift=false;camera.radius=4.4;camera.targetY=1.35;}
 function changeSection(s){state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
 function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.color, name=el?.dataset.species;
  switch(action){
@@ -3531,7 +3531,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
 </body>
 </html><style>#app:not(.recipient-mode) .gift-card-actions{display:none !important}
 html,body{color-scheme:light}
-body.preview-mode #app .topbar,body.preview-mode #panel,body.preview-mode .stage-topline,body.preview-mode .scene-toolbar,body.preview-mode .view-controls,body.preview-mode .gift-overlay,body.preview-mode #widget-floating-dock{display:none !important}
+body.preview-mode #app .topbar,body.preview-mode #panel,body.preview-mode .stage-topline,body.preview-mode .scene-toolbar,body.preview-mode .view-controls,body.preview-mode .gift-overlay,body.preview-mode .rotation-tip,body.preview-mode #widget-floating-dock{display:none !important}
 body.preview-mode,body.preview-mode #app,body.preview-mode #stage-wrap{background:#fff !important}
 body.preview-mode #workspace,body.preview-mode #stage-wrap{height:100vh !important;min-height:0 !important}
 #preview-bar{display:none;position:fixed;z-index:50;left:50%;bottom:28px;transform:translateX(-50%);gap:10px;flex-wrap:wrap;justify-content:center}
@@ -3551,7 +3551,7 @@ body.preview-mode #preview-bar{display:flex}
 <script>(function(){
 if(!window.__bloomPreview||!window.__bloomApi)return;const B=window.__bloomApi;document.body.classList.add('preview-mode');
 const m=document.getElementById('pv-msg'),f=document.getElementById('pv-form');
-document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');B.state.turntable=false;B.renderPanel();B.updateStats();};
+document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');B.state.turntable=false;B.state.transparentBg=false;B.renderPanel();B.updateStats();};
 document.getElementById('pv-share').onclick=()=>{['recipient','occasion','message','sender'].forEach(k=>{const v=B.state.gift[k];f[k].value=(k==='recipient'&&v==='Someone lovely')||(k==='message'&&v==='A little beauty, just for you.')||(k==='sender'&&v==='With love')?'':v||''});m.classList.add('open');};
 document.getElementById('pv-cancel').onclick=()=>m.classList.remove('open');
 f.onsubmit=e=>{e.preventDefault();['recipient','occasion','message','sender'].forEach(k=>B.state.gift[k]=f[k].value.trim());m.classList.remove('open');B.updateStats();B.runAction('open-share-modal');};
