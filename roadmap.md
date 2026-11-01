@@ -10,3 +10,5 @@
 - [x] Apply Adey Digital branding, white orchid background, and simplified studio controls.
 - [x] Add and verify manual Telebirr transfer steps and reference-required sharing.
 - [x] Streamline gift recipients to bouquet, personal note, desktop installer, and discreet create link; verified live rotation, mobile layout, transparent widget handoff, and return to the empty-vase editor.
+- [x] Nov 1 updates: always-white bouquets in dark mode, live 3D collection with 100 ETB price, view-only bouquet page (Share / Edit), stem selection opens Your stems, cleaner message card, No vase option, auto-spin preview, softer vase shadow.
+- [ ] Switch desktop widget to Tauri for smaller installer (approved, not started).
