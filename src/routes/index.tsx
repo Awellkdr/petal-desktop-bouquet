@@ -63,12 +63,13 @@ function Landing() {
         <div className="collection-heading"><div><p className="small-label">The collection</p><h2 id="collection-title">Pick a little happiness.</h2></div><span className="collection-count">Six bouquets. Endless reasons.</span></div>
         <div className="mood-filters" aria-label="Bouquet moods">{moods.map(item => <Button key={item} variant={mood === item ? "secondary" : "ghost"} onClick={() => setMood(item)} aria-pressed={mood === item}>{item}</Button>)}</div>
         <div className="bouquet-grid">{collection.map((b, i) => <article key={b.id} className="bouquet-item">
-          <a href={`/bloom.html#preset=${b.id}`} className={`bouquet-image bouquet-tone-${b.tone}`} aria-label={`Open ${b.name} in 3D`}>
+          <a href={`/bloom.html#view=${b.id}`} className={`bouquet-image bouquet-tone-${b.tone}`} aria-label={`Open ${b.name} in 3D`}>
             <span className="bouquet-number">0{BOUQUETS.indexOf(b) + 1}</span>
-            <img src={b.image} alt={`${b.name} 3D bouquet in its vase`} loading={i < 3 ? "eager" : "lazy"} />
+            <iframe src={`/bloom.html?embed=1#view=${b.id}`} title={`${b.name} live 3D bouquet`} loading={i < 3 ? "eager" : "lazy"} className="bouquet-live" tabIndex={-1} />
+            <span className="bouquet-price">100 ETB</span>
             <span className="bouquet-image-icon"><ArrowUpRight size={18} /></span>
           </a>
-          <div className="bouquet-details"><div><h3>{b.name}</h3><p>{b.note}</p></div><Button variant="ghost" size="icon" asChild><a href={`/bloom.html#preset=${b.id}`} aria-label={`Customize ${b.name}`} title={`Customize ${b.name}`}><ArrowUpRight /></a></Button></div>
+          <div className="bouquet-details"><div><h3>{b.name}</h3><p>{b.note}</p><p className="bouquet-price-line">100 ETB</p></div><Button variant="ghost" size="icon" asChild><a href={`/bloom.html#view=${b.id}`} aria-label={`View ${b.name}`} title={`View ${b.name}`}><ArrowUpRight /></a></Button></div>
         </article>)}</div>
       </section>
       <section className="landing-note"><div className="landing-width"><Flower2 aria-hidden="true" /><p>Not just flowers.<br />A feeling, <span>beautifully kept.</span></p><Button asChild variant="outline"><a href="/bloom.html#new">Make it personal <Sparkles /></a></Button></div></section>

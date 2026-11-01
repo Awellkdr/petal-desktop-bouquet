@@ -3326,6 +3326,7 @@ if(new URLSearchParams(location.search).has('embed')) {
   camera.radius=4.4;
   camera.targetY=1.35;
 }
+if(window.__bloomPreview){state.motion=true;state.turntable=true;state.previewGift=false;camera.radius=4.4;camera.targetY=1.35;}
 function changeSection(s){state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
 function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.color, name=el?.dataset.species;
  switch(action){
