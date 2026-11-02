@@ -312,6 +312,25 @@ body:hover .pip-top-bar, .pip-top-bar:focus-within { opacity:1; }
 #app.recipient-mode .gift-to{font-size:16px;font-weight:400;margin:6px 0 10px}
 #app.recipient-mode .gift-message{color:var(--gift-ink);font-size:21px;font-weight:700;line-height:1.45}
 #app.recipient-mode .gift-from{font-size:13px;margin-top:12px}
+/* Confetti on gift open */
+.bloom-confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.bloom-confetti i{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;opacity:.95;animation:bloomFall linear forwards}
+@keyframes bloomFall{to{transform:translate(var(--dx),105vh) rotate(var(--r));opacity:.2}}
+/* Unified design system: matches landing page (Space Mono, ink pill buttons, lilac accent). */
+body, #app, button, input, textarea, select, .brand-name, .gift-to, h1, h2, h3, strong { font-family:"Space Mono",monospace !important; }
+.primary-btn, .outline-btn, .quiet-btn, .gift-mini-action, #preview-bar button, #pv-msg button { border-radius:999px !important; font-weight:700; }
+.primary-btn, .primary-btn.rose, #preview-bar .pv-primary, #pv-msg .pv-primary, #app.recipient-mode .gift-mini-action { background:#292925 !important; color:#fff !important; border-color:#292925 !important; }
+.primary-btn:hover, .primary-btn.rose:hover, #preview-bar .pv-primary:hover, #app.recipient-mode .gift-mini-action:hover { background:#8C6BB1 !important; border-color:#8C6BB1 !important; }
+.outline-btn, #preview-bar .pv-ghost { background:#fff !important; color:#292925 !important; border:1px solid #E3DCE8 !important; }
+.outline-btn:hover, #preview-bar .pv-ghost:hover { border-color:#8C6BB1 !important; color:#8C6BB1 !important; }
+/* Modern gift message card */
+#app.recipient-mode .gift-overlay{background:#fff;border:1px solid #ECE4F1;border-radius:24px;box-shadow:0 18px 50px #6B4A7A1F;padding:22px 26px 24px;margin:0 auto 18px;width:min(480px,calc(100% - 28px));max-height:42svh}
+#app.recipient-mode .gift-kicker{font-size:10px;letter-spacing:2px;color:#8C6BB1}
+#app.recipient-mode .gift-to{font-size:15px !important;font-weight:400;color:#6D655B !important;margin:6px 0 10px}
+#app.recipient-mode .gift-message{color:#292925 !important;font-size:clamp(17px,4.6vw,22px) !important;font-weight:700;line-height:1.45}
+#app.recipient-mode .gift-from{font-size:12px !important;margin-top:12px;color:#8C6BB1 !important}
+#app.recipient-mode .gift-card-actions{margin-top:16px}
+@media(max-width:700px){#app.recipient-mode .gift-overlay{padding:16px 18px 18px;margin-bottom:12px;border-radius:20px}}
 </style>
 </head>
 <body>
@@ -3322,10 +3341,13 @@ if(new URLSearchParams(location.search).has('embed')) {
   state.previewGift=false;
   state.motion=!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   state.turntable=state.motion;
-  camera.radius=4.4;
+  camera.radius=3.95;
   camera.targetY=1.35;
 }
 if(window.__bloomPreview){state.transparentBg=true;state.motion=true;state.turntable=true;state.previewGift=false;camera.radius=4.4;camera.targetY=1.35;}
+// Phones: pull the camera in so bouquets fill the screen (100% zoom) on gift, collection and hero views.
+if(innerWidth<700&&(state.recipientMode||window.__bloomPreview||new URLSearchParams(location.search).has('embed'))){camera.radius=state.recipientMode?3.0:2.9;camera.targetY=1.25;}
+if(state.recipientMode&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)setTimeout(()=>{const cs=['#8C6BB1','#E8A1B5','#F4C95D','#9ED2B5','#F29E7A','#B97883'];const box=document.createElement('div');box.className='bloom-confetti';for(let i=0;i<70;i++){const s=document.createElement('i');s.style.cssText=`left:${Math.random()*100}%;background:${cs[i%cs.length]};animation-delay:${Math.random()*.8}s;animation-duration:${2.4+Math.random()*1.8}s;--dx:${(Math.random()-.5)*160}px;--r:${Math.random()*720}deg;${i%3?'':'border-radius:50% 0'}`;box.appendChild(s);}document.body.appendChild(box);setTimeout(()=>box.remove(),5000);},350);
 function changeSection(s){state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
 function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.color, name=el?.dataset.species;
  switch(action){
