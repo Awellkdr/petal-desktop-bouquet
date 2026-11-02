@@ -363,12 +363,36 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
 .recipient-create:hover { color:var(--gift-ink); text-decoration:underline; }
 @media(max-width:700px) { #app.recipient-mode .gift-overlay { padding-bottom:26px; } .recipient-create { top:16px; right:16px; } }
 @media(max-width:700px) { .topbar { flex-wrap:wrap; height:auto; flex-basis:auto; padding:10px 12px; gap:10px; } .top-actions { width:100%; justify-content:space-between; } .studio-home { margin-left:auto; } }
+
+/* unified refinements */
+.ic{width:16px;height:16px;flex:0 0 auto;vertical-align:-3px}
+.brand-mark{color:currentColor!important;width:24px!important;height:24px!important}
+.brand{display:flex;align-items:center;gap:8px}.brand-name{font-size:18px!important;font-weight:700!important;font-family:'Space Mono',monospace!important;letter-spacing:0!important}.brand-dot{color:#8C6BB1;font-size:11px;vertical-align:super}
+.share-hero-btn,#share-modal button.primary-btn,#share-modal button.outline-btn,#share-modal .quiet-btn,#preview-bar button,#pv-msg button,.bw-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;border-radius:999px!important;font-family:'Space Mono',monospace!important;font-weight:700;white-space:nowrap;transition:background .18s,border-color .18s,color .18s}
+.share-hero-btn,#share-modal .primary-btn,.bw-btn{background:#292925!important;color:#fff!important;border:1px solid #292925!important;box-shadow:none!important;transform:none!important;padding:10px 18px}
+.share-hero-btn:hover,#share-modal .primary-btn:hover,.bw-btn:hover{background:#8C6BB1!important;border-color:#8C6BB1!important}
+#share-modal .outline-btn{background:#fff!important;color:#292925!important;border:1px solid #E3DCE8!important;padding:10px 16px}
+#share-modal .outline-btn:hover:not(:disabled){border-color:#8C6BB1!important;color:#8C6BB1!important}
+#share-modal .outline-btn:disabled{opacity:.5;cursor:not-allowed}
+#share-modal .wide-button{width:100%;padding:13px 18px}
+#share-message-card .quiet-btn{font-size:12px!important;width:auto!important;padding:7px 14px!important;color:#8C6BB1!important}
+.share-modal{border-radius:24px!important}.share-Close{border-radius:999px!important}
+.share-message-card{background:#FBF8FD;border:1px solid #ECE4F1;border-radius:18px;padding:16px 18px;text-align:center;display:grid;gap:6px;justify-items:center;margin-bottom:6px}
+.payment-step-number{background:#F1EAF7!important;color:#8C6BB1!important}
+#app.recipient-mode .gift-overlay{background:#fff!important;border:1px solid #ECE4F1!important;border-radius:24px!important;box-shadow:0 18px 50px #6B4A7A1F!important;padding:20px 22px 22px!important;width:min(480px,calc(100% - 28px))!important;text-align:center!important}
+#app.recipient-mode .gift-overlay *{text-align:center}
+#app.recipient-mode .gift-overlay .gift-mini-action{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}
+.recipient-create{display:none;align-items:center;gap:6px;background:#ffffffE6;border:1px solid #ECE4F1;border-radius:999px;padding:7px 12px;top:14px!important;right:14px!important;z-index:6!important;backdrop-filter:blur(8px)}
+#app.recipient-mode .recipient-create{display:inline-flex!important}
+#preview-bar{flex-wrap:nowrap!important;bottom:max(16px,env(safe-area-inset-bottom))!important;width:calc(100% - 24px);max-width:460px}
+#preview-bar button{flex:1;padding:13px 14px!important}
+@media(max-width:700px){#preview-bar button{font-size:12px!important;padding:12px 10px!important}#app.recipient-mode .gift-overlay .gift-mini-action{display:none!important}#app.recipient-mode #stage-wrap{padding-top:44px}}
 </style>
 <div id="app" data-sites-preview-theme>
   <header class="topbar">
     <div class="brand" aria-label="Adey Digital home">
-      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><g fill="currentColor"><ellipse cx="20" cy="10" rx="5.1" ry="8.2"/><ellipse cx="20" cy="30" rx="5.1" ry="8.2"/><ellipse cx="10" cy="20" rx="8.2" ry="5.1"/><ellipse cx="30" cy="20" rx="8.2" ry="5.1"/><ellipse cx="13" cy="13" rx="5.4" ry="7.2" transform="rotate(-45 13 13)"/><ellipse cx="27" cy="13" rx="5.4" ry="7.2" transform="rotate(45 27 13)"/><ellipse cx="13" cy="27" rx="5.4" ry="7.2" transform="rotate(45 13 27)"/><ellipse cx="27" cy="27" rx="5.4" ry="7.2" transform="rotate(-45 27 27)"/></g><circle cx="20" cy="20" r="4.5" fill="#E5C99D"/></svg>
-      <div><div class="brand-name">Adey Digital</div><span class="brand-sub">Your digital flower atelier</span></div>
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"/><path d="M12 7.5V9"/><path d="M7.5 12H9"/><path d="M16.5 12H15"/><path d="M12 16.5V15"/><path d="m8 8 1.88 1.88"/><path d="M14.12 9.88 16 8"/><path d="m8 16 1.88-1.88"/><path d="M14.12 14.12 16 16"/></svg>
+      <div class="brand-name">Adey Digital<span class="brand-dot">®</span></div>
     </div>
     <a class="studio-home" href="/" aria-label="Back to Adey Digital home">← Home</a>
     <div class="draft-state"><span class="state-dot"></span><span id="save-state">Your creation</span></div>
@@ -376,14 +400,14 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
       <button class="icon-btn" data-action="undo" aria-label="Undo" title="Undo" disabled>↶</button>
       <button class="icon-btn" data-action="redo" aria-label="Redo" title="Redo" disabled>↷</button>
       <div class="top-divider"></div>
-      <button class="quiet-btn" data-action="reset" title="Start over"><span aria-hidden="true">↺</span><span class="button-word"> Reset</span></button>
-      <button class="share-hero-btn" data-action="open-share-modal"><span aria-hidden="true">↗</span> <span>Share 3D Bouquet</span></button>
+      <button class="quiet-btn" data-action="reset" title="Start over"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span class="button-word"> Reset</span></button>
+      <button class="share-hero-btn" data-action="open-share-modal"><span>Share bouquet</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button>
     </div>
   </header>
   <main id="workspace">
     <section id="stage-wrap" aria-label="Interactive 3D bouquet workspace">
       <canvas id="bouquet-canvas" aria-label="Interactive 3D bouquet. Drag to rotate, scroll or pinch to zoom." tabindex="0"></canvas>
-      <a class="recipient-create" href="/">Create your own bouquet ↗</a>
+      <a class="recipient-create" href="/">Create your own bouquet <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
       <div class="stage-topline"><div class="eyebrow">The studio · 3D workspace</div><div class="scene-pill"><b></b><span id="flower-count">14 flowers</span></div></div>
       <!-- Floating control bar when viewing in No-Background Desktop Widget or Recipient Gift Mode -->
       <div class="widget-floating-dock" id="widget-floating-dock" aria-label="3D Widget controls" style="-webkit-app-region:no-drag">
@@ -427,17 +451,17 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
 <!-- Share an Interactive 3D Bouquet Modal -->
 <div class="share-modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title" hidden>
   <div class="share-modal">
-    <div class="share-modal-top"><div><span class="eyebrow">Adey Digital</span><h2 class="share-modal-title" id="share-modal-title">Share your bouquet</h2><p class="share-modal-sub" id="modal-bouquet-summary"></p></div><button class="share-Close" data-action="close-share-modal" aria-label="Close share dialog">✕</button></div>
-    <div class="share-message-card" id="share-message-card"><span class="eyebrow" id="smc-kicker"></span><strong id="smc-to"></strong><p id="smc-msg"></p><small id="smc-from"></small><button class="quiet-btn" data-action="section" data-value="gift" onclick="closeShareModal()">✎ Edit in Message tab</button></div>
+    <div class="share-modal-top"><div><span class="eyebrow">Adey Digital</span><h2 class="share-modal-title" id="share-modal-title">Share your bouquet</h2><p class="share-modal-sub" id="modal-bouquet-summary"></p></div><button class="share-Close" data-action="close-share-modal" aria-label="Close share dialog"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+    <div class="share-message-card" id="share-message-card"><span class="eyebrow" id="smc-kicker"></span><strong id="smc-to"></strong><p id="smc-msg"></p><small id="smc-from"></small><button class="quiet-btn" data-action="section" data-value="gift" onclick="closeShareModal()"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Edit in Message tab</button></div>
     <div class="payment-heading"><strong>Pay with Telebirr</strong><span>100 ETB</span></div>
-    <div class="payment-step"><span class="payment-step-number">1</span><div><strong>Send 100 ETB</strong><p>To Awel Kedir</p><div class="payment-number-row"><span id="telebirr-number">0921603875</span><button class="outline-btn" data-action="copy-telebirr-number" aria-label="Copy Telebirr number">⧉ Copy number</button></div></div></div>
+    <div class="payment-step"><span class="payment-step-number">1</span><div><strong>Send 100 ETB</strong><p>To Awel Kedir</p><div class="payment-number-row"><span id="telebirr-number">0921603875</span><button class="outline-btn" data-action="copy-telebirr-number" aria-label="Copy Telebirr number"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy number</button></div></div></div>
     <div class="payment-step"><span class="payment-step-number">2</span><div><label class="form-label" for="telebirr-confirmation">Paste your Telebirr confirmation SMS or transaction number</label><textarea class="textarea-field" id="telebirr-confirmation" maxlength="1500" placeholder="Confirmation SMS or transaction number" aria-describedby="telebirr-notice payment-error"></textarea></div></div>
     <p class="payment-notice" id="telebirr-notice">After you confirm, we check your payment and unlock sharing.</p>
     <p class="payment-error" id="payment-error" role="alert" hidden></p>
-    <button class="primary-btn rose wide-button" id="pay-share-button" data-action="confirm-payment">Confirm payment</button>
+    <button class="primary-btn rose wide-button" id="pay-share-button" data-action="confirm-payment"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Confirm payment</button>
     <p class="payment-notice" id="order-status" role="status" hidden></p>
-    <button class="outline-btn wide-button" id="share-bouquet-button" data-action="share-approved" disabled style="margin-top:8px">Share bouquet ↗ (waits for confirmation)</button>
-    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share-approved">⧉ Copy link</button></div><p class="payment-notice" role="status">Payment confirmed. Your short link is ready.</p></div>
+    <button class="outline-btn wide-button" id="share-bouquet-button" data-action="share-approved" disabled style="margin-top:8px">Share bouquet (after confirmation)</button>
+    <div id="share-result" hidden><label class="form-label" for="share-link-input">Your bouquet link</label><div class="share-url-row"><input class="share-url-input" id="share-link-input" type="text" readonly aria-label="Private interactive 3D bouquet link"><button class="outline-btn" data-action="share-approved"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy link</button></div><p class="payment-notice" role="status">Payment confirmed. Your short link is ready.</p></div>
   </div>
 </div>
 
@@ -2995,7 +3019,7 @@ function setOrderUi(status){
   const st = $('#order-status'), btn = $('#share-bouquet-button'), pay = $('#pay-share-button');
   if(!st) return;
   st.hidden = false;
-  if(status === 'approved'){ st.textContent = 'Payment confirmed. You can share your bouquet now.'; btn.disabled = false; btn.textContent = 'Share bouquet ↗'; pay.disabled = true; }
+  if(status === 'approved'){ st.textContent = 'Payment confirmed. You can share your bouquet now.'; btn.disabled = false; btn.textContent = "Share bouquet"; pay.disabled = true; }
   else if(status === 'rejected'){ st.textContent = 'We could not confirm this payment. Check the transaction number and try again.'; btn.disabled = true; pay.disabled = false; }
   else { st.textContent = 'Payment sent for confirmation. This usually takes a few minutes — keep this window open.'; btn.disabled = true; pay.disabled = true; }
 }
@@ -3512,7 +3536,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
 
   function relabel(){
     document.querySelectorAll('[data-action="download-native-aot-launcher"]').forEach(b=>{
-      const label = b.closest('#app.recipient-mode') ? '↓ Get the desktop widget' : b.classList.contains('widget-dock-btn') ? '↓ Keep on desktop' : '♡ Keep this bouquet on my desktop';
+      const label = b.closest('#app.recipient-mode') ? 'Get the desktop widget' : b.classList.contains('widget-dock-btn') ? '↓ Keep on desktop' : '♡ Keep this bouquet on my desktop';
       if (b.textContent !== label) b.textContent = label;
       b.title='Install the Adey Digital widget: a see-through bouquet that stays above every window';
     });
@@ -3541,7 +3565,7 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
       <div class="bw-step"><div class="bw-num">1</div><div><strong>Get the Adey Digital widget</strong>
         ${downloadUrl ? `<a class="bw-btn" href="${downloadUrl}" download>↓ Download for ${isMac?'Mac':'Windows'}</a><div class="bw-small">Open the installer once.${otherUrl ? ` <a href="${otherUrl}">${isMac?'Windows':'Mac'} version</a>` : ''}</div>` : `<p role="status">The ${isMac?'Mac':'Windows'} installer is not available yet. Your bouquet is still available in your browser.</p>`}</div></div>
       <div class="bw-step"><div class="bw-num">2</div><div><strong>Place your bouquet on the desktop</strong>
-        <a class="bw-btn" href="${deepLink}">✿ Open my bouquet in the widget</a>
+        <a class="bw-btn" href="${deepLink}">Open my bouquet in the widget</a>
         <div class="bw-small">Already installed? Just tap this button. Your browser may ask to open Adey Digital — choose Open.</div></div></div>
     </div>`;
     el.addEventListener('click', e=>{ if(e.target===el || e.target.classList.contains('bw-close')) el.remove(); });
@@ -3565,7 +3589,7 @@ body.preview-mode #preview-bar{display:flex}
 #pv-msg input,#pv-msg textarea{border:1px solid #E3D8EA;border-radius:10px;padding:10px;font:inherit}
 </style>
 <a id="preview-home" href="/">← Home</a>
-<div id="preview-bar"><button class="pv-primary" id="pv-share">♡ Share to loved one</button><button class="pv-ghost" id="pv-edit">✎ Edit bouquet</button></div>
+<div id="preview-bar"><button class="pv-primary" id="pv-share"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Share to loved one</button><button class="pv-ghost" id="pv-edit"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Edit bouquet</button></div>
 <div id="pv-msg"><form id="pv-form"><strong style="font-size:18px">Add your message</strong>
 <input name="recipient" placeholder="Recipient's name" required><input name="occasion" placeholder="Occasion (e.g. Birthday)"><textarea name="message" rows="3" placeholder="Personal note" required></textarea><input name="sender" placeholder="From">
 <div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="pv-ghost" id="pv-cancel" style="background:#fff">Cancel</button><button class="pv-primary">Continue to payment</button></div></form></div>
