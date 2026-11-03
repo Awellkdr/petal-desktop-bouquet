@@ -3373,7 +3373,7 @@ if(new URLSearchParams(location.search).has('embed')) {
 }
 if(window.__bloomPreview){state.transparentBg=true;state.motion=true;state.turntable=true;state.previewGift=false;camera.radius=4.4;camera.targetY=1.35;}
 // Phones: pull the camera in so bouquets fill the screen (100% zoom) on gift, collection and hero views.
-if(innerWidth<700&&(state.recipientMode||window.__bloomPreview||new URLSearchParams(location.search).has('embed'))){camera.radius=state.recipientMode?3.0:(window.__bloomPreview?3.1:2.6);camera.targetY=window.__bloomPreview?1.2:1.25;}
+if(innerWidth<700&&(state.recipientMode||window.__bloomPreview||new URLSearchParams(location.search).has('embed'))){camera.radius=state.recipientMode?3.0:(window.__bloomPreview?3.5:2.6);camera.targetY=window.__bloomPreview?1.15:1.25;}
 if(state.recipientMode&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)setTimeout(()=>{const cs=['#8C6BB1','#E8A1B5','#F4C95D','#9ED2B5','#F29E7A','#B97883'];const box=document.createElement('div');box.className='bloom-confetti';for(let i=0;i<70;i++){const s=document.createElement('i');s.style.cssText=`left:${Math.random()*100}%;background:${cs[i%cs.length]};animation-delay:${Math.random()*.8}s;animation-duration:${2.4+Math.random()*1.8}s;--dx:${(Math.random()-.5)*160}px;--r:${Math.random()*720}deg;${i%3?'':'border-radius:50% 0'}`;box.appendChild(s);}document.body.appendChild(box);setTimeout(()=>box.remove(),5000);},350);
 function changeSection(s){state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
 function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.color, name=el?.dataset.species;

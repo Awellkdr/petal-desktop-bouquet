@@ -247,7 +247,7 @@
 .center-hero { position:relative; height:720px; background:var(--background); display:flex; flex-direction:column; align-items:center; isolation:isolate; }
 .center-bouquet { color-scheme:light; position:absolute; left:50%; transform:translateX(-50%); top:-20px; width:min(820px,100%); height:740px; border:0; background:transparent; z-index:1; }
 .center-kicker { position:relative; z-index:2; margin-top:150px; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--floral-wine); pointer-events:none; }
-.center-title { position:relative; z-index:0; margin-top:40px; display:grid; grid-template-columns:1fr 1fr; column-gap:clamp(140px,16vw,240px); row-gap:0; width:100%; font-size:clamp(48px,9vw,128px); line-height:1.05; font-weight:500; letter-spacing:-0.02em; pointer-events:none; }
+.center-title { position:relative; z-index:0; margin-top:40px; display:grid; grid-template-columns:1fr 1fr; column-gap:clamp(140px,16vw,240px); row-gap:0; width:100%; font-size:clamp(44px,7.2vw,108px); line-height:1.05; font-weight:500; letter-spacing:-0.02em; pointer-events:none; }
 .ct-l { text-align:right; } .ct-r { text-align:left; }
 .center-title .accent, .center-title em { color:var(--floral-wine); font-style:normal; }
 .center-copy { position:relative; z-index:2; margin-top:auto; padding-bottom:30px; display:flex; flex-direction:column; align-items:center; gap:22px; text-align:center; pointer-events:none; }
