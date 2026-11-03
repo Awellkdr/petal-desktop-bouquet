@@ -2920,7 +2920,7 @@ function finishPointer(e){
 canvas.addEventListener('pointerup',finishPointer);
 canvas.addEventListener('pointercancel',finishPointer);
 canvas.addEventListener('wheel',e=>{camera.radius=Math.max(2.6,Math.min(8.6,camera.radius*Math.exp(e.deltaY*.001)));e.preventDefault();},{passive:false});
-canvas.addEventListener('dblclick',e=>{const f=pickFlower(e.clientX,e.clientY);if(f){camera.targetY=.79+f.height*.5;camera.radius=Math.max(2.9,camera.radius*.84);}});
+canvas.addEventListener('dblclick',e=>{if(state.recipientMode)return;const f=pickFlower(e.clientX,e.clientY);if(f){camera.targetY=.79+f.height*.5;camera.radius=Math.max(2.9,camera.radius*.84);}});
 function setCamera(preset){if(preset==='front'){camera.yaw=0;camera.pitch=.15;camera.radius=4.85;camera.targetY=1.35;}else if(preset==='top'){camera.yaw=.38;camera.pitch=1.10;camera.radius=5.65;camera.targetY=1.22;}else if(preset==='three'){camera.yaw=.55;camera.pitch=.26;camera.radius=5.15;camera.targetY=1.32;}else{camera.yaw=.55;camera.pitch=.26;camera.radius=5.15;camera.targetY=1.32;}$$('.view-controls button').forEach(b=>b.classList.toggle('active',b.dataset.action==='front-view'&&preset==='front'||b.dataset.action==='three-quarter-view'&&preset==='three'||b.dataset.action==='top-view'&&preset==='top'));}
 
 // ---------- Arrangement state and creative actions ----------
@@ -3354,7 +3354,7 @@ function maybeLoadHash(){
     }
     state = loaded;
     nextId = Math.max(nextId, ...state.flowers.concat(state.greens).map(o=>parseInt(String(o.id).replace(/\D/g,''),10)||0), 0) + 1;
-    setTimeout(() => triggerBloomAnimation(), 180);
+    if(!loaded.recipientMode) setTimeout(() => triggerBloomAnimation(), 180);
   }catch(e){
     console.warn('Could not restore gift from this URL:',e);
   }
@@ -3373,7 +3373,7 @@ if(new URLSearchParams(location.search).has('embed')) {
 }
 if(window.__bloomPreview){state.transparentBg=true;state.motion=true;state.turntable=true;state.previewGift=false;camera.radius=4.4;camera.targetY=1.35;}
 // Phones: pull the camera in so bouquets fill the screen (100% zoom) on gift, collection and hero views.
-if(innerWidth<700&&(state.recipientMode||window.__bloomPreview||new URLSearchParams(location.search).has('embed'))){camera.radius=state.recipientMode?3.0:(window.__bloomPreview?3.5:2.6);camera.targetY=window.__bloomPreview?1.15:1.25;}
+if(innerWidth<700&&(state.recipientMode||window.__bloomPreview||new URLSearchParams(location.search).has('embed'))){camera.radius=(state.recipientMode||window.__bloomPreview)?3.5:2.6;camera.targetY=(state.recipientMode||window.__bloomPreview)?1.15:1.25;}
 if(state.recipientMode&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)setTimeout(()=>{const cs=['#8C6BB1','#E8A1B5','#F4C95D','#9ED2B5','#F29E7A','#B97883'];const box=document.createElement('div');box.className='bloom-confetti';for(let i=0;i<70;i++){const s=document.createElement('i');s.style.cssText=`left:${Math.random()*100}%;background:${cs[i%cs.length]};animation-delay:${Math.random()*.8}s;animation-duration:${2.4+Math.random()*1.8}s;--dx:${(Math.random()-.5)*160}px;--r:${Math.random()*720}deg;${i%3?'':'border-radius:50% 0'}`;box.appendChild(s);}document.body.appendChild(box);setTimeout(()=>box.remove(),5000);},350);
 function changeSection(s){state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
 function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.color, name=el?.dataset.species;
@@ -3577,7 +3577,8 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
 })();
 </script>
 </body>
-</html><style>#app:not(.recipient-mode) .gift-card-actions{display:none !important}
+</html><style>@media(max-width:700px){#app.recipient-mode #stage-wrap{display:block!important;padding-top:0!important;position:relative}#app.recipient-mode #stage-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important}#app.recipient-mode .gift-overlay{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:max(16px,env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;width:calc(100% - 32px)!important;max-width:420px;max-height:34svh;overflow:auto;padding:16px 18px!important;margin:0!important;z-index:5;background:rgba(255,255,255,.88)!important;backdrop-filter:blur(10px);border-radius:20px!important;box-shadow:0 10px 30px rgba(41,41,37,.12)!important}#app.recipient-mode canvas{touch-action:none}}
+#app:not(.recipient-mode) .gift-card-actions{display:none !important}
 html,body{color-scheme:light}
 body.preview-mode #app .topbar,body.preview-mode #panel,body.preview-mode .stage-topline,body.preview-mode .scene-toolbar,body.preview-mode .view-controls,body.preview-mode .gift-overlay,body.preview-mode .rotation-tip,body.preview-mode #widget-floating-dock{display:none !important}
 body.preview-mode,body.preview-mode #app,body.preview-mode #stage-wrap{background:#fff !important}
