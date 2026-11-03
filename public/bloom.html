@@ -341,7 +341,7 @@ body, #app, button, input, textarea, select, .brand-name, .gift-to, h1, h2, h3, 
 .studio-home:hover { color:var(--ink); }
 .bloom-embed #app .topbar, .bloom-embed #panel, .bloom-embed .stage-topline, .bloom-embed .scene-toolbar, .bloom-embed .rotation-tip, .bloom-embed .view-controls, .bloom-embed .gift-overlay, .bloom-embed #widget-floating-dock { display:none !important; }
 html:has(.bloom-embed), body.bloom-embed, .bloom-embed #app, .bloom-embed #stage-wrap { background:transparent !important; }
-.bloom-embed #workspace, .bloom-embed #stage-wrap { height:100vh !important; min-height:0 !important; }
+.bloom-embed #workspace, .bloom-embed #stage-wrap { height:100vh !important; min-height:0 !important; flex:1 1 100% !important; }
 .bloom-embed { overflow:hidden; }
 /* Read-only gift presentation, separate from the native transparent widget. */
 body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap { background:var(--gift-background) !important; color:var(--gift-ink); }
