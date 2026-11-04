@@ -13,7 +13,7 @@ function load(hash: string, native = false) {
     state: { recipientMode: false, widgetMode: false, transparentBg: false },
     window: native ? { bloomDesktop: {} } : {}, location: { hash }, nextId: 2,
     atob: () => JSON.stringify(bouquet), escape, decodeURIComponent,
-    safeImported: (value: unknown) => value, setTimeout: () => {},
+    safeImported: (value: unknown) => value, setTimeout: () => {}, camera: {}, innerWidth: 390,
   });
 }
 
