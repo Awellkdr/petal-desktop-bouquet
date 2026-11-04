@@ -40,9 +40,9 @@ function Landing() {
         <a href="/" className="landing-brand" aria-label="Adey Digital home"><Flower2 aria-hidden="true" /> Adey Digital<span className="brand-dot">®</span></a>
         <nav aria-label="Main navigation" className="landing-nav">
           <Button variant="ghost" asChild><a href="#bouquets">The collection</a></Button>
-          <Button variant="ghost" asChild><a href="/bloom.html#new">The atelier <ArrowUpRight /></a></Button>
+          <Button variant="ghost" asChild><a href="/studio">The atelier <ArrowUpRight /></a></Button>
         </nav>
-        <Button asChild variant="outline" className="header-create"><a href="/bloom.html#new">Create a bouquet <Flower2 /></a></Button>
+        <Button asChild variant="outline" className="header-create"><a href="/studio">Create a bouquet <Flower2 /></a></Button>
       </header>
 
       <section className="center-hero landing-width" aria-labelledby="hero-title">
@@ -54,7 +54,7 @@ function Landing() {
         </h1>
         <div className="center-copy">
           <p>Create an interactive 3D bouquet, add your personal message, and send someone a digital flower gift they'll never expect.</p>
-          <Button size="lg" asChild className="build-bouquet"><a href="/bloom.html#new">Create a digital bouquet <ArrowUpRight /></a></Button>
+          <Button size="lg" asChild className="build-bouquet"><a href="/studio">Create a digital bouquet <ArrowUpRight /></a></Button>
           <span className="center-foot"><Heart size={12} /> Digitally arranged. Personally sent. Always in bloom.</span>
         </div>
       </section>
@@ -63,17 +63,17 @@ function Landing() {
         <div className="collection-heading"><div><p className="small-label">The collection</p><h2 id="collection-title">Pick a little happiness.</h2></div><span className="collection-count">Six bouquets. Endless reasons.</span></div>
         <div className="mood-filters" aria-label="Bouquet moods">{moods.map(item => <Button key={item} variant={mood === item ? "secondary" : "ghost"} onClick={() => setMood(item)} aria-pressed={mood === item}>{item}</Button>)}</div>
         <div className="bouquet-grid">{collection.map((b, i) => <article key={b.id} className="bouquet-item">
-          <a href={`/bloom.html#view=${b.id}`} className={`bouquet-image bouquet-tone-${b.tone}`} aria-label={`Open ${b.name} in 3D`}>
+          <a href={`/collection/${b.id}`} className={`bouquet-image bouquet-tone-${b.tone}`} aria-label={`Open ${b.name} in 3D`}>
             <span className="bouquet-number">0{BOUQUETS.indexOf(b) + 1}</span>
             <iframe src={`/bloom.html?embed=1#view=${b.id}`} title={`${b.name} live 3D bouquet`} loading={i < 3 ? "eager" : "lazy"} className="bouquet-live" tabIndex={-1} />
             <span className="bouquet-price">100 ETB</span>
             <span className="bouquet-image-icon"><ArrowUpRight size={18} /></span>
           </a>
-          <div className="bouquet-details"><div><h3>{b.name}</h3><p>{b.note}</p><p className="bouquet-price-line">100 ETB</p></div><Button variant="ghost" size="icon" asChild><a href={`/bloom.html#view=${b.id}`} aria-label={`View ${b.name}`} title={`View ${b.name}`}><ArrowUpRight /></a></Button></div>
+          <div className="bouquet-details"><div><h3>{b.name}</h3><p>{b.note}</p><p className="bouquet-price-line">100 ETB</p></div><Button variant="ghost" size="icon" asChild><a href={`/collection/${b.id}`} aria-label={`View ${b.name}`} title={`View ${b.name}`}><ArrowUpRight /></a></Button></div>
         </article>)}</div>
       </section>
-      <section className="landing-note"><div className="landing-width"><Flower2 aria-hidden="true" /><p>Not just flowers.<br />A feeling, <span>beautifully kept.</span></p><Button asChild variant="outline"><a href="/bloom.html#new">Make it personal <Sparkles /></a></Button></div></section>
-      <footer className="landing-footer landing-width"><a href="/" className="landing-brand"><Flower2 /> Adey Digital</a><span>A little beauty, just for you.</span><Button variant="ghost" asChild><a href="/bloom.html#new">Enter the atelier <ArrowUpRight /></a></Button></footer>
+      <section className="landing-note"><div className="landing-width"><Flower2 aria-hidden="true" /><p>Not just flowers.<br />A feeling, <span>beautifully kept.</span></p><Button asChild variant="outline"><a href="/studio">Make it personal <Sparkles /></a></Button></div></section>
+      <footer className="landing-footer landing-width"><a href="/" className="landing-brand"><Flower2 /> Adey Digital</a><span>A little beauty, just for you.</span><Button variant="ghost" asChild><a href="/studio">Enter the atelier <ArrowUpRight /></a></Button></footer>
     </main>
   );
 }

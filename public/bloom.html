@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>if(/^#(gift|g|view)=/.test(location.hash)){document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility=""},4000);}</script>
+<script>(function(){var p=location.pathname,m;if(!location.hash){if(/^\/studio\/?$/.test(p))history.replaceState(null,'',p+location.search+'#new');else if((m=p.match(/^\/collection\/([\w-]+)\/?$/)))history.replaceState(null,'',p+location.search+'#view='+m[1]);else if((m=p.match(/^\/g\/([a-z0-9]{6,16})\/?$/i)))history.replaceState(null,'',p+location.search+'#g='+m[1]);}if(/^#(gift|g)=/.test(location.hash))document.documentElement.classList.add('is-gift');if(/^#(gift|g|view)=/.test(location.hash)){document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility=""},4000);}})();</script>
+<style>html.is-gift .topbar,html.is-gift #panel,html.is-gift .stage-topline,html.is-gift .scene-toolbar,html.is-gift .rotation-tip,html.is-gift .view-controls,html.is-gift #widget-floating-dock{display:none!important}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F4EF">
@@ -468,8 +469,9 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
 </div>
 
 <script>
-(function(){var m=location.hash.match(/^#g=([a-z0-9]{6,16})$/);if(!m)return;document.documentElement.style.visibility='hidden';
-fetch('https://c--eaa539e1-10d0-4ec3-85ca-a046457d8073-prod.lovable.cloud/rest/v1/rpc/get_gift',{method:'POST',headers:{apikey:'sb_publishable_lxt-DJLVi4ltcrm4ATDZlA_capVSJyL','Content-Type':'application/json'},body:JSON.stringify({_code:m[1]})}).then(function(r){return r.json()}).then(function(p){if(typeof p==='string'&&p){history.replaceState(null,'',location.pathname+'#gift='+p);location.reload();}else{document.documentElement.style.visibility='';document.body.innerHTML='<p style="font:16px Manrope,sans-serif;text-align:center;margin-top:30vh">This bouquet is not available yet. <a href="/">Visit Adey Digital</a></p>';}}).catch(function(){document.documentElement.style.visibility='';});})();
+(function(){var m=location.hash.match(/^#g=([a-z0-9]{6,16})$/i);if(!m)return;document.documentElement.style.visibility='hidden';
+var p=null;try{var x=new XMLHttpRequest();x.open('POST','https://c--eaa539e1-10d0-4ec3-85ca-a046457d8073-prod.lovable.cloud/rest/v1/rpc/get_gift',false);x.setRequestHeader('apikey','sb_publishable_lxt-DJLVi4ltcrm4ATDZlA_capVSJyL');x.setRequestHeader('Content-Type','application/json');x.send(JSON.stringify({_code:m[1]}));p=JSON.parse(x.responseText);}catch(e){}
+if(typeof p==='string'&&p){history.replaceState(null,'',location.pathname+'#gift='+p);}else{document.documentElement.style.visibility='';document.body.innerHTML='<p style="font:16px \'Space Mono\',monospace;text-align:center;margin-top:30vh">This bouquet is not available yet. <a href="/">Visit Adey Digital</a></p>';}})();
 </script>
 <div id="toast" role="status" aria-live="polite"></div>
 <input id="import-file" type="file" accept="application/json,.json" hidden>

@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as CollectionIdRouteImport } from './routes/collection.$id'
 import { Route as GCodeRouteImport } from './routes/g.$code'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +25,16 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionIdRoute = CollectionIdRouteImport.update({
+  id: '/collection/$id',
+  path: '/collection/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GCodeRoute = GCodeRouteImport.update({
   id: '/g/$code',
   path: '/g/$code',
@@ -32,30 +44,38 @@ const GCodeRoute = GCodeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/studio': typeof StudioRoute
+  '/collection/$id': typeof CollectionIdRoute
   '/g/$code': typeof GCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/studio': typeof StudioRoute
+  '/collection/$id': typeof CollectionIdRoute
   '/g/$code': typeof GCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/studio': typeof StudioRoute
+  '/collection/$id': typeof CollectionIdRoute
   '/g/$code': typeof GCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/g/$code'
+  fullPaths: '/' | '/admin' | '/studio' | '/collection/$id' | '/g/$code'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/g/$code'
-  id: '__root__' | '/' | '/admin' | '/g/$code'
+  to: '/' | '/admin' | '/studio' | '/collection/$id' | '/g/$code'
+  id: '__root__' | '/' | '/admin' | '/studio' | '/collection/$id' | '/g/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  StudioRoute: typeof StudioRoute
+  CollectionIdRoute: typeof CollectionIdRoute
   GCodeRoute: typeof GCodeRoute
 }
 
@@ -75,6 +95,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collection/$id': {
+      id: '/collection/$id'
+      path: '/collection/$id'
+      fullPath: '/collection/$id'
+      preLoaderRoute: typeof CollectionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/g/$code': {
       id: '/g/$code'
       path: '/g/$code'
@@ -88,6 +122,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  StudioRoute: StudioRoute,
+  CollectionIdRoute: CollectionIdRoute,
   GCodeRoute: GCodeRoute,
 }
 export const routeTree = rootRouteImport
