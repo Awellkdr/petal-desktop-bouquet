@@ -117,7 +117,7 @@ function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
-        <a className="rounded-md bg-primary px-4 py-2 text-primary-foreground" href="/bloom.html#new" target="_blank" rel="noreferrer">
+        <a className="rounded-md bg-primary px-4 py-2 text-primary-foreground" href="/studio" target="_blank" rel="noreferrer">
           + Create custom bouquet
         </a>
         <span className="text-sm text-muted-foreground">
