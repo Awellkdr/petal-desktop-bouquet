@@ -18,6 +18,10 @@ export const Route = createFileRoute("/")({
     { property: "og:description", content: "Flowers for every feeling. Explore interactive 3D bouquets and make something lovely for someone you love." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Adey Digital — A Little Beauty, Just for You" },
+    { name: "twitter:description", content: "Send an interactive 3D bouquet gift with a personal note." },
+    { property: "og:image", content: "https://adeydigital.lovable.app/og-image.jpg" },
+    { name: "twitter:image", content: "https://adeydigital.lovable.app/og-image.jpg" },
   ] }),
   component: Landing,
 });
@@ -54,7 +58,7 @@ function Landing() {
         </h1>
         <div className="center-copy">
           <p>Create an interactive 3D bouquet, add your personal message, and send someone a digital flower gift they'll never expect.</p>
-          <Button size="lg" asChild className="build-bouquet"><a href="/studio">Create a digital bouquet <ArrowUpRight /></a></Button>
+          <Button size="lg" asChild className="build-bouquet"><a href="/studio">Create a gift. <ArrowUpRight /></a></Button>
           <span className="center-foot"><Heart size={12} /> Digitally arranged. Personally sent. Always in bloom.</span>
         </div>
       </section>

@@ -13,6 +13,9 @@
 <meta property="og:description" content="Create a personal interactive 3D bouquet and send a thoughtful digital flower gift.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://adeydigital.lovable.app/og-image.jpg">
+<meta name="twitter:image" content="https://adeydigital.lovable.app/og-image.jpg">
+<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
 <style>
 :root {
@@ -403,7 +406,7 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
       <button class="icon-btn" data-action="undo" aria-label="Undo" title="Undo" disabled>↶</button>
       <button class="icon-btn" data-action="redo" aria-label="Redo" title="Redo" disabled>↷</button>
       <div class="top-divider"></div>
-      <button class="quiet-btn" data-action="shuffle" title="Shuffle a surprise bouquet"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg> Shuffle</button>
+      <button class="quiet-btn" hidden style="display:none" data-action="shuffle" title="Shuffle a surprise bouquet"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg> Shuffle</button>
       <button class="quiet-btn" data-action="reset" title="Start over"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span class="button-word"> Reset</span></button>
       <button class="share-hero-btn" data-action="open-share-modal"><span>Share bouquet</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button>
     </div>
@@ -431,7 +434,7 @@ body.recipient-mode, body.recipient-mode #app, body.recipient-mode #stage-wrap {
         <button class="scene-tool" data-action="front-view" aria-label="Front view" title="Front view">▣</button>
         <button class="scene-tool" data-action="top-view" aria-label="Top view" title="Top view">⌃</button>
       </div>
-      <div class="rotation-tip"><span class="gesture">↔</span><span>Drag to rotate 360° · Scroll to zoom · Hover petals up close</span></div>
+      <button type="button" class="rotation-tip shuffle-tip" data-action="shuffle"><span class="gesture"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></span><span>Shuffle for surprise bouquet</span></button>
       <div class="gift-overlay" id="gift-overlay" hidden>
         <div class="gift-header-bar">
           <div class="gift-kicker" id="gift-kicker-preview">A little something for you</div>
@@ -550,7 +553,7 @@ function starterState(){
     selectedGreenId:null,
     catalogColors:defaultCatalogColors(),
     previewGift:false,
-    gift:{recipient:'Someone lovely',sender:'With love',message:'A little beauty, just for you.',occasion:'Just Because'}
+    gift:{recipient:'Someone lovely',sender:'With love',message:'A little beauty, just for you.',occasion:''}
   };
 }
 let state;
@@ -3794,8 +3797,9 @@ if(window.__bloomPreview){state.transparentBg=true;state.motion=true;state.turnt
 // Phones: pull the camera in so bouquets fill the screen (100% zoom) on gift, collection and hero views.
 if(innerWidth<700&&(state.recipientMode||window.__bloomPreview||new URLSearchParams(location.search).has('embed'))){camera.radius=(state.recipientMode||window.__bloomPreview)?3.5:2.6;camera.targetY=(state.recipientMode||window.__bloomPreview)?1.15:1.25;}
 if(state.recipientMode||window.__bloomPreview){camera.pitch=.95;camera.radius+=.5;}
+else if(!state.widgetMode&&!new URLSearchParams(location.search).has('embed')){camera.radius=innerWidth<700?3.3:3.6;camera.targetY=1.25;}
 if(state.recipientMode&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)setTimeout(()=>{const cs=['#8C6BB1','#E8A1B5','#F4C95D','#9ED2B5','#F29E7A','#B97883'];const box=document.createElement('div');box.className='bloom-confetti';for(let i=0;i<70;i++){const s=document.createElement('i');s.style.cssText=`left:${Math.random()*100}%;background:${cs[i%cs.length]};animation-delay:${Math.random()*.8}s;animation-duration:${2.4+Math.random()*1.8}s;--dx:${(Math.random()-.5)*160}px;--r:${Math.random()*720}deg;${i%3?'':'border-radius:50% 0'}`;box.appendChild(s);}document.body.appendChild(box);setTimeout(()=>box.remove(),5000);},350);
-function changeSection(s){state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
+function changeSection(s){if(s==='gift'&&window.openMsgModal){window.openMsgModal(false);return;}state.section=s;renderPanel();if(s==='gift')state.previewGift=true;updateStats();}
 function runAction(action,el){const value=el?.dataset.value, color=el?.dataset.color, name=el?.dataset.species;
  switch(action){
   case 'undo': if(past.length){future.push(clone(state));state=past.pop();renderPanel();rebuildScene();updateStats();}break;
@@ -3997,6 +4001,35 @@ window.BLOOM_DOWNLOADS = window.BLOOM_DOWNLOADS || {
   };
 })();
 </script>
+<style>
+/* Shuffle button on the stage */
+.shuffle-tip{pointer-events:auto!important;cursor:pointer;font:700 11px var(--site-font-body)!important;color:#292925!important;border-color:#D9CCE6!important}
+.shuffle-tip:hover{background:#fff!important;color:#8C6BB1!important}
+/* Message modal labels */
+.pvl{display:grid;gap:5px;font-size:12px;font-weight:700;color:#4A3A56}
+#pv-msg select{border:1px solid #E3D8EA;border-radius:10px;padding:10px;font:inherit;background:#fff}
+/* Payment preview card matches the gift card */
+#share-message-card{--r:7px;background-color:transparent!important;background-image:radial-gradient(var(--r),transparent 98%,#E4F8FF),linear-gradient(#E4F8FF 0 0)!important;background-repeat:round,no-repeat!important;background-position:calc(var(--r)*-1.5) calc(var(--r)*-1.5),50%!important;background-size:calc(var(--r)*3) calc(var(--r)*3),calc(100% - var(--r)*3) calc(100% - var(--r)*3)!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 8px 20px rgba(107,74,122,.16));padding:24px 26px!important;text-align:center;display:grid;gap:6px;justify-items:center}
+#share-message-card #smc-kicker{color:#8C6BB1}#share-message-card #smc-to{font-size:20px}#share-message-card #smc-msg{font-style:italic;font-size:15px;font-weight:700;margin:0}
+/* Frosted gradient blobs behind gift + collection pages */
+body.recipient-mode,body.preview-mode{background:#FBFAFD!important}
+body.recipient-mode #app,body.recipient-mode #stage-wrap,body.preview-mode #app,body.preview-mode #stage-wrap{background:transparent!important}
+body.recipient-mode::before,body.preview-mode::before{content:"";position:fixed;inset:-20%;z-index:0;pointer-events:none;background:radial-gradient(30% 30% at 25% 30%,#E7D9F5 0,transparent 70%),radial-gradient(28% 28% at 75% 25%,#D6F0FB 0,transparent 70%),radial-gradient(32% 32% at 60% 75%,#FBE0EA 0,transparent 70%),radial-gradient(26% 26% at 20% 80%,#E4F8FF 0,transparent 70%);filter:blur(40px);animation:blobDrift 18s ease-in-out infinite alternate}
+body.recipient-mode #app,body.preview-mode #app{position:relative;z-index:1}
+@keyframes blobDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(4%,-3%) scale(1.08) rotate(6deg)}100%{transform:translate(-4%,3%) scale(1.02) rotate(-5deg)}}
+@media (prefers-reduced-motion:reduce){body.recipient-mode::before,body.preview-mode::before{animation:none}}
+/* Studio: horizontal editor shelf under the bouquet */
+body:not(.preview-mode):not(.bloom-embed) #app:not(.recipient-mode) #workspace{flex-direction:column!important;height:calc(100svh - 61px)!important;min-height:0!important;overflow:hidden!important}
+body:not(.preview-mode):not(.bloom-embed) #app:not(.recipient-mode) #stage-wrap{flex:1 1 auto!important;height:auto!important;min-height:200px!important}
+body:not(.preview-mode):not(.bloom-embed) #app:not(.recipient-mode) #panel{width:100%!important;flex:0 0 auto!important;max-height:42svh;min-height:0!important;border-left:0!important;border-top:1px solid var(--border)}
+#panel .panel-heading{display:none}
+#panel .panel-tabs{display:flex!important;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+#panel .panel-tab{flex:0 0 auto;padding-inline:14px}
+#panel .panel-scroll{overflow-y:auto!important;padding:12px 16px 16px!important}
+#panel .flower-list,#panel .preset-list,#panel .shape-grid,#panel .finish-row,#panel .palette-grid,#panel .category-pills{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto;gap:8px;padding-bottom:6px;scrollbar-width:thin}
+#panel .flower-row{flex:0 0 230px}#panel .preset-card{flex:0 0 210px}#panel .shape-grid>*,#panel .finish-row>*,#panel .palette-card{flex:0 0 auto;min-width:110px}#panel .category-pills .pill{flex:0 0 auto}
+@media(max-width:650px){#panel .flower-row{flex-basis:200px}body:not(.preview-mode):not(.bloom-embed) #app:not(.recipient-mode) #panel{max-height:45svh}}
+</style>
 </body>
 </html><style>@media(max-width:700px){#app.recipient-mode #stage-wrap{display:block!important;padding-top:0!important;position:relative}#app.recipient-mode #stage-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important}#app.recipient-mode .gift-overlay{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:max(16px,env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;width:calc(100% - 32px)!important;max-width:420px;max-height:34svh;overflow:auto;padding:16px 18px!important;margin:0!important;z-index:5;background:rgba(255,255,255,.88)!important;backdrop-filter:blur(10px);border-radius:20px!important;box-shadow:0 10px 30px rgba(41,41,37,.12)!important}#app.recipient-mode canvas{touch-action:none}}
 #app:not(.recipient-mode) .gift-card-actions{display:none !important}
@@ -4039,14 +4072,23 @@ body.preview-mode .pv-side{display:block}
 <button class="pv-side" id="pv-prev" type="button"><iframe tabindex="-1" aria-hidden="true" title=""></iframe><span></span></button><button class="pv-side" id="pv-next" type="button"><iframe tabindex="-1" aria-hidden="true" title=""></iframe><span></span></button>
 <div id="preview-bar"><button class="pv-primary" id="pv-share"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Share to loved one</button><button class="pv-ghost" id="pv-edit"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Edit bouquet</button></div>
 <div id="pv-msg"><form id="pv-form"><strong style="font-size:18px">Add your message</strong>
-<input name="recipient" placeholder="Recipient's name" required><input name="occasion" placeholder="Occasion (e.g. Birthday)"><textarea name="message" rows="3" placeholder="Personal note" required></textarea><input name="sender" placeholder="From">
-<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="pv-ghost" id="pv-cancel" style="background:#fff">Cancel</button><button class="pv-primary">Continue to payment</button></div></form></div>
+<label class="pvl">To : Recipients name<input name="recipient" placeholder="Who is this for?" required></label>
+<label class="pvl">Occasion<select name="occasionPick" required><option value="" disabled selected>Choose an occasion</option><option>Birthday</option><option>Anniversary</option><option>Thank You</option><option>Congratulations</option><option>Get Well Soon</option><option>Just Because</option><option>Thinking of You</option><option>Love</option><option value="__own">Write your own…</option></select></label>
+<input name="occasion" placeholder="Write your occasion" hidden>
+<label class="pvl">Personal note<textarea name="message" rows="3" placeholder="Write something thoughtful..." required></textarea></label>
+<label class="pvl">From (your name)<input name="sender" placeholder="Your name"></label>
+<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="pv-ghost" id="pv-cancel" style="background:#fff">Cancel</button><button class="pv-primary" id="pv-submit">Continue to payment</button></div></form></div>
 <script>requestAnimationFrame(function(){document.documentElement.style.visibility=''});(function(){
-if(!window.__bloomPreview||!window.__bloomApi)return;const B=window.__bloomApi;document.body.classList.add('preview-mode');
-const m=document.getElementById('pv-msg'),f=document.getElementById('pv-form');
-document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');B.state.turntable=false;B.state.transparentBg=false;B.renderPanel();B.updateStats();};
-document.getElementById('pv-share').onclick=()=>{['recipient','occasion','message','sender'].forEach(k=>{const v=B.state.gift[k];f[k].value=(k==='recipient'&&v==='Someone lovely')||(k==='message'&&v==='A little beauty, just for you.')||(k==='sender'&&v==='With love')?'':v||''});m.classList.add('open');};
+if(!window.__bloomApi)return;const B=window.__bloomApi;
+const m=document.getElementById('pv-msg'),f=document.getElementById('pv-form');let toPay=true;
+const OCC=[...f.occasionPick.options].map(o=>o.value||o.text);
+f.occasionPick.onchange=()=>{const own=f.occasionPick.value==='__own';f.occasion.hidden=!own;f.occasion.required=own;if(own)f.occasion.focus();};
+window.openMsgModal=pay=>{toPay=pay;const g=B.state.gift;f.recipient.value=g.recipient==='Someone lovely'?'':g.recipient||'';f.message.value=g.message==='A little beauty, just for you.'?'':g.message||'';f.sender.value=g.sender==='With love'?'':g.sender||'';const o=g.occasion||'';if(!o)f.occasionPick.value='';else if(OCC.includes(o))f.occasionPick.value=o;else{f.occasionPick.value='__own';f.occasion.value=o;}f.occasionPick.onchange();document.getElementById('pv-submit').textContent=pay?'Continue to payment':'Save message';m.classList.add('open');};
 document.getElementById('pv-cancel').onclick=()=>m.classList.remove('open');
+f.onsubmit=e=>{e.preventDefault();const g=B.state.gift;g.recipient=f.recipient.value.trim();g.message=f.message.value.trim();g.sender=f.sender.value.trim();g.occasion=f.occasionPick.value==='__own'?f.occasion.value.trim():f.occasionPick.value;m.classList.remove('open');B.updateStats();if(toPay)B.runAction('open-share-modal');};
+if(!window.__bloomPreview)return;document.body.classList.add('preview-mode');
+document.getElementById('pv-edit').onclick=()=>{document.body.classList.remove('preview-mode');B.state.turntable=false;B.state.transparentBg=false;B.renderPanel();B.updateStats();};
+document.getElementById('pv-share').onclick=()=>window.openMsgModal(true);
 const L=[['blush-romance','Blush Romance','Blush roses · soft peonies','e4562eb4-3920-45ce-a5e1-663fec33221d'],['sunny-meadow','Sunny Meadow','Sunflowers · daisies · golden tulips','0733f326-c2c7-4030-bda2-0afb76ee9666'],['lavender-dream','Lavender Dream','Orchids · lilac tulips','4599b672-11da-4d49-b2d1-1d6471f73229'],['midnight-velvet','Midnight Velvet','Burgundy roses · deep red peonies','c843f08f-2332-42b2-8590-7cb9a38ce7b1'],['white-elegance','White Elegance','White lilies · a clear glass vase','1a779d79-9a7c-4fb0-8488-924efab43583'],['tuscan-sunset','Tuscan Sunset','Peach roses · coral tulips · orchids','90646ccc-1d03-4bfd-90c7-be297f23ae6b']];
 const img=b=>'/__l5e/assets-v1/'+b[3]+'/'+b[0]+'.png';
 let cur=Math.max(0,L.findIndex(b=>location.pathname.endsWith('/'+b[0])));
@@ -4056,5 +4098,4 @@ document.getElementById('pv-prev').onclick=()=>go(-1);document.getElementById('p
 addEventListener('keydown',e=>{if(!document.body.classList.contains('preview-mode')||m.classList.contains('open'))return;if(e.key==='ArrowLeft')go(-1);if(e.key==='ArrowRight')go(1);});
 addEventListener('popstate',()=>{const i=L.findIndex(b=>location.pathname.endsWith('/'+b[0]));if(i>=0&&i!==cur){cur=i;B.loadPreset(L[cur][0]);paint();}});
 paint();
-f.onsubmit=e=>{e.preventDefault();['recipient','occasion','message','sender'].forEach(k=>B.state.gift[k]=f[k].value.trim());m.classList.remove('open');B.updateStats();B.runAction('open-share-modal');};
 })();</script>

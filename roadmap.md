@@ -12,3 +12,5 @@
 - [x] Streamline gift recipients to bouquet, personal note, desktop installer, and discreet create link; verified live rotation, mobile layout, transparent widget handoff, and return to the empty-vase editor.
 - [x] Nov 1 updates: always-white bouquets in dark mode, live 3D collection with 100 ETB price, view-only bouquet page (Share / Edit), stem selection opens Your stems, cleaner message card, No vase option, auto-spin preview, softer vase shadow.
 - [ ] Switch desktop widget to Tauri for smaller installer (approved, not started).
+
+- [x] Nov 7 batch: hero "Create a gift.", favicon, share preview image, stage shuffle, studio zoom, horizontal editor, message modal, payment card style, blob background, installable app
