@@ -636,43 +636,41 @@ function flowerPanel(){
   <div class="panel-scroll"><div class="section-row"><span class="section-title">Flower library</span><span class="section-caption">${SPECIES.length} varieties</span></div>
   <div class="category-pills">${categories.map(c=>`<button class="pill ${state.flowerFilter===c?'active':''}" data-action="filter" data-value="${esc(c)}">${c}</button>`).join('')}</div>
   <div class="flower-list">${list.map(s=>{const c=state.catalogColors[s.name]||s.colors[0][1];return `<div class="flower-row fcard"><div class="bloom-icon" style="--bloom:${c};--center:${s.center}"><span></span></div><span class="flower-name">${s.name}</span><div class="qty">${(()=>{const n=state.flowers.filter(f=>f.species===s.name).length;return `<button class="add-button" data-action="remove-species" data-species="${esc(s.name)}" aria-label="Remove one ${s.name}" title="Remove one ${s.name}" ${n?'':'disabled'}>−</button><span class="qty-count">${n}</span>`;})()}<button class="add-button" data-action="add-flower" data-species="${esc(s.name)}" aria-label="Add ${s.name}" title="Add ${s.name}">+</button></div></div>`;}).join('')}</div>
-  <div class="divider"></div><details class="color-story"><summary class="section-row"><span class="section-title">Color story</span><span class="section-caption">Whole bouquet ▾</span></summary>
-  <div class="palette-grid">${PALETTES.map(p=>`<button class="palette-card ${state.palette===p.id?'active':''}" data-action="palette" data-value="${p.id}"><span class="palette-dots">${p.dots.map(d=>`<i style="--dot:${d}"></i>`).join('')}</span><span class="palette-name">${p.name}</span><small>${p.desc}</small></button>`).join('')}</div>
-  </details><p class="footer-note">Tip: select any bloom in the 3D scene to edit that stem on its own. Drag the empty space to see your bouquet from every angle.</p></div>`;
+  <p class="footer-note">Tip: select any bloom in the 3D scene to edit that stem on its own. Drag the empty space to see your bouquet from every angle.</p></div>`;
 }
 function arrangePanel(){
  const presets=[['Classic Round','Balanced and timeless','◌'],['Garden Meadow','Airy, loose, and natural','❀'],['Tall and Elegant','Long stems, sculptural height','♧'],['Modern Sculptural','Asymmetric with clear rhythm','⌁'],['Soft and Romantic','Gentle layers and flowing lines','✿']];
  const f=selectedFlower();
  return `${sectionHeader('Composition tools','Arrange the stems','Create a balanced silhouette, or fine-tune a single bloom.')}
- <div class="panel-scroll"><div class="section-row"><span class="section-title">Arrangement style</span><span class="section-caption">Presets</span></div><div class="preset-list">${presets.map(([name,desc,icon])=>`<button class="preset-card ${state.arrangement===name?'active':''}" data-action="preset" data-value="${name}"><span class="preset-art">${icon}</span><span><strong>${name}</strong></span></button>`).join('')}</div></div>`;
+ <div class="panel-scroll">${subMenu('arrSub',[['style','Style'],['story','Color story']])}<div class="sub-pane" data-sub="${state.arrSub||'style'}"><div class="preset-list sp sp-style">${presets.map(([name,desc,icon])=>`<button class="preset-card ${state.arrangement===name?'active':''}" data-action="preset" data-value="${name}"><span class="preset-art">${icon}</span><span><strong>${name}</strong></span></button>`).join('')}</div>
+ <div class="palette-grid sp sp-story">${PALETTES.map(p=>`<button class="palette-card ${state.palette===p.id?'active':''}" data-action="palette" data-value="${p.id}"><span class="palette-dots">${p.dots.map(d=>`<i style="--dot:${d}"></i>`).join('')}</span><span class="palette-name">${p.name}</span></button>`).join('')}</div></div></div>`;
 }
 function stemsPanel(){
  const f=selectedFlower();
  return `${sectionHeader('Fine-tune','Your stems','Select a bloom in the 3D scene to edit it on its own.')}
  <div class="panel-scroll"><div class="section-row"><span class="section-title">Your stems</span><span class="count-badge">${state.flowers.length} blooms</span></div>
- ${f?`<div class="flower-row" style="margin-bottom:15px"><div class="bloom-icon" style="--bloom:${f.color};--center:${species(f.species).center}"><span></span></div><div class="flower-meta"><span class="flower-name">${f.species}</span><span class="flower-desc">Selected stem</span></div><button class="add-button" data-action="deselect" aria-label="Deselect flower" title="Deselect">×</button></div>
- ${subMenu('stemSub',[['stem','Stem'],['color','Color'],['height','Height'],['spread','Spread'],['scale','Size'],['rotation','Rotation']])}
- <div class="sub-pane" data-sub="${state.stemSub||'stem'}">
- <div class="sp sp-color">${htmlColorSwatches(species(f.species).colors,f.color,'selected-color',f.species)}</div>
+ ${f?`<div class="flower-row" style="margin-bottom:15px"><div class="bloom-icon" style="--bloom:${f.color};--center:${species(f.species).center}"><span></span></div><div class="flower-meta"><span class="flower-name">${f.species}</span><span class="flower-desc">Selected stem</span></div><button class="add-button" data-action="duplicate-flower" aria-label="Duplicate stem" title="Duplicate">+</button><button class="add-button" data-action="remove-flower" aria-label="Remove stem" title="Remove">×</button></div>
+ ${subMenu('stemSub',[['color','Color'],['height','Height'],['spread','Spread'],['scale','Size'],['rotation','Rotation']])}
+ <div class="sub-pane" data-sub="${state.stemSub||'color'}">
+ <div class="color-grid sp sp-color">${species(f.species).colors.map(([n,c])=>`<button class="color-choice ${f.color===c?'active':''}" data-action="selected-color" data-color="${c}" title="${esc(n)}" aria-label="${esc(n)}"><span class="color-circle" style="--swatch:${c}"></span></button>`).join('')}</div>
  <div class="control-block sp sp-height"><div class="range-top"><label for="flower-height">Stem height</label><output id="height-value">${f.height.toFixed(2)}</output></div><input id="flower-height" type="range" min=".72" max="1.62" step=".01" value="${f.height}" data-range="height" aria-label="Stem height"></div>
  <div class="control-block sp sp-spread"><div class="range-top"><label for="flower-spread">Bloom spread</label><output id="spread-value">${f.spread.toFixed(2)}</output></div><input id="flower-spread" type="range" min=".5" max="1.55" step=".01" value="${f.spread}" data-range="spread" aria-label="Bloom spread"></div>
  <div class="control-block sp sp-scale"><div class="range-top"><label for="flower-scale">Flower size</label><output id="scale-value">${f.scale.toFixed(2)}</output></div><input id="flower-scale" type="range" min=".62" max="1.32" step=".01" value="${f.scale}" data-range="scale" aria-label="Flower size"></div>
  <div class="control-block sp sp-rotation"><div class="range-top"><label for="flower-rotation">Stem rotation</label><output id="rotation-value">${Math.round(f.rotation*180/Math.PI)}°</output></div><input id="flower-rotation" type="range" min="-180" max="180" step="1" value="${Math.round(f.rotation*180/Math.PI)}" data-range="rotation" aria-label="Stem rotation"></div>
- <div class="row-actions sp sp-stem" style="gap:7px"><button class="outline-btn" style="flex:1" data-action="duplicate-flower">Duplicate</button><button class="outline-btn" style="flex:1;color:#A55D69" data-action="remove-flower">Remove stem</button></div></div>`
+ </div>`
  :`<div class="empty-state"><div class="empty-icon">✿</div>Select a flower directly in the 3D scene to adjust its height, size, spread, rotation, and color.</div>`}
 </div>`;
 }
 function vasePanel(){
  return `${sectionHeader('The finishing touch','Find the right vase','A sculptural vessel, made to complement the flowers.')}
  <div class="panel-scroll">${subMenu('vaseSub',[['shape','Vases'],['color','Colors'],['finish','Finish']])}<div class="sub-pane" data-sub="${state.vaseSub||'shape'}"><div class="shape-grid sp sp-shape">${VASES.map(v=>`<button class="shape-card ${state.vase.shape===v.id?'active':''}" data-action="vase-shape" data-value="${v.id}">${shapeIcon(v.id)}<span>${v.name}</span></button>`).join('')}</div>
- <div class="color-grid sp sp-color">${VASE_COLORS.map(c=>`<button class="color-choice ${state.vase.color===c.color?'active':''}" data-action="vase-color" data-color="${c.color}" title="${c.name}"><span class="color-circle" style="--swatch:${c.color}"></span><span>${c.name}</span></button>`).join('')}</div>
+ <div class="color-grid sp sp-color">${VASE_COLORS.map(c=>`<button class="color-choice ${state.vase.color===c.color?'active':''}" data-action="vase-color" data-color="${c.color}" title="${c.name}" aria-label="${c.name}"><span class="color-circle" style="--swatch:${c.color}"></span></button>`).join('')}</div>
  <div class="finish-row sp sp-finish">${[['frosted','Frosted'],['satin','Satin'],['clear','Soft clear']].map(([id,label])=>`<button class="finish-choice ${state.vase.finish===id?'active':''}" data-action="vase-finish" data-value="${id}">${label}</button>`).join('')}</div></div></div>`;
 }
 function greeneryPanel(){
  const types=[['Eucalyptus','Round silver-green leaves','eucalyptus','♧'],['Fern','Fine, feathery foliage','fern','❧'],['Ornamental leaves','Long sculptural greens','ornamental','〰'],['Filler flowers','Tiny accent blossoms','filler','✿']];
  return `${sectionHeader('Natural finishing touches','Add a little green','Layer foliage to soften edges and give the bouquet more movement.')}
  <div class="panel-scroll"><div class="section-row"><span class="section-title">Foliage & accents</span><span class="count-badge">${state.greens.length} stems</span></div><div class="flower-list">${types.map(([name,desc,id,icon])=>{const n=state.greens.filter(g=>g.type===id).length;return `<div class="flower-row fcard"><span class="green-icon">${icon}</span><span class="flower-name">${name}</span><div class="qty"><button class="add-button" data-action="remove-green-type" data-value="${id}" aria-label="Remove one ${name}" ${n?'':'disabled'}>−</button><span class="qty-count">${n}</span><button class="add-button" data-action="add-greenery" data-value="${id}" aria-label="Add ${name}">+</button></div></div>`;}).join('')}</div>
- <div class="divider"></div><div class="section-row"><span class="section-title">Foliage density</span></div><div class="finish-row">${['Minimal','Balanced','Lush'].map(d=>`<button class="finish-choice ${state.density===d?'active':''}" data-action="density" data-value="${d}">${d}</button>`).join('')}</div>
 </div>`;
 }
 function studioPanel(){
@@ -4037,6 +4035,10 @@ body:not(.preview-mode):not(.bloom-embed) #app:not(.recipient-mode) #panel{width
 #panel .sub-pane[data-sub=height] .sp-height,#panel .sub-pane[data-sub=spread] .sp-spread,#panel .sub-pane[data-sub=scale] .sp-scale,#panel .sub-pane[data-sub=rotation] .sp-rotation{display:block}
 #panel .color-grid.sp-color,#panel .sp-color{flex-wrap:nowrap;overflow-x:auto;gap:8px}#panel .sp-color>*{flex:0 0 auto}
 #panel .sub-pane[data-sub=color] .color-grid.sp-color{display:flex!important}
+#panel .sub-pane[data-sub] .sp{display:none!important}
+#panel .sub-pane[data-sub=color] .sp-color,#panel .sub-pane[data-sub=shape] .sp-shape,#panel .sub-pane[data-sub=finish] .sp-finish,#panel .sub-pane[data-sub=style] .sp-style,#panel .sub-pane[data-sub=story] .sp-story{display:flex!important;flex-wrap:nowrap;overflow-x:auto;gap:8px}
+#panel .sub-pane[data-sub=height] .sp-height,#panel .sub-pane[data-sub=spread] .sp-spread,#panel .sub-pane[data-sub=scale] .sp-scale,#panel .sub-pane[data-sub=rotation] .sp-rotation{display:block!important}
+#panel .sp-story>*{flex:0 0 auto}
 @media(max-width:650px){#panel .flower-row.fcard{flex-basis:88px}body:not(.preview-mode):not(.bloom-embed) #app:not(.recipient-mode) #panel{max-height:45svh}}
 </style>
 </body>
