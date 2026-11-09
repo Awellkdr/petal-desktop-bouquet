@@ -11,20 +11,32 @@ import white from "@/assets/white-elegance.png.asset.json";
 import tuscan from "@/assets/tuscan-sunset.png.asset.json";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [
+ head: () => ({
+  meta: [
     { title: "Adey Digital — A Little Beauty, Just for You" },
-    { name: "description", content: "Discover living 3D bouquets. Choose a ready-made arrangement or create your own thoughtful digital flower gift with Adey Digital." },
-    { property: "og: title", content: "Adey Digital — A Little Beauty, Just for You" },
-    { property: "og: description", content: "Flowers for every feeling. Explore interactive 3D bouquets and make something lovely for someone you love." },
-    { property: "og: type", content: "website" },
-    { name: "twitter: card", content: "summary_large_image" },
-    { name: "twitter: title", content: "Adey Digital — A Little Beauty, Just for You" },
-    { name: "twitter: description", content: "Send an interactive 3D bouquet gift with a personal note." },
-    { property: "og: image", content: "https://www.adeydigital.com/og-image.jpg" },
-    { name: "twitter: image", content: "https://www.adeydigital.com/og-image.jpg" },
-  ] }),
-  component: Landing,
-});
+    {
+      name: "description",
+      content: "Discover living 3D bouquets. Choose a ready-made arrangement or create your own thoughtful digital flower gift with Adey Digital."
+    },
+    { property: "og:title", content: "Adey Digital — A Little Beauty, Just for You" },
+    {
+      property: "og:description",
+      content: "Flowers for every feeling. Explore interactive 3D bouquets and make something lovely for someone you love."
+    },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://www.adeydigital.com/" },
+    { property: "og:image", content: "https://www.adeydigital.com/og-image.jpg" },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Adey Digital — A Little Beauty, Just for You" },
+    {
+      name: "twitter:description",
+      content: "Send an interactive 3D bouquet gift with a personal note."
+    },
+    { name: "twitter:image", content: "https://www.adeydigital.com/og-image.jpg" },
+  ]
+}),
 
 export const BOUQUETS = [
   { id: "blush-romance", name: "Blush Romance", note: "Blush roses · soft peonies", image: blush.url, mood: "Soft & romantic", tone: "rose" },
