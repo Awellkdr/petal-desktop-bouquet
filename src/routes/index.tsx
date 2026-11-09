@@ -20,8 +20,8 @@ export const Route = createFileRoute("/")({
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: "Adey Digital — A Little Beauty, Just for You" },
     { name: "twitter:description", content: "Send an interactive 3D bouquet gift with a personal note." },
-    { property: "og:image", content: "https://adeydigital.lovable.app/og-image.jpg" },
-    { name: "twitter:image", content: "https://adeydigital.lovable.app/og-image.jpg" },
+   { property: "og:image", content: "https://www.adeydigital.com/og-image.jpg" },
+{ name: "twitter:image", content: "https://www.adeydigital.com/og-image.jpg" },
   ] }),
   component: Landing,
 });
